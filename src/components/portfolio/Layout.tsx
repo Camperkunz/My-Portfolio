@@ -1,7 +1,8 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { personalInfo } from "@/data/portfolio";
-import { Github, Linkedin, Mail, Menu, X } from "lucide-react";
+import { Github, Linkedin, Mail, Menu, Moon, Sun } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { label: "Experience", href: "#experience" },
@@ -9,6 +10,31 @@ const navLinks = [
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
 ];
+
+function ThemeToggle() {
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== "undefined") {
+      return document.documentElement.classList.contains("dark");
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={() => setDark((d) => !d)}
+      aria-label="Toggle theme"
+      className="h-8 w-8"
+    >
+      {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    </Button>
+  );
+}
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -25,41 +51,45 @@ function Navbar() {
           {personalInfo.name}
         </a>
 
-        {/* Desktop */}
-        <ul className="hidden gap-6 md:flex">
-          {navLinks.map((l) => (
-            <li key={l.href}>
-              <button
-                onClick={() => handleClick(l.href)}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {l.label}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="flex items-center gap-4">
+          {/* Desktop */}
+          <ul className="hidden gap-6 md:flex">
+            {navLinks.map((l) => (
+              <li key={l.href}>
+                <button
+                  onClick={() => handleClick(l.href)}
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {l.label}
+                </button>
+              </li>
+            ))}
+          </ul>
 
-        {/* Mobile */}
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger className="md:hidden" aria-label="Open menu">
-            <Menu className="h-5 w-5" />
-          </SheetTrigger>
-          <SheetContent side="right" className="w-64">
-            <SheetTitle className="sr-only">Navigation</SheetTitle>
-            <ul className="mt-8 flex flex-col gap-4">
-              {navLinks.map((l) => (
-                <li key={l.href}>
-                  <button
-                    onClick={() => handleClick(l.href)}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {l.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </SheetContent>
-        </Sheet>
+          <ThemeToggle />
+
+          {/* Mobile */}
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger className="md:hidden" aria-label="Open menu">
+              <Menu className="h-5 w-5" />
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64">
+              <SheetTitle className="sr-only">Navigation</SheetTitle>
+              <ul className="mt-8 flex flex-col gap-4">
+                {navLinks.map((l) => (
+                  <li key={l.href}>
+                    <button
+                      onClick={() => handleClick(l.href)}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {l.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </nav>
   );
