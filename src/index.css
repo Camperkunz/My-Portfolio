@@ -90,7 +90,13 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: #050505;
+      color: #fff;
+      background-image: radial-gradient(circle at 50% -20%, #3c0808 0, #050505 80%);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: top;
+      background-attachment: fixed;
   }
 
   html {

@@ -112,7 +112,7 @@ function Footer() {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen - text-foreground">
       <Navbar />
       <main>{children}</main>
       <Footer />

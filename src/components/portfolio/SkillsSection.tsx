@@ -18,7 +18,7 @@ import {
   SiAdobepremierepro,
   SiCss3,
   SiHtml5,
-
+  SiPhp
 
 } from "react-icons/si";
 
@@ -40,6 +40,8 @@ const technicalSkills: Skill[] = [
   { name: "Vite", icon: <SiVite /> },
   { name: "AWS", icon: <SiAmazonwebservices /> },
   { name: "Liquid", icon: <SiShopify /> },
+  { name: "PHP", icon: <SiPhp /> },
+  
 ];
 
 const designSkills: Skill[] = [
@@ -85,7 +87,7 @@ function MarqueeRow({
             key={`${skill.name}-${index}`}
             className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/50 px-8 py-5 text-medium font-medium text-foreground whitespace-nowrap transition-all duration-300 hover:scale-100 hover:border-accent hover:bg-accent/10 hover:shadow-lg hover:shadow-accent/20"
 >
-            <span className="text-2xl text-accent ">
+            <span className="text-3xl text-accent ">
               {skill.icon}
             </span>
             <span className="text-lg">
