@@ -17,7 +17,7 @@ function ThemeToggle() {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("theme");
       if (stored) return stored === "dark";
-      return true; // default dark
+      return true;
     }
     return true;
   });
@@ -28,13 +28,7 @@ function ThemeToggle() {
   }, [dark]);
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setDark((d) => !d)}
-      aria-label="Toggle theme"
-      className="h-8 w-8"
-    >
+    <Button variant="ghost" size="icon" onClick={() => setDark((d) => !d)} aria-label="Toggle theme" className="h-8 w-8">
       {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </Button>
   );
@@ -42,6 +36,13 @@ function ThemeToggle() {
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleClick = (href: string) => {
     setOpen(false);
@@ -49,30 +50,22 @@ function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
+    <nav className={`fixed top-0 z-40 w-full transition-all duration-300 ${scrolled ? "border-b bg-background/90 backdrop-blur-md shadow-sm" : "bg-transparent"}`}>
       <div className="mx-auto flex h-14 max-w-4xl items-center justify-between px-6">
         <a href="#" className="font-mono text-sm font-bold tracking-tight text-foreground">
           {personalInfo.name}
         </a>
-
         <div className="flex items-center gap-4">
-          {/* Desktop */}
           <ul className="hidden gap-6 md:flex">
             {navLinks.map((l) => (
               <li key={l.href}>
-                <button
-                  onClick={() => handleClick(l.href)}
-                  className="text-sm text-muted-foreground transition-colors hover:text-accent"
-                >
+                <button onClick={() => handleClick(l.href)} className="text-sm text-muted-foreground transition-colors hover:text-accent">
                   {l.label}
                 </button>
               </li>
             ))}
           </ul>
-
           <ThemeToggle />
-
-          {/* Mobile */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger className="md:hidden" aria-label="Open menu">
               <Menu className="h-5 w-5" />
@@ -82,10 +75,7 @@ function Navbar() {
               <ul className="mt-8 flex flex-col gap-4">
                 {navLinks.map((l) => (
                   <li key={l.href}>
-                    <button
-                      onClick={() => handleClick(l.href)}
-                      className="text-sm text-muted-foreground transition-colors hover:text-accent"
-                    >
+                    <button onClick={() => handleClick(l.href)} className="text-sm text-muted-foreground transition-colors hover:text-accent">
                       {l.label}
                     </button>
                   </li>
@@ -101,10 +91,10 @@ function Navbar() {
 
 function Footer() {
   return (
-    <footer className="border-t py-8">
+    <footer className="border-t border-border/50 py-8">
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 px-6 text-sm text-muted-foreground">
         <div className="flex gap-4">
-        <a href={personalInfo.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+          <a href={personalInfo.github} target="_blank" rel="noreferrer" aria-label="GitHub">
             <Github className="h-4 w-4 hover:text-accent transition-colors" />
           </a>
           <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
