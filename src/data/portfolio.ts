@@ -47,12 +47,6 @@ export const educations: Education[] = [
   },
 ];
 
-export const skillGroups: SkillGroup[] = [
-  { category: "Languages", items: ["TypeScript", "JavaScript", "HTML", "CSS"] },
-  { category: "Frameworks", items: ["React", "Next.js", "Vite", "Tailwind CSS"] },
-  { category: "Tools", items: ["Git", "Figma", "Docker", "Jest", "Webpack"] },
-];
-
 export const projects: Project[] = [
   {
     id: "1",
