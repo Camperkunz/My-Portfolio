@@ -2,13 +2,16 @@ import { personalInfo } from "@/data/portfolio";
 import { Github, Linkedin, Mail, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import Typewriter from "./Typewriter";
+
+const roles = ["Frontend Developer", "UI Engineer", "React Specialist", "Web Creator"];
 
 export default function HeroSection() {
   return (
-    <section className="relative flex min-h-[80vh] flex-col items-center justify-center px-6 text-center overflow-hidden">
-      {/* Subtle gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-transparent" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-accent/[0.03] blur-3xl" />
+    <section className="relative flex min-h-[90vh] flex-col items-center justify-center px-6 text-center overflow-hidden">
+      {/* Brighter red gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-accent/[0.03] to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-accent/[0.06] blur-3xl" />
 
       <motion.div
         className="relative z-10"
@@ -16,9 +19,7 @@ export default function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
-        <p className="text-sm font-mono tracking-widest uppercase text-accent">
-          {personalInfo.title}
-        </p>
+        <Typewriter roles={roles} />
         <h1 className="mt-4 font-mono text-5xl font-bold tracking-tight text-foreground sm:text-7xl">
           {personalInfo.name}
         </h1>
@@ -44,7 +45,7 @@ export default function HeroSection() {
         <div className="mt-8">
           <Button
             variant="outline"
-            className="gap-2 border-accent/30 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all"
+            className="gap-2 border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all"
             asChild
           >
             <a href="/resume.pdf" download>
