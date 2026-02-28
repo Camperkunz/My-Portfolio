@@ -3,6 +3,7 @@ import { personalInfo } from "@/data/portfolio";
 import { Github, Linkedin, Mail, Menu, Moon, Sun } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { useLocation } from "react-router-dom";
 
 const navLinks = [
   { label: "Experience", href: "#experience" },
@@ -111,6 +112,26 @@ function Footer() {
 }
 
 export default function Layout({ children }: { children: ReactNode }) {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      setTimeout(() => {
+        const element = document.querySelector(location.hash);
+        if (element) {
+          const navbarHeight = 56; // h-14 = 3.5rem = 56px
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }); // задержка для рендера контента
+    }
+  }, [location.hash]);
+
   return (
     <div className="min-h-screen - text-foreground">
       <Navbar />

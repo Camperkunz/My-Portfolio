@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Typewriter from "./Typewriter";
 
-const roles = ["Frontend Developer", "UI Engineer", "React Specialist", "Web Creator"];
+const roles = ["Frontend Developer", "UX/UI Designer", "Web Creator"];
 
 export default function HeroSection() {
   return (

@@ -24,7 +24,7 @@ export default function ProjectPage() {
     <Layout>
       <div className="mx-auto max-w-3xl px-6 py-24">
         <Link to="/#projects">
-          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-accent mb-8">
+          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground mb-8">
             <ArrowLeft className="h-4 w-4" /> Back to projects
           </Button>
         </Link>

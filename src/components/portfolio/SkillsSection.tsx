@@ -41,7 +41,7 @@ const technicalSkills: Skill[] = [
   { name: "AWS", icon: <SiAmazonwebservices /> },
   { name: "Liquid", icon: <SiShopify /> },
   { name: "PHP", icon: <SiPhp /> },
-  
+
 ];
 
 const designSkills: Skill[] = [
@@ -52,7 +52,6 @@ const designSkills: Skill[] = [
   { name: "Figma", icon: <SiFigma /> },
   { name: "Blender", icon: <SiBlender /> },
   { name: "Premier Pro", icon: <SiAdobepremierepro /> },
-  { name: "Figma", icon: <SiFigma /> },
 ];
 
 interface MarqueeRowProps {
@@ -75,9 +74,9 @@ function MarqueeRow({
   return (
     <div className="relative overflow-hidden group py-5">
       {/* Fade Left */}
-      <div className="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-background to-transparent z-10" />
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-24 z-10" />
       {/* Fade Right */}
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-background to-transparent z-10" />
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-24 z-10" />
       <div
         className={`flex w-max gap-6 ${animationClass} group-hover:[animation-play-state:paused]`}
         style={{ animationDuration: `${duration}s` }}
@@ -86,7 +85,7 @@ function MarqueeRow({
           <div
             key={`${skill.name}-${index}`}
             className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/50 px-8 py-5 text-medium font-medium text-foreground whitespace-nowrap transition-all duration-300 hover:scale-100 hover:border-accent hover:bg-accent/10 hover:shadow-lg hover:shadow-accent/20"
->
+          >
             <span className="text-3xl text-accent ">
               {skill.icon}
             </span>
