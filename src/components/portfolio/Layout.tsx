@@ -13,31 +13,10 @@ const navLinks = [
   { label: "Contact", href: "#contact" },
 ];
 
-function ThemeToggle() {
-  const [dark, setDark] = useState(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("theme");
-      if (stored) return stored === "dark";
-      return true;
-    }
-    return true;
-  });
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-    localStorage.setItem("theme", dark ? "dark" : "light");
-  }, [dark]);
-
-  return (
-    <Button variant="ghost" size="icon" onClick={() => setDark((d) => !d)} aria-label="Toggle theme" className="h-8 w-8">
-      {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-    </Button>
-  );
-}
-
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -46,6 +25,10 @@ function Navbar() {
   }, []);
 
   const handleClick = (href: string) => {
+    if (location.pathname.includes('/project/')) {
+      window.location.href = `/#${href.replace('#', '')}`;
+      return;
+    }
     setOpen(false);
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -53,20 +36,22 @@ function Navbar() {
   return (
     <nav className={`fixed top-0 z-40 w-full transition-all duration-300  ${scrolled ? "border-b bg-background/90 backdrop-blur-md shadow-sm" : "bg-transparent"}`}>
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
-        <a href="#" className="font-mono text-sm font-bold tracking-tight text-foreground">
+        <a href="/#" className="font-mono text-sm font-bold tracking-tight text-foreground">
           <img src={personalInfo.logo} alt="Logo" className="h-8 w-8 logo" />
         </a>
         <div className="flex items-center gap-4">
           <ul className="hidden gap-6 md:flex">
             {navLinks.map((l) => (
               <li key={l.href}>
-                <button onClick={() => handleClick(l.href)} className="text-sm text-muted-foreground transition-colors hover:text-accent">
+                <button
+                  onClick={() => handleClick(l.href)}
+                  className="text-sm text-muted-foreground transition-colors hover:text-accent"
+                >
                   {l.label}
                 </button>
               </li>
             ))}
           </ul>
-          <ThemeToggle />
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger className="md:hidden" aria-label="Open menu">
               <Menu className="h-5 w-5" />
@@ -128,7 +113,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             behavior: 'smooth'
           });
         }
-      }); // задержка для рендера контента
+      });
     }
   }, [location.hash]);
 
