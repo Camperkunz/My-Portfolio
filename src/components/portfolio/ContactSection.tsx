@@ -3,7 +3,7 @@ import { Github, Linkedin, Mail } from "lucide-react";
 
 export default function ContactSection() {
   return (
-    <section id="contact" className="mx-auto max-w-4xl px-6 py-20">
+    <section id="contact" className="mx-auto max-w-5xl px-6 py-20">
       <h2 className="font-mono text-2xl font-bold tracking-tight text-foreground">
         Contact
       </h2>

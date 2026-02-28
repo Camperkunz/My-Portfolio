@@ -6,12 +6,12 @@ import SkillsSection from "@/components/portfolio/SkillsSection";
 import ProjectsSection from "@/components/portfolio/ProjectsSection";
 import ContactSection from "@/components/portfolio/ContactSection";
 import FadeInSection from "@/components/portfolio/FadeInSection";
-import CursorGlow from "@/components/portfolio/CursorGlow";
+// import CursorGlow from "@/components/portfolio/CursorGlow";
 
 const Index = () => {
   return (
     <Layout>
-      <CursorGlow />
+      {/* <CursorGlow /> */}
       <FadeInSection>
         <HeroSection />
       </FadeInSection>

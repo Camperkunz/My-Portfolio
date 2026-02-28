@@ -54,8 +54,8 @@ function MarqueeRow({ items, direction = "left", speed = 30 }: { items: string[]
 export default function SkillsSection() {
   return (
     <section id="skills" className="py-24">
-      <div className="mx-auto max-w-4xl px-6">
-        <h2 className="font-mono text-2xl font-bold text-accent">Skills</h2>
+      <div className="mx-auto max-w-5xl px-6">
+        <h2 className="font-mono text-2xl font-bold text-accent justify-self-center mb-20">Skills</h2>
       </div>
       <div className="mt-12 space-y-4">
         <MarqueeRow items={technicalSkills} direction="left" />

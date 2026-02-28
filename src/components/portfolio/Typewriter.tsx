@@ -9,9 +9,9 @@ interface Props {
 
 export default function Typewriter({
   roles,
-  typingSpeed = 100,
-  deletingSpeed = 60,
-  pauseDuration = 1800,
+  typingSpeed = 90,
+  deletingSpeed = 50,
+  pauseDuration = 2000,
 }: Props) {
   const [roleIndex, setRoleIndex] = useState(0);
   const [text, setText] = useState("");

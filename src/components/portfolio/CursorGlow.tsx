@@ -1,8 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function CursorGlow() {
+export default function CursorDelayed() {
   const glowRef = useRef<HTMLDivElement>(null);
   const trailRef = useRef<HTMLDivElement>(null);
+  const [followerPos, setFollowerPos] = useState({ x: 0, y: 0 });
+  const targetRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -10,11 +12,18 @@ export default function CursorGlow() {
         glowRef.current.style.left = `${e.clientX}px`;
         glowRef.current.style.top = `${e.clientY}px`;
       }
-      if (trailRef.current) {
-        trailRef.current.style.left = `${e.clientX}px`;
-        trailRef.current.style.top = `${e.clientY}px`;
-      }
+
+      targetRef.current = { x: e.clientX, y: e.clientY };
     };
+
+    const animateFollower = () => {
+      setFollowerPos(p => ({
+        x: p.x + (targetRef.current.x - p.x) * 0.12,
+        y: p.y + (targetRef.current.y - p.y) * 0.12
+      }));
+      requestAnimationFrame(animateFollower);
+    };
+    animateFollower();
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
@@ -22,23 +31,14 @@ export default function CursorGlow() {
 
   return (
     <>
-      <div
-        ref={glowRef}
-        className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full opacity-[0.08]"
+      {/* Убрал glow полностью */}
+
+      <div ref={trailRef} className="pointer-events-none fixed z-50 w-3 h-3 bg-red-500 rounded-full opacity-90"
         style={{
-          background: "radial-gradient(circle, hsl(0 84% 60%) 0%, transparent 70%)",
-          filter: "blur(40px)",
-        }}
-      />
-      <div
-        ref={trailRef}
-        className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-1/2 h-32 w-32 rounded-full opacity-[0.04]"
-        style={{
-          background: "radial-gradient(circle, hsl(0 84% 60%) 0%, transparent 70%)",
-          filter: "blur(20px)",
-          transition: "left 0.3s ease-out, top 0.3s ease-out",
-        }}
-      />
+          left: `${followerPos.x}px`,
+          top: `${followerPos.y}px`,
+          transform: "translate(-50%, -50%)"
+        }} />
     </>
   );
 }

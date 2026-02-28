@@ -50,10 +50,10 @@ function Navbar() {
   };
 
   return (
-    <nav className={`fixed top-0 z-40 w-full transition-all duration-300 ${scrolled ? "border-b bg-background/90 backdrop-blur-md shadow-sm" : "bg-transparent"}`}>
-      <div className="mx-auto flex h-14 max-w-4xl items-center justify-between px-6">
+    <nav className={`fixed top-0 z-40 w-full transition-all duration-300  ${scrolled ? "border-b bg-background/90 backdrop-blur-md shadow-sm" : "bg-transparent"}`}>
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-6">
         <a href="#" className="font-mono text-sm font-bold tracking-tight text-foreground">
-          {personalInfo.name}
+          <img src={personalInfo.logo} alt="Logo" className="h-8 w-8 logo" />
         </a>
         <div className="flex items-center gap-4">
           <ul className="hidden gap-6 md:flex">
@@ -114,7 +114,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
-      <main className="pt-14">{children}</main>
+      <main>{children}</main>
       <Footer />
     </div>
   );

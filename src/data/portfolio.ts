@@ -1,12 +1,13 @@
 import { Experience, Education, SkillGroup, Project } from "@/types/portfolio";
 
 export const personalInfo = {
-  name: "Alex Morgan",
+  name: "Anna Nikiforova",
   title: "Frontend Developer",
   tagline: "Building clean, performant interfaces with modern web technologies.",
-  github: "https://github.com",
-  linkedin: "https://linkedin.com",
-  email: "alex@example.com",
+  github: "https://github.com/Camperkunz",
+  linkedin: "https://www.linkedin.com/in/anna-nikiforova-ac/",
+  email: "anyanikiforova04@gmail.com",
+  logo: '/favicon.png'
 };
 
 export const experiences: Experience[] = [

@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="mx-auto max-w-4xl px-6 py-24">
-      <h2 className="font-mono text-2xl font-bold text-accent">Projects</h2>
+    <section id="projects" className="mx-auto max-w-5xl px-6 py-24">
+      <h2 className="font-mono text-2xl font-bold text-accent justify-self-center mb-20">Projects</h2>
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((p) => (
           <Card

@@ -8,7 +8,7 @@ const roles = ["Frontend Developer", "UI Engineer", "React Specialist", "Web Cre
 
 export default function HeroSection() {
   return (
-    <section className="relative flex min-h-[90vh] flex-col items-center justify-center px-6 text-center overflow-hidden">
+    <section className="relative flex min-h-[95vh] flex-col items-center justify-center px-6 text-center overflow-hidden">
       {/* Brighter red gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-accent/[0.03] to-transparent" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-accent/[0.06] blur-3xl" />

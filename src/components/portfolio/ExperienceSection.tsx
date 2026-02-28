@@ -2,8 +2,8 @@ import { experiences } from "@/data/portfolio";
 
 export default function ExperienceSection() {
   return (
-    <section id="experience" className="mx-auto max-w-4xl px-6 py-24">
-      <h2 className="font-mono text-2xl font-bold text-accent">Experience</h2>
+    <section id="experience" className="mx-auto max-w-5xl px-6 py-24">
+      <h2 className="font-mono text-2xl font-bold text-accent justify-self-center mb-20">Work Experience</h2>
       <div className="mt-12 relative">
         {/* Central timeline line */}
         <div className="absolute left-0 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-accent/20" />
