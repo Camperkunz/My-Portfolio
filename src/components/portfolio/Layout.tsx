@@ -62,7 +62,7 @@ function Navbar() {
               <li key={l.href}>
                 <button
                   onClick={() => handleClick(l.href)}
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  className="text-sm text-muted-foreground transition-colors hover:text-accent"
                 >
                   {l.label}
                 </button>
@@ -84,7 +84,7 @@ function Navbar() {
                   <li key={l.href}>
                     <button
                       onClick={() => handleClick(l.href)}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      className="text-sm text-muted-foreground transition-colors hover:text-accent"
                     >
                       {l.label}
                     </button>
@@ -104,14 +104,14 @@ function Footer() {
     <footer className="border-t py-8">
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 px-6 text-sm text-muted-foreground">
         <div className="flex gap-4">
-          <a href={personalInfo.github} target="_blank" rel="noreferrer" aria-label="GitHub">
-            <Github className="h-4 w-4 hover:text-foreground transition-colors" />
+        <a href={personalInfo.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+            <Github className="h-4 w-4 hover:text-accent transition-colors" />
           </a>
           <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
-            <Linkedin className="h-4 w-4 hover:text-foreground transition-colors" />
+            <Linkedin className="h-4 w-4 hover:text-accent transition-colors" />
           </a>
           <a href={`mailto:${personalInfo.email}`} aria-label="Email">
-            <Mail className="h-4 w-4 hover:text-foreground transition-colors" />
+            <Mail className="h-4 w-4 hover:text-accent transition-colors" />
           </a>
         </div>
         <p>© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
