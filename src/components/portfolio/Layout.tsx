@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 
 const navLinks = [
+  { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Education", href: "#education" },
   { label: "Skills", href: "#skills" },
@@ -77,6 +78,7 @@ function Navbar() {
 
 function Footer() {
   const navLinks_ = [
+    { label: "About", href: "/#about" },
     { label: "Experience", href: "/#experience" },
     { label: "Education", href: "/#education" },
     { label: "Skills", href: "/#skills" },

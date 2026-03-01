@@ -1,67 +1,75 @@
 import { personalInfo } from "@/data/portfolio";
 import { Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import SectionHeader from "./SectionHeader";
 
 export default function ContactSection() {
   return (
-    <section id="contact" className="mx-auto max-w-5xl px-6 py-24">
-      <h2 className="font-mono text-2xl font-bold tracking-tight text-accent mb-4">
-        Contact
-      </h2>
-      <p className="text-sm text-muted-foreground max-w-xl">
-        Feel free to reach out — I'm always open to new opportunities and collaborations.
-      </p>
+    <section id="contact" className="w-full px-6 py-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader preTitle="Let's connect" title="Contact" />
 
-      <div className="mt-12 grid gap-12 md:grid-cols-2">
-        {/* Contact Info */}
-        <div>
-          <h3 className="text-xs font-medium text-accent uppercase tracking-wider mb-6">Get in Touch</h3>
-          <div className="flex flex-col gap-5">
-            <a
-              href={`mailto:${personalInfo.email}`}
-              className="inline-flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-accent group"
-            >
-              <Mail className="h-4 w-4 text-accent/60 group-hover:text-accent transition-colors" />
-              {personalInfo.email}
-            </a>
-            <a
-              href={`tel:${personalInfo.phone}`}
-              className="inline-flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-accent group"
-            >
-              <Phone className="h-4 w-4 text-accent/60 group-hover:text-accent transition-colors" />
-              {personalInfo.phone}
-            </a>
-            <div className="inline-flex items-start gap-3 text-sm text-muted-foreground">
-              <MapPin className="h-4 w-4 mt-0.5 text-accent/60 shrink-0" />
-              <div>
-                <p>{personalInfo.city}</p>
-                <p className="text-xs text-muted-foreground/70 mt-0.5">{personalInfo.address}</p>
+        <div className="mx-auto max-w-4xl grid gap-12 md:grid-cols-2">
+          {/* Contact Info */}
+          <div className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-8">
+            <h3 className="text-sm font-semibold text-accent uppercase tracking-wider mb-8">Get in Touch</h3>
+            <div className="flex flex-col gap-6">
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="inline-flex items-center gap-4 text-sm text-muted-foreground transition-colors hover:text-accent group"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 bg-accent/5 group-hover:bg-accent/10 transition-colors">
+                  <Mail className="h-4 w-4 text-accent" />
+                </span>
+                {personalInfo.email}
+              </a>
+              <a
+                href={`tel:${personalInfo.phone}`}
+                className="inline-flex items-center gap-4 text-sm text-muted-foreground transition-colors hover:text-accent group"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 bg-accent/5 group-hover:bg-accent/10 transition-colors">
+                  <Phone className="h-4 w-4 text-accent" />
+                </span>
+                {personalInfo.phone}
+              </a>
+              <div className="inline-flex items-start gap-4 text-sm text-muted-foreground">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border/50 bg-accent/5">
+                  <MapPin className="h-4 w-4 text-accent" />
+                </span>
+                <div className="pt-2">
+                  <p className="font-medium text-foreground">{personalInfo.city}</p>
+                  <p className="text-xs text-muted-foreground/70 mt-1">{personalInfo.address}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Social Links */}
-        <div>
-          <h3 className="text-xs font-medium text-accent uppercase tracking-wider mb-6">Social</h3>
-          <div className="flex flex-col gap-5">
-            <a
-              href={personalInfo.github}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-accent group"
-            >
-              <Github className="h-4 w-4 text-accent/60 group-hover:text-accent transition-colors" />
-              GitHub
-            </a>
-            <a
-              href={personalInfo.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-accent group"
-            >
-              <Linkedin className="h-4 w-4 text-accent/60 group-hover:text-accent transition-colors" />
-              LinkedIn
-            </a>
+          {/* Social Links */}
+          <div className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-8">
+            <h3 className="text-sm font-semibold text-accent uppercase tracking-wider mb-8">Social</h3>
+            <div className="flex flex-col gap-6">
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-4 text-sm text-muted-foreground transition-colors hover:text-accent group"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 bg-accent/5 group-hover:bg-accent/10 transition-colors">
+                  <Github className="h-4 w-4 text-accent" />
+                </span>
+                GitHub
+              </a>
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-4 text-sm text-muted-foreground transition-colors hover:text-accent group"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 bg-accent/5 group-hover:bg-accent/10 transition-colors">
+                  <Linkedin className="h-4 w-4 text-accent" />
+                </span>
+                LinkedIn
+              </a>
+            </div>
           </div>
         </div>
       </div>
