@@ -7,6 +7,9 @@ export const personalInfo = {
   github: "https://github.com/Camperkunz",
   linkedin: "https://www.linkedin.com/in/anna-nikiforova-ac/",
   email: "anyanikiforova04@gmail.com",
+  phone: "+1 (613) 555-0123",
+  city: "Ottawa, ON",
+  address: "123 Rideau St, Ottawa, ON K1N 5Y3, Canada",
   logo: '/favicon.png'
 };
 
@@ -79,8 +82,11 @@ export const projects: Project[] = [
     shortDescription: "A kanban-style task management app with drag-and-drop.",
     fullDescription:
       "Full-featured task management application with drag-and-drop kanban boards, user authentication, real-time collaboration, and dark mode support. Built with React and a Node.js backend.",
+    details: "",
+    notes: "",
     techStack: ["React", "TypeScript", "Tailwind CSS", "Node.js"],
     imageUrl: "/placeholder.svg",
+    galleryImages: ["/placeholder.svg", "/placeholder.svg", "/placeholder.svg"],
     githubUrl: "https://github.com",
     liveUrl: "https://example.com",
   },
@@ -90,8 +96,11 @@ export const projects: Project[] = [
     shortDescription: "Real-time weather data with interactive charts.",
     fullDescription:
       "Weather dashboard that displays real-time forecasts, historical trends, and interactive charts. Integrates with OpenWeatherMap API and supports geolocation.",
+    details: "",
+    notes: "",
     techStack: ["React", "Recharts", "OpenWeatherMap API"],
     imageUrl: "/placeholder.svg",
+    galleryImages: ["/placeholder.svg", "/placeholder.svg"],
     githubUrl: "https://github.com",
   },
   {
@@ -100,8 +109,11 @@ export const projects: Project[] = [
     shortDescription: "Minimal storefront with cart and checkout flow.",
     fullDescription:
       "A minimal e-commerce storefront featuring product listings, filtering, cart management, and a mock checkout flow. Fully responsive with optimistic UI updates.",
+    details: "",
+    notes: "",
     techStack: ["Next.js", "Stripe", "Tailwind CSS"],
     imageUrl: "/placeholder.svg",
+    galleryImages: ["/placeholder.svg", "/placeholder.svg"],
     githubUrl: "https://github.com",
     liveUrl: "https://example.com",
   },
@@ -111,8 +123,11 @@ export const projects: Project[] = [
     shortDescription: "Live preview markdown editor with syntax highlighting.",
     fullDescription:
       "A split-pane markdown editor with real-time preview, syntax highlighting, and export to PDF. Supports custom themes and keyboard shortcuts.",
+    details: "",
+    notes: "",
     techStack: ["React", "CodeMirror", "Marked"],
     imageUrl: "/placeholder.svg",
+    galleryImages: ["/placeholder.svg"],
     githubUrl: "https://github.com",
   },
   {
@@ -121,8 +136,11 @@ export const projects: Project[] = [
     shortDescription: "CLI tool to scaffold developer portfolios.",
     fullDescription:
       "A command-line tool that generates static portfolio websites from a JSON config file. Supports multiple themes and deployment to GitHub Pages.",
+    details: "",
+    notes: "",
     techStack: ["Node.js", "Handlebars", "CLI"],
     imageUrl: "/placeholder.svg",
+    galleryImages: ["/placeholder.svg"],
     githubUrl: "https://github.com",
   },
 ];
