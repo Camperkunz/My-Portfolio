@@ -22,7 +22,7 @@ export default function AboutSection() {
         {/* Text */}
         <div>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Hi, I'm {personalInfo.name} — a passionate frontend developer and designer based in {personalInfo.city}. 
+            Hi, I'm Anna - a passionate frontend developer and designer based in {personalInfo.city}. 
             I love crafting clean, performant, and user-centered web experiences using modern technologies.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
@@ -37,7 +37,7 @@ export default function AboutSection() {
 
         {/* Photo with parallax */}
         <div
-          className="flex justify-center"
+          className="flex justify-end"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
