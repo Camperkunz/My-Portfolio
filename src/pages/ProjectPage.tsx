@@ -22,28 +22,31 @@ export default function ProjectPage() {
 
   return (
     <Layout>
-      <div className="mx-auto max-w-3xl px-6 py-24">
+      <div className="mx-auto max-w-4xl px-6 py-24">
         <Link to="/#projects">
-          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground mb-8">
+          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground mb-10 hover:text-accent transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to projects
           </Button>
         </Link>
 
-        <img src={project.imageUrl} alt={project.title} className="w-full h-64 rounded-lg object-cover bg-muted" />
+        {/* Hero image */}
+        <img src={project.imageUrl} alt={project.title} className="w-full h-72 rounded-xl object-cover bg-muted border border-border/50" />
 
-        <h1 className="mt-8 font-mono text-3xl font-bold text-foreground">{project.title}</h1>
-        <p className="mt-2 text-muted-foreground">{project.shortDescription}</p>
+        {/* Title & description */}
+        <h1 className="mt-10 font-mono text-4xl font-bold text-foreground">{project.title}</h1>
+        <p className="mt-3 text-lg text-muted-foreground leading-relaxed">{project.shortDescription}</p>
 
-        <div className="mt-6 flex gap-3">
+        {/* Action buttons */}
+        <div className="mt-8 flex gap-3">
           {project.githubUrl && (
-            <Button variant="outline" size="sm" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground" asChild>
+            <Button variant="outline" size="default" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
               <a href={project.githubUrl} target="_blank" rel="noreferrer">
                 <Github className="h-4 w-4" /> Source Code
               </a>
             </Button>
           )}
           {project.liveUrl && (
-            <Button variant="outline" size="sm" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground" asChild>
+            <Button variant="outline" size="default" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
               <a href={project.liveUrl} target="_blank" rel="noreferrer">
                 <ExternalLink className="h-4 w-4" /> Live Demo
               </a>
@@ -51,19 +54,55 @@ export default function ProjectPage() {
           )}
         </div>
 
-        <div className="mt-8">
-          <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">About</h2>
-          <p className="mt-3 text-foreground leading-relaxed">{project.fullDescription}</p>
+        {/* About section */}
+        <div className="mt-14">
+          <h2 className="text-sm font-medium text-accent uppercase tracking-wider">About</h2>
+          <p className="mt-4 text-foreground leading-relaxed text-base">{project.fullDescription}</p>
         </div>
 
-        <div className="mt-8">
-          <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Tech Stack</h2>
-          <div className="mt-3 flex flex-wrap gap-2">
+        {/* Details section (fill later) */}
+        {project.details && (
+          <div className="mt-12">
+            <h2 className="text-sm font-medium text-accent uppercase tracking-wider">Details</h2>
+            <p className="mt-4 text-foreground leading-relaxed text-base">{project.details}</p>
+          </div>
+        )}
+
+        {/* Notes section (fill later) */}
+        {project.notes && (
+          <div className="mt-12">
+            <h2 className="text-sm font-medium text-accent uppercase tracking-wider">Notes</h2>
+            <p className="mt-4 text-muted-foreground leading-relaxed text-base">{project.notes}</p>
+          </div>
+        )}
+
+        {/* Tech Stack */}
+        <div className="mt-12">
+          <h2 className="text-sm font-medium text-accent uppercase tracking-wider">Tech Stack</h2>
+          <div className="mt-4 flex flex-wrap gap-2">
             {project.techStack.map((t) => (
-              <Badge key={t} variant="outline" className="border-accent/20 hover:border-accent/50 transition-colors">{t}</Badge>
+              <Badge key={t} variant="outline" className="border-accent/20 hover:border-accent/50 transition-colors px-3 py-1">{t}</Badge>
             ))}
           </div>
         </div>
+
+        {/* Gallery */}
+        {project.galleryImages && project.galleryImages.length > 0 && (
+          <div className="mt-14">
+            <h2 className="text-sm font-medium text-accent uppercase tracking-wider">Gallery</h2>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {project.galleryImages.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  alt={`${project.title} screenshot ${i + 1}`}
+                  className="w-full h-48 rounded-lg object-cover bg-muted border border-border/50 hover:border-accent/30 transition-colors"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );
