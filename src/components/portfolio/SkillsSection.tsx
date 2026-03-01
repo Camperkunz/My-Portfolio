@@ -21,6 +21,7 @@ import {
   SiPhp
 
 } from "react-icons/si";
+import SectionHeader from "./SectionHeader";
 
 type Skill = {
   name: string;
@@ -84,7 +85,7 @@ function MarqueeRow({
         {doubled.map((skill, index) => (
           <div
             key={`${skill.name}-${index}`}
-            className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/50 px-8 py-5 text-medium font-medium text-foreground whitespace-nowrap transition-all duration-300 hover:scale-100 hover:border-accent hover:bg-accent/10 hover:shadow-lg hover:shadow-accent/20"
+            className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/30 backdrop-blur-md px-8 py-5 text-medium font-medium text-foreground whitespace-nowrap transition-all duration-300 hover:scale-100 hover:border-accent hover:bg-accent/10 hover:shadow-lg hover:shadow-accent/20"
           >
             <span className="text-3xl text-accent ">
               {skill.icon}
@@ -103,9 +104,7 @@ export default function SkillsSection() {
   return (
     <section id="skills" className="py-24">
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="font-mono text-2xl font-bold text-accent justify-self-center mb-20">
-          Skills
-        </h2>
+        <SectionHeader preTitle="What I use" title="Skills" />
         <div>
           <MarqueeRow items={technicalSkills} direction="left" duration={70} />
           <MarqueeRow items={designSkills} direction="right" duration={50} />

@@ -4,16 +4,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github } from "lucide-react";
 import { Link } from "react-router-dom";
+import SectionHeader from "./SectionHeader";
 
 export default function ProjectsSection() {
   return (
     <section id="projects" className="mx-auto max-w-7xl px-6 py-24">
-      <h2 className="font-mono text-2xl font-bold text-accent justify-self-center mb-20">Projects</h2>
+      <SectionHeader preTitle="What I've built" title="Projects" />
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((p) => (
           <Card
             key={p.id}
-            className="group flex flex-col border-border/50 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 backdrop-blur-xl"
+            className="group flex flex-col border-border/50 bg-card/30 backdrop-blur-md transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
           >
             <Link to={`/project/${p.id}`}>
               <img src={p.imageUrl} alt={p.title}
@@ -24,14 +25,14 @@ export default function ProjectsSection() {
                 <Link to={`/project/${p.id}`} className="hover:text-accent transition-colors">
                   <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">{p.title}</h3>
                 </Link>
-                <p className="mt-1 text-s text-muted-foreground">{p.shortDescription}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{p.shortDescription}</p>
                 <div className="mt-3 flex flex-wrap gap-1">
                   {p.techStack.slice(0, 3).map((t) => (
                     <Badge key={t} variant="secondary" className="text-xs px-3 py-1.5 rounded-lg">{t}</Badge>
                   ))}
                 </div>
               </div>
-              <div className="mt-6 flex gap-2 pt-4 border-t border-border/30">
+              <div className="mt-auto flex gap-2 pt-6 border-t border-border/30">
                 {p.githubUrl && (
                   <Button variant="outline" size="sm" className="gap-1.5 text-xs border-accent/20 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
                     <a href={p.githubUrl} target="_blank" rel="noreferrer">
