@@ -39,7 +39,7 @@ export default function HeroSection() {
           </a>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 flex items-center justify-center gap-3">
           <Button
             variant="outline"
             className="gap-2 border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all"
@@ -49,6 +49,13 @@ export default function HeroSection() {
               <Download className="h-4 w-4" />
               Download Resume
             </a>
+          </Button>
+          <Button
+            variant="outline"
+            className="gap-2 border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all"
+            onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            View Projects
           </Button>
         </div>
       </motion.div>

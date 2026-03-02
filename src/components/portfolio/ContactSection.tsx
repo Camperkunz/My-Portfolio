@@ -5,68 +5,59 @@ import SectionHeader from "./SectionHeader";
 export default function ContactSection() {
   return (
     <section id="contact" className="w-full px-6 py-24">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-3xl text-center">
         <SectionHeader preTitle="Let's connect" title="Contact" />
 
-        <div className="mx-auto max-w-4xl grid gap-12 md:grid-cols-2">
+        <div className="mt-12 rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-10 space-y-10">
           {/* Contact Info */}
-          <div className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-8">
-            <h3 className="text-sm font-semibold text-accent uppercase tracking-wider mb-8">Get in Touch</h3>
-            <div className="flex flex-col gap-6">
+          <div className="space-y-5">
+            <h3 className="text-xs font-semibold text-accent uppercase tracking-widest">Get in Touch</h3>
+            <div className="flex flex-col items-center gap-4">
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="inline-flex items-center gap-4 text-sm text-muted-foreground transition-colors hover:text-accent group"
+                className="inline-flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-accent"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 bg-accent/5 group-hover:bg-accent/10 transition-colors">
-                  <Mail className="h-4 w-4 text-accent" />
-                </span>
+                <Mail className="h-4 w-4 text-accent" />
                 {personalInfo.email}
               </a>
               <a
                 href={`tel:${personalInfo.phone}`}
-                className="inline-flex items-center gap-4 text-sm text-muted-foreground transition-colors hover:text-accent group"
+                className="inline-flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-accent"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 bg-accent/5 group-hover:bg-accent/10 transition-colors">
-                  <Phone className="h-4 w-4 text-accent" />
-                </span>
+                <Phone className="h-4 w-4 text-accent" />
                 {personalInfo.phone}
               </a>
-              <div className="inline-flex items-start gap-4 text-sm text-muted-foreground">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border/50 bg-accent/5">
-                  <MapPin className="h-4 w-4 text-accent" />
-                </span>
-                <div className="pt-2">
-                  <p className="font-medium text-foreground">{personalInfo.address}</p>
-                </div>
-              </div>
+              <span className="inline-flex items-center gap-3 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4 text-accent" />
+                {personalInfo.address}
+              </span>
             </div>
           </div>
 
+          {/* Divider */}
+          <div className="h-px w-24 mx-auto bg-border/50" />
+
           {/* Social Links */}
-          <div className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-8">
-            <h3 className="text-sm font-semibold text-accent uppercase tracking-wider mb-8">Social</h3>
-            <div className="flex flex-col gap-6">
+          <div className="space-y-5">
+            <h3 className="text-xs font-semibold text-accent uppercase tracking-widest">Social</h3>
+            <div className="flex justify-center gap-6">
               <a
                 href={personalInfo.github}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-4 text-sm text-muted-foreground transition-colors hover:text-accent group"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
+                aria-label="GitHub"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 bg-accent/5 group-hover:bg-accent/10 transition-colors">
-                  <Github className="h-4 w-4 text-accent" />
-                </span>
-                GitHub
+                <Github className="h-4 w-4" />
               </a>
               <a
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-4 text-sm text-muted-foreground transition-colors hover:text-accent group"
+                className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
+                aria-label="LinkedIn"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 bg-accent/5 group-hover:bg-accent/10 transition-colors">
-                  <Linkedin className="h-4 w-4 text-accent" />
-                </span>
-                LinkedIn
+                <Linkedin className="h-4 w-4" />
               </a>
             </div>
           </div>
