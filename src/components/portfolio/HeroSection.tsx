@@ -3,13 +3,15 @@ import { Github, Linkedin, Mail, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Typewriter from "./Typewriter";
+import CodeToButton from "./CodeToButton";
+import TechTiles from "./TechTiles";
 
 const roles = ["Frontend Developer", "Web Developer", "UI Engineer"];
+const stackItems = ["React", "TypeScript", "Tailwind", "Vite"];
 
 export default function HeroSection() {
   return (
     <section className="relative flex min-h-[95vh] flex-col items-center justify-center px-6 text-center overflow-hidden">
-
       <motion.div
         className="relative z-10"
         initial={{ opacity: 0, y: 30 }}
@@ -23,6 +25,23 @@ export default function HeroSection() {
         <p className="mt-4 max-w-lg mx-auto text-base text-muted-foreground leading-relaxed">
           {personalInfo.tagline}
         </p>
+
+        {/* Tech Stack Line */}
+        <motion.p
+          className="mt-3 text-sm tracking-widest text-muted-foreground/70"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          {stackItems.map((item, i) => (
+            <span key={item}>
+              <span className="text-accent/80 font-medium">{item}</span>
+              {i < stackItems.length - 1 && (
+                <span className="mx-2 text-border">·</span>
+              )}
+            </span>
+          ))}
+        </motion.p>
 
         <div className="mt-8 flex items-center justify-center gap-4">
           <a href={personalInfo.github} target="_blank" rel="noreferrer" aria-label="GitHub"
@@ -50,14 +69,15 @@ export default function HeroSection() {
               Download Resume
             </a>
           </Button>
-          <Button
-            variant="outline"
-            className="gap-2 border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all"
-            onClick={() => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            View Projects
-          </Button>
+          <CodeToButton
+            onNavigate={() =>
+              document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })
+            }
+          />
         </div>
+
+        {/* Technology Tiles */}
+        <TechTiles />
       </motion.div>
     </section>
   );
