@@ -22,7 +22,7 @@ export default function AboutSection() {
         {/* Text */}
         <div>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Hi, I'm Anna - a passionate frontend developer and designer based in {personalInfo.city}. 
+            Hi, I'm Anna - a passionate frontend developer and designer based in {personalInfo.address}. 
             I love crafting clean, performant, and user-centered web experiences using modern technologies.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">

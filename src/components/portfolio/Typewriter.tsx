@@ -44,7 +44,7 @@ export default function Typewriter({
   }, [tick, isDeleting, deletingSpeed, typingSpeed]);
 
   return (
-    <span className="font-mono text-sm tracking-widest uppercase text-accent">
+    <span className="font-mono text-lg tracking-widest uppercase text-accent">
       {text}
       <span className="animate-pulse text-accent">|</span>
     </span>

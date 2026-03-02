@@ -36,8 +36,7 @@ export default function ContactSection() {
                   <MapPin className="h-4 w-4 text-accent" />
                 </span>
                 <div className="pt-2">
-                  <p className="font-medium text-foreground">{personalInfo.city}</p>
-                  <p className="text-xs text-muted-foreground/70 mt-1">{personalInfo.address}</p>
+                  <p className="font-medium text-foreground">{personalInfo.address}</p>
                 </div>
               </div>
             </div>

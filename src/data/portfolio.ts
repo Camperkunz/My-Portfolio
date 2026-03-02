@@ -3,13 +3,12 @@ import { Experience, Education, Project } from "@/types/portfolio";
 export const personalInfo = {
   name: "Anna Nikiforova",
   title: "Frontend Developer",
-  tagline: "Building clean, performant interfaces with modern web technologies.",
+  tagline: "Passionate Developer. Building clean, performant interfaces with modern web technologies.",
   github: "https://github.com/Camperkunz",
   linkedin: "https://www.linkedin.com/in/anna-nikiforova-ac/",
   email: "anyanikiforova04@gmail.com",
-  phone: "+1 (613) 555-0123",
-  city: "Ottawa, ON",
-  address: "123 Rideau St, Ottawa, ON K1N 5Y3, Canada",
+  phone: "+1 (343) 297-6170",
+  address: "Ottawa, ON, Canada",
   logo: '/favicon.png'
 };
 
