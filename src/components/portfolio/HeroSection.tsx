@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Typewriter from "./Typewriter";
 import CodeToButton from "./CodeToButton";
-import TechTiles from "./TechTiles";
 
 const roles = ["Frontend Developer", "Web Developer", "UI Engineer"];
-const stackItems = ["React", "TypeScript", "Tailwind", "Vite"];
+const stackItems = ["React", "TypeScript", "Figma", "AWS"];
 
 export default function HeroSection() {
   return (
@@ -22,20 +21,20 @@ export default function HeroSection() {
         <h1 className="mt-4 font-mono text-5xl font-bold tracking-tight text-foreground sm:text-7xl">
           {personalInfo.name}
         </h1>
-        <p className="mt-4 max-w-lg mx-auto text-base text-muted-foreground leading-relaxed">
+        <p className="mt-4 max-w-md mx-auto text-base text-muted-foreground leading-relaxed text-xl">
           {personalInfo.tagline}
         </p>
 
         {/* Tech Stack Line */}
         <motion.p
-          className="mt-3 text-sm tracking-widest text-muted-foreground/70"
+          className="mt-4 text-sm tracking-widest text-muted-foreground/70"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           {stackItems.map((item, i) => (
             <span key={item}>
-              <span className="text-accent/80 font-medium">{item}</span>
+              <span className="text-accent/80 font-medium text-md">{item}</span>
               {i < stackItems.length - 1 && (
                 <span className="mx-2 text-border">·</span>
               )}
@@ -75,9 +74,6 @@ export default function HeroSection() {
             }
           />
         </div>
-
-        {/* Technology Tiles */}
-        <TechTiles />
       </motion.div>
     </section>
   );

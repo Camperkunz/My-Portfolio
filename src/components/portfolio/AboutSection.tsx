@@ -37,7 +37,7 @@ export default function AboutSection() {
 
         {/* Photo with parallax */}
         <div
-          className="flex justify-end"
+          className="flex justify-center md:justify-end"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >

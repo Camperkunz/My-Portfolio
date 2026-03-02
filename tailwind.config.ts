@@ -95,6 +95,9 @@ export default {
         "marquee-left": "marquee-left linear infinite",
         "marquee-right": "marquee-right linear infinite",
       },
+      fontFamily: {
+        mono: ['Montserrat', 'monospace'],
+  },
       
     },
   },
