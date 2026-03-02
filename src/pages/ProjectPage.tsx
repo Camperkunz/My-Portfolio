@@ -2,12 +2,33 @@ import { useParams, Link } from "react-router-dom";
 import { projects } from "@/data/portfolio";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Sparkles } from "lucide-react";
 import Layout from "@/components/portfolio/Layout";
+import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs, SiNextdotjs, SiStripe } from "react-icons/si";
+import { motion } from "framer-motion";
+
+const techIcons: Record<string, React.ReactNode> = {
+  React: <SiReact className="h-5 w-5" />,
+  TypeScript: <SiTypescript className="h-5 w-5" />,
+  "Tailwind CSS": <SiTailwindcss className="h-5 w-5" />,
+  "Node.js": <SiNodedotjs className="h-5 w-5" />,
+  "Next.js": <SiNextdotjs className="h-5 w-5" />,
+  Stripe: <SiStripe className="h-5 w-5" />,
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.5 },
+  }),
+};
 
 export default function ProjectPage() {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
+  const otherProjects = projects.filter((p) => p.id !== id).slice(0, 3);
 
   if (!project) {
     return (
@@ -20,112 +41,177 @@ export default function ProjectPage() {
     );
   }
 
+  const contentBlocks = [
+    { title: "Overview", content: project.fullDescription },
+    { title: "The Problem", content: project.problem },
+    { title: "The Solution", content: project.solution },
+    { title: "Implementation", content: project.implementation },
+    { title: "Results", content: project.results },
+  ].filter((b) => b.content);
+
   return (
     <Layout>
-      <div className="mx-auto max-w-5xl px-6 py-24">
+      <div className="mx-auto max-w-6xl px-6 py-16">
+        {/* Back */}
         <Link to="/#projects">
-          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground mb-10 transition-colors hover:text-accent">
+          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground mb-8 transition-colors hover:text-accent">
             <ArrowLeft className="h-4 w-4" /> Back to projects
           </Button>
         </Link>
 
-        {/* Hero */}
-        <div className="text-center mb-16">
-          <h1 className="font-mono text-4xl sm:text-5xl font-bold text-foreground">{project.title}</h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">{project.shortDescription}</p>
-          <div className="mt-8 flex justify-center gap-3">
-            {project.githubUrl && (
-              <Button variant="outline" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
-                <a href={project.githubUrl} target="_blank" rel="noreferrer">
-                  <Github className="h-4 w-4" /> Source Code
-                </a>
-              </Button>
-            )}
-            {project.liveUrl && (
-              <Button variant="outline" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
-                <a href={project.liveUrl} target="_blank" rel="noreferrer">
-                  <ExternalLink className="h-4 w-4" /> Live Demo
-                </a>
-              </Button>
-            )}
-          </div>
-        </div>
-
-        {/* Hero Image */}
-        <img src={project.imageUrl} alt={project.title} className="w-full h-80 rounded-xl object-cover bg-muted border border-border/50 mb-20" />
-
-        {/* Overview — text left, image right */}
-        <div className="grid md:grid-cols-2 gap-10 items-center mb-20">
-          <div>
-            <h2 className="text-sm font-semibold text-accent uppercase tracking-wider mb-4">Overview</h2>
-            <p className="text-foreground leading-relaxed">{project.fullDescription}</p>
-          </div>
-          <img src={project.imageUrl} alt={`${project.title} overview`} className="w-full h-64 rounded-xl object-cover bg-muted border border-border/50" />
-        </div>
-
-        {/* Problem — image left, text right */}
-        {project.details && (
-          <div className="grid md:grid-cols-2 gap-10 items-center mb-20">
-            <img src={project.imageUrl} alt={`${project.title} problem`} className="w-full h-64 rounded-xl object-cover bg-muted border border-border/50 md:order-1" />
-            <div className="md:order-2">
-              <h2 className="text-sm font-semibold text-accent uppercase tracking-wider mb-4">Problem</h2>
-              <p className="text-foreground leading-relaxed">{project.details}</p>
+        {/* ── Hero Header ── */}
+        <motion.section
+          initial="hidden"
+          animate="visible"
+          className="grid md:grid-cols-2 gap-10 items-center mb-20"
+        >
+          <motion.div variants={fadeUp} custom={0}>
+            <div className="flex items-center gap-3 mb-4">
+              <Badge variant="outline" className="border-accent/30 text-accent text-xs px-3 py-1">
+                {project.category}
+              </Badge>
+              <span className="text-xs text-muted-foreground font-mono">{project.year}</span>
             </div>
-          </div>
+            <h1 className="font-mono text-4xl sm:text-5xl font-bold text-foreground leading-tight">
+              {project.title}
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+              {project.shortDescription}
+            </p>
+            <div className="mt-8 flex gap-3">
+              {project.liveUrl && (
+                <Button className="gap-2 bg-accent text-accent-foreground hover:bg-accent/90 transition-all" asChild>
+                  <a href={project.liveUrl} target="_blank" rel="noreferrer">
+                    <ExternalLink className="h-4 w-4" /> Live Preview
+                  </a>
+                </Button>
+              )}
+              {project.githubUrl && (
+                <Button variant="outline" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
+                  <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                    <Github className="h-4 w-4" /> Source Code
+                  </a>
+                </Button>
+              )}
+            </div>
+          </motion.div>
+          <motion.div variants={fadeUp} custom={1}>
+            <img
+              src={project.imageUrl}
+              alt={project.title}
+              className="w-full aspect-[4/3] rounded-xl object-cover bg-muted border border-border/50"
+            />
+          </motion.div>
+        </motion.section>
+
+        {/* ── Highlights ── */}
+        {project.highlights.length > 0 && (
+          <section className="mb-20">
+            <div className="flex items-center gap-3 mb-8">
+              <Sparkles className="h-4 w-4 text-accent" />
+              <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono">
+                Highlights
+              </h2>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {project.highlights.map((h, i) => (
+                <motion.div
+                  key={i}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={i}
+                  className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-5 text-sm text-foreground leading-relaxed"
+                >
+                  <span className="inline-block w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-bold flex items-center justify-center mb-3">
+                    {i + 1}
+                  </span>
+                  {h}
+                </motion.div>
+              ))}
+            </div>
+          </section>
         )}
 
-        {/* Solution — text left, image right */}
-        {project.notes && (
-          <div className="grid md:grid-cols-2 gap-10 items-center mb-20">
-            <div>
-              <h2 className="text-sm font-semibold text-accent uppercase tracking-wider mb-4">Solution</h2>
-              <p className="text-foreground leading-relaxed">{project.notes}</p>
-            </div>
-            <img src={project.imageUrl} alt={`${project.title} solution`} className="w-full h-64 rounded-xl object-cover bg-muted border border-border/50" />
-          </div>
-        )}
-
-        {/* Technologies */}
-        <div className="mb-20">
-          <h2 className="text-sm font-semibold text-accent uppercase tracking-wider mb-6">Technologies</h2>
-          <div className="flex flex-wrap gap-2">
+        {/* ── Tools & Technologies ── */}
+        <section className="mb-20">
+          <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono mb-8">
+            Tools & Technologies
+          </h2>
+          <div className="flex flex-wrap gap-3 justify-center">
             {project.techStack.map((t) => (
-              <Badge key={t} variant="outline" className="border-accent/20 hover:border-accent/50 transition-colors px-4 py-1.5 text-sm">{t}</Badge>
+              <div
+                key={t}
+                className="flex items-center gap-2.5 rounded-xl border border-border/50 bg-card/30 backdrop-blur-md px-5 py-3 text-sm text-foreground hover:border-accent/40 hover:scale-105 transition-all"
+              >
+                {techIcons[t] && <span className="text-accent">{techIcons[t]}</span>}
+                {t}
+              </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Results / Images */}
-        <div className="mb-20">
-          <h2 className="text-sm font-semibold text-accent uppercase tracking-wider mb-6">Results</h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            <img src={project.imageUrl} alt={`${project.title} result 1`} className="w-full h-56 rounded-xl object-cover bg-muted border border-border/50 hover:border-accent/30 transition-colors" />
-            <img src={project.imageUrl} alt={`${project.title} result 2`} className="w-full h-56 rounded-xl object-cover bg-muted border border-border/50 hover:border-accent/30 transition-colors" />
-            <img src={project.imageUrl} alt={`${project.title} result 3`} className="w-full h-56 rounded-xl object-cover bg-muted border border-border/50 hover:border-accent/30 transition-colors" />
-            <img src={project.imageUrl} alt={`${project.title} result 4`} className="w-full h-56 rounded-xl object-cover bg-muted border border-border/50 hover:border-accent/30 transition-colors" />
-          </div>
-        </div>
+        {/* ── Alternating Content Blocks ── */}
+        {contentBlocks.map((block, i) => {
+          const isReversed = i % 2 !== 0;
+          return (
+            <motion.section
+              key={block.title}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              custom={0}
+              className="grid md:grid-cols-2 gap-10 items-center mb-20"
+            >
+              <div className={isReversed ? "md:order-2" : ""}>
+                <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono mb-4">
+                  {block.title}
+                </h2>
+                <p className="text-foreground leading-relaxed">{block.content}</p>
+              </div>
+              <div className={isReversed ? "md:order-1" : ""}>
+                <img
+                  src={project.imageUrl}
+                  alt={`${project.title} — ${block.title}`}
+                  className="w-full aspect-[4/3] rounded-xl object-cover bg-muted border border-border/50"
+                />
+              </div>
+            </motion.section>
+          );
+        })}
 
-        {/* Bottom CTA */}
-        <div className="text-center pt-10 border-t border-border/30">
-          <p className="text-muted-foreground text-sm mb-4">Interested in this project?</p>
-          <div className="flex justify-center gap-3">
-            {project.githubUrl && (
-              <Button variant="outline" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
-                <a href={project.githubUrl} target="_blank" rel="noreferrer">
-                  <Github className="h-4 w-4" /> View Source
-                </a>
-              </Button>
-            )}
-            {project.liveUrl && (
-              <Button variant="outline" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
-                <a href={project.liveUrl} target="_blank" rel="noreferrer">
-                  <ExternalLink className="h-4 w-4" /> Try Demo
-                </a>
-              </Button>
-            )}
+        {/* ── Explore More Projects ── */}
+        <section className="pt-16 border-t border-border/30">
+          <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono mb-8 text-center">
+            Explore More Projects
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {otherProjects.map((p) => (
+              <Link
+                key={p.id}
+                to={`/project/${p.id}`}
+                className="group rounded-xl border border-border/50 bg-card/30 backdrop-blur-md overflow-hidden hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all"
+              >
+                <img
+                  src={p.imageUrl}
+                  alt={p.title}
+                  className="w-full h-40 object-cover bg-muted"
+                  loading="lazy"
+                />
+                <div className="p-5">
+                  <h3 className="font-bold text-foreground group-hover:text-accent transition-colors">
+                    {p.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                    {p.shortDescription}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
-        </div>
+        </section>
       </div>
     </Layout>
   );
