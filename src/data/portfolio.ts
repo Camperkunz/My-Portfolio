@@ -9,7 +9,8 @@ export const personalInfo = {
   email: "anyanikiforova04@gmail.com",
   phone: "+1 (343) 297-6170",
   address: "Ottawa, ON, Canada",
-  logo: '/favicon.png'
+  logo: '/favicon.png',
+  image: "/anna-photo.jpg",
 };
 
 export const experiences: Experience[] = [
@@ -22,7 +23,6 @@ export const experiences: Experience[] = [
       "Developed custom React components and responsive UI with modern frontend practices.",
       "Used Lovable and other AI tools for rapid prototyping and workflow optimization.",
       "Deployed and managed the project on AWS cloud infrastructure.",
-      "Designed typography, branding systems, and print assets for large-scale events in Ottawa."
     ],
   },
   {
@@ -37,7 +37,7 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    company: "The Canadian Association of Occupational Therapists (CAOT)",
+    company: "The Canadian Association of Occupational Therapists",
     role: "Interactive Media Designer (Co-op)",
     period: "May 2025 — Aug 2025",
     description: [
@@ -55,21 +55,14 @@ export const educations: Education[] = [
     degree: "Interactive Media Design",
     period: "Jan 2024 - Jan 2026",
     description: [
-      "Worked with HTML, CSS, JavaScript and modern frameworks (Vue, React, Angular).",
-      "Designed UI/UX prototypes in Figma and Adobe Creative Suite.",
-      "Used Git and GitHub for version control and collaborative development.",
-      "Built responsive, user-centered web interfaces through team-based projects."
+      "Graduated with honour (GPA: 4.0 / 4.0)"
     ]
   },
   {
     institution: "A. G. Pozdeev Art School",
     degree: "Fine/Studio Arts, General",
     period: "Feb 2019 — May 2022",
-    description: [
-      "Designed and developed a web platform based on a comprehensive report",
-      "Integrated data from over 10 universities and colleges across Canada",
-      "Worked closely with stakeholders to refine UX/UI"
-    ],
+    description: [],
     
   },
 ];

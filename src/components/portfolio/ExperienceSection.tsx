@@ -13,10 +13,10 @@ export default function ExperienceSection() {
             <div key={i} className={`relative flex flex-col md:flex-row ${isLeft ? "md:flex-row" : "md:flex-row-reverse"} mb-12 last:mb-0`}>
               <div className={`md:w-1/2 ${isLeft ? "md:pr-12" : "md:pl-12"} pl-8 md:pl-0`}>
                 <div className="group rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-5 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5">
-                  <p className="text-xs font-mono text-accent">{exp.period}</p>
-                  <h3 className="mt-2 text-lg font-semibold text-foreground">{exp.role}</h3>
-                  <p className="text-sm font-medium text-muted-foreground">{exp.company}</p>
-                  <div className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-xs font-mono text-accent font-mono">{exp.period}</p>
+                  <h3 className="mt-2 text-xl font-semibold text-foreground font-mono">{exp.role}</h3>
+                  <p className="text-md font-medium text-muted-foreground font-mono">{exp.company}</p>
+                  <div className="mt-3 text-md text-muted-foreground leading-relaxed">
                     <ul className="list-disc pl-5">
                       {exp.description.map((line, j) => (
                         <li className="mb-3 transition-all hover:text-foreground hover:pl-0.5" key={j}>{line}</li>

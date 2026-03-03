@@ -18,7 +18,8 @@ import {
   SiAdobepremierepro,
   SiCss3,
   SiHtml5,
-  SiPhp
+  SiWordpress,
+  SiCanva,
 
 } from "react-icons/si";
 import SectionHeader from "./SectionHeader";
@@ -41,7 +42,7 @@ const technicalSkills: Skill[] = [
   { name: "Vite", icon: <SiVite /> },
   { name: "AWS", icon: <SiAmazonwebservices /> },
   { name: "Liquid", icon: <SiShopify /> },
-  { name: "PHP", icon: <SiPhp /> },
+  { name: "Wordpress", icon: <SiWordpress /> },
 
 ];
 
@@ -49,7 +50,7 @@ const designSkills: Skill[] = [
   { name: "Photoshop", icon: <SiAdobephotoshop /> },
   { name: "Illustrator", icon: <SiAdobeillustrator /> },
   { name: "Affinity", icon: <SiAffinity /> },
-  { name: "Canva", icon: <SiGit /> },
+  { name: "Canva", icon: <SiCanva /> },
   { name: "Figma", icon: <SiFigma /> },
   { name: "Blender", icon: <SiBlender /> },
   { name: "Premier Pro", icon: <SiAdobepremierepro /> },
