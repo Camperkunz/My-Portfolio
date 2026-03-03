@@ -48,7 +48,7 @@
     --background: 0 0% 7%;
     --foreground: 0 0% 98%;
 
-    --card: 0 0% 7%;
+    --card: 0 0% 0%;
     --card-foreground: 0 0% 98%;
 
     --popover: 0 0% 7%;
@@ -92,7 +92,7 @@
   body {
     background-color: #050505;
       color: #fff;
-      background-image: radial-gradient(circle at 50% -20%, #3c0808 0, #050505 80%);
+      background-image: radial-gradient(circle at 50% -10%, #3d0909 0, #050505 90%);
       background-repeat: no-repeat;
       background-size: cover;
       background-position: top;
