@@ -82,14 +82,16 @@ export const projects: Project[] = [
       "JWT-based authentication with role management",
     ],
     problem: "Teams needed a lightweight, intuitive tool for managing tasks without the complexity of enterprise solutions.",
+    problemImageUrl: "/portfolio.jpg", // ← replace with your own screenshot
     solution: "Built a streamlined kanban board with real-time sync, focusing on speed and simplicity over feature bloat.",
+    solutionImageUrl: "/portfolio.jpg", // ← replace with your own screenshot
     results: "Achieved sub-100ms interaction latency and a fully responsive interface that works seamlessly across devices.",
+    resultsImageUrl: "/portfolio.jpg", // ← replace with your own screenshot
     techStack: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
     imageUrl: "/portfolio.jpg",
     githubUrl: "https://github.com",
     liveUrl: "https://example.com",
   },
-  // 
   {
     id: "2",
     title: "Shopify E-Commerce Store",
@@ -105,12 +107,13 @@ export const projects: Project[] = [
       "Historical trend comparison views",
     ],
     problem: "Existing weather apps lacked clean data visualization and the ability to compare historical weather patterns.",
+    problemImageUrl: "/unique-website.jpg", // ← replace
     solution: "Created a dashboard-first approach with interactive charts that make weather data intuitive and visually engaging.",
+    solutionImageUrl: "/unique-website.jpg", // ← replace
     techStack: ["Shopify", "Figma", "HTML", "CSS"],
     imageUrl: "/unique-website.jpg",
     liveUrl: "https://uniquefabricpanels.com/",
   },
-  // 
   {
     id: "3",
     title: "Loop Studios",
@@ -126,13 +129,14 @@ export const projects: Project[] = [
       "Fully responsive mobile-first design",
     ],
     problem: "Small businesses needed a simple, fast storefront without the overhead of complex e-commerce platforms.",
+    problemImageUrl: "/loopstudios.jpg", // ← replace
     solution: "Built a lightweight storefront with a focus on speed, clean UX, and essential e-commerce features only.",
+    solutionImageUrl: "/loopstudios.jpg", // ← replace
     techStack: ["JavaScript", "HTML", "CSS"],
     imageUrl: "/loopstudios.jpg",
     githubUrl: "https://github.com/Camperkunz/Loopstudios",
     liveUrl: "https://camperkunz.github.io/Loopstudios/",
   },
-  // 
   {
     id: "4",
     title: "Advocacy Website for CAOT",
@@ -148,12 +152,13 @@ export const projects: Project[] = [
       "Fully responsive mobile-first design",
     ],
     problem: "Small businesses needed a simple, fast storefront without the overhead of complex e-commerce platforms.",
+    problemImageUrl: "/advocacy.jpg", // ← replace
     solution: "Built a lightweight storefront with a focus on speed, clean UX, and essential e-commerce features only.",
+    solutionImageUrl: "/advocacy.jpg", // ← replace
     techStack: ["Squarespace", "Figma", "JavaScript", "HTML", "CSS"],
     imageUrl: "/advocacy.jpg",
     liveUrl: "https://www.figma.com/proto/lnRSLrif5eREP6cWtG3tlB/Advocacy?page-id=0%3A1&node-id=0-188&viewport=474%2C376%2C0.11&t=ZRQUcjHabGhCNG7c-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=0%3A188",
   },
-  // 
   {
     id: "5",
     title: "Notification App",
@@ -169,7 +174,9 @@ export const projects: Project[] = [
       "Handlebars templating for flexible layouts",
     ],
     problem: "Developers wanted a quick way to generate portfolio sites without manually coding each one from scratch.",
+    problemImageUrl: "/notifications.jpg", // ← replace
     solution: "Built a CLI that reads a simple JSON file and generates a fully styled, deployable portfolio in seconds.",
+    solutionImageUrl: "/notifications.jpg", // ← replace
     techStack: ["React", "Vite", "Firebase", "JavaScript", "CSS"],
     imageUrl: "/notifications.jpg",
     liveUrl: "https://camperkunz.github.io/Notifications-App/",
