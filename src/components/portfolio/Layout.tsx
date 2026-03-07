@@ -1,4 +1,5 @@
 import { ReactNode, useState, useEffect } from "react";
+import ScrollToTopButton from "@/components/portfolio/ScrollToTopButton";
 import { personalInfo } from "@/data/portfolio";
 import { Github, Linkedin, Mail, Menu, Moon, Sun } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
