@@ -2,16 +2,18 @@ import { projects } from "@/data/portfolio";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import SectionHeader from "./SectionHeader";
 
 export default function ProjectsSection() {
+  const featured = projects.slice(0, 3);
+
   return (
     <section id="projects" className="mx-auto max-w-7xl px-6 py-24">
       <SectionHeader preTitle="What I've built" title="Projects" />
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p) => (
+        {featured.map((p) => (
           <Card
             key={p.id}
             className="group flex flex-col border-border/50 bg-card/30 backdrop-blur-md transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
@@ -51,6 +53,18 @@ export default function ProjectsSection() {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="mt-12 flex justify-center">
+        <Button
+          variant="outline"
+          className="gap-2 border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all"
+          asChild
+        >
+          <Link to="/projects">
+            Explore All Projects <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Button>
       </div>
     </section>
   );

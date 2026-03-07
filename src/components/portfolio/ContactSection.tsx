@@ -2,64 +2,64 @@ import { personalInfo } from "@/data/portfolio";
 import { Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 import SectionHeader from "./SectionHeader";
 
+function InfoBlock({ icon: Icon, label, children }: { icon: React.ElementType; label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col items-center gap-3 rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-8">
+      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
+        <Icon className="h-5 w-5 text-accent" />
+      </div>
+      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{label}</span>
+      <div className="text-base font-medium text-foreground">{children}</div>
+    </div>
+  );
+}
+
 export default function ContactSection() {
   return (
     <section id="contact" className="w-full px-6 py-24">
-      <div className="mx-auto max-w-3xl text-center">
+      <div className="mx-auto max-w-4xl">
         <SectionHeader preTitle="Let's connect" title="Contact" />
 
-        <div className="mt-12 rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-10 space-y-10">
-          {/* Contact Info */}
-          <div className="space-y-5">
-            <h3 className="text-xs font-semibold text-accent uppercase tracking-widest">Get in Touch</h3>
-            <div className="flex flex-col items-center gap-4">
-              <a
-                href={`mailto:${personalInfo.email}`}
-                className="inline-flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-accent"
-              >
-                <Mail className="h-4 w-4 text-accent" />
-                {personalInfo.email}
-              </a>
-              <a
-                href={`tel:${personalInfo.phone}`}
-                className="inline-flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-accent"
-              >
-                <Phone className="h-4 w-4 text-accent" />
-                {personalInfo.phone}
-              </a>
-              <span className="inline-flex items-center gap-3 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4 text-accent" />
-                {personalInfo.address}
-              </span>
-            </div>
-          </div>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <InfoBlock icon={Mail} label="Email">
+            <a href={`mailto:${personalInfo.email}`} className="transition-colors hover:text-accent">
+              {personalInfo.email}
+            </a>
+          </InfoBlock>
 
-          {/* Divider */}
-          <div className="h-px w-24 mx-auto bg-border/50" />
+          <InfoBlock icon={Phone} label="Phone">
+            <a href={`tel:${personalInfo.phone}`} className="transition-colors hover:text-accent">
+              {personalInfo.phone}
+            </a>
+          </InfoBlock>
 
-          {/* Social Links */}
-          <div className="space-y-5">
-            <h3 className="text-xs font-semibold text-accent uppercase tracking-widest">Social</h3>
-            <div className="flex justify-center gap-6">
-              <a
-                href={personalInfo.github}
-                target="_blank"
-                rel="noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
-                aria-label="GitHub"
-              >
-                <Github className="h-4 w-4" />
-              </a>
-              <a
-                href={personalInfo.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/50 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-4 w-4" />
-              </a>
-            </div>
+          <InfoBlock icon={MapPin} label="Location">
+            <span>{personalInfo.address}</span>
+          </InfoBlock>
+        </div>
+
+        {/* Social Links */}
+        <div className="mt-10 flex flex-col items-center gap-4">
+          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Social</span>
+          <div className="flex justify-center gap-4">
+            <a
+              href={personalInfo.github}
+              target="_blank"
+              rel="noreferrer"
+              className="flex h-12 w-12 items-center justify-center rounded-xl border border-border/50 bg-card/30 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
+              aria-label="GitHub"
+            >
+              <Github className="h-5 w-5" />
+            </a>
+            <a
+              href={personalInfo.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="flex h-12 w-12 items-center justify-center rounded-xl border border-border/50 bg-card/30 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="h-5 w-5" />
+            </a>
           </div>
         </div>
       </div>
