@@ -4,16 +4,25 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink, Github, Sparkles } from "lucide-react";
 import Layout from "@/components/portfolio/Layout";
-import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs, SiNextdotjs, SiStripe } from "react-icons/si";
+import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs, SiNextdotjs, SiStripe, SiVercel, SiFigma, SiSquarespace, SiShopify, SiCss3, SiHtml5, SiJavascript, SiVite, SiFirebase  } from "react-icons/si";
 import { motion } from "framer-motion";
 
 const techIcons: Record<string, React.ReactNode> = {
-  React: <SiReact className="h-5 w-5" />,
+  React: <SiReact className="h-5 w-5" />, 
   TypeScript: <SiTypescript className="h-5 w-5" />,
   "Tailwind CSS": <SiTailwindcss className="h-5 w-5" />,
   "Node.js": <SiNodedotjs className="h-5 w-5" />,
   "Next.js": <SiNextdotjs className="h-5 w-5" />,
   Stripe: <SiStripe className="h-5 w-5" />,
+  Vercel: <SiVercel className="h-5 w-5" />,
+  Figma: <SiFigma className="h-5 w-5" />,
+  Squarespace: <SiSquarespace className="h-5 w-5" />,
+  Shopify: <SiShopify className="h-5 w-5" />,
+  "CSS": <SiCss3 className="h-5 w-5" />,
+  "HTML": <SiHtml5 className="h-5 w-5" />,
+  "JavaScript": <SiJavascript className="h-5 w-5" />,
+  Vite: <SiVite className="h-5 w-5" />,
+  Firebase: <SiFirebase className="h-5 w-5" />,
 };
 
 const fadeUp = {
@@ -51,10 +60,10 @@ export default function ProjectPage() {
 
   return (
     <Layout>
-      <div className="mx-auto max-w-6xl px-6 py-16">
+      <div className="mx-auto max-w-6xl px-6 py-16 mt-10">
         {/* Back */}
         <Link to="/#projects">
-          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground mb-8 transition-colors hover:text-accent">
+          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground mb-8 transition-colors hover:text-white">
             <ArrowLeft className="h-4 w-4" /> Back to projects
           </Button>
         </Link>
@@ -63,7 +72,7 @@ export default function ProjectPage() {
         <motion.section
           initial="hidden"
           animate="visible"
-          className="grid md:grid-cols-2 gap-10 items-center mb-20"
+          className="grid md:grid-cols-2 gap-10 items-center mb-40"
         >
           <motion.div variants={fadeUp} custom={0}>
             <div className="flex items-center gap-3 mb-4">
@@ -99,7 +108,7 @@ export default function ProjectPage() {
             <img
               src={project.imageUrl}
               alt={project.title}
-              className="w-full aspect-[4/3] rounded-xl object-cover bg-muted border border-border/50"
+              className="w-full aspect-[3/2] rounded-xl object-cover bg-muted border border-border/50"
             />
           </motion.div>
         </motion.section>
@@ -163,7 +172,7 @@ export default function ProjectPage() {
               whileInView="visible"
               viewport={{ once: true }}
               custom={0}
-              className="grid md:grid-cols-2 gap-10 items-center mb-20"
+              className="grid md:grid-cols-2 gap-10 items-center mb-40"
             >
               <div className={isReversed ? "md:order-2" : ""}>
                 <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono mb-4">
@@ -175,7 +184,7 @@ export default function ProjectPage() {
                 <img
                   src={project.imageUrl}
                   alt={`${project.title} — ${block.title}`}
-                  className="w-full aspect-[4/3] rounded-xl object-cover bg-muted border border-border/50"
+                  className="w-full aspect-[3/2] rounded-xl object-cover bg-muted border border-border/50"
                 />
               </div>
             </motion.section>

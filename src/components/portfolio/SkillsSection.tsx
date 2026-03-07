@@ -20,6 +20,7 @@ import {
   SiHtml5,
   SiWordpress,
   SiCanva,
+  SiVercel
 
 } from "react-icons/si";
 import SectionHeader from "./SectionHeader";
@@ -43,6 +44,7 @@ const technicalSkills: Skill[] = [
   { name: "AWS", icon: <SiAmazonwebservices /> },
   { name: "Liquid", icon: <SiShopify /> },
   { name: "Wordpress", icon: <SiWordpress /> },
+  { name: "Vercel", icon: <SiVercel /> },
 
 ];
 

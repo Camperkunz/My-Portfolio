@@ -18,7 +18,7 @@ export default function ProjectsSection() {
           >
             <Link to={`/project/${p.id}`}>
               <img src={p.imageUrl} alt={p.title}
-                className="h-40 w-full rounded-t-lg object-cover bg-muted" loading="lazy" />
+                className="h-60 w-full rounded-t-lg object-cover bg-muted" loading="lazy" />
             </Link>
             <CardContent className="flex flex-col flex-1 p-8">
               <div className="flex-1">
