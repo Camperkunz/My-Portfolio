@@ -124,46 +124,50 @@ export const projects: Project[] = [
   // 
   {
     id: "3",
-    title: "Loop Studios",
-    shortDescription: "Frontend Mentor Challenge",
+    title: "Loopstudios Landing Page",
+    shortDescription: "A fully responsive landing page for a VR company built as part of a Frontend Mentor challenge, focusing on clean code.",
     fullDescription:
-      "A minimal e-commerce storefront featuring product listings, filtering, cart management, and a mock checkout flow. Fully responsive with optimistic UI updates.",
+      "This project is a responsive landing page built as part of a Frontend Mentor challenge. The goal was to recreate a provided design as accurately as possible while maintaining clean, semantic code and responsive behavior across different screen sizes. All HTML, CSS, and JavaScript were written from scratch based on the design reference.The project focused on translating a static design into a functional webpage.",
     year: "2025",
     category: "Frontend Development",
     highlights: [
-      "Optimistic UI updates for cart interactions",
-      "Advanced product filtering and search",
-      "Stripe integration for payment processing",
-      "Fully responsive mobile-first design",
+      "Pixel-accurate recreation of the original design",
+      "Fully responsive layout for mobile and desktop",
+      "Interactive UI elements built with vanilla JavaScript",
+      "Clean, semantic HTML structure and well-organized CSS"
     ],
-    problem: "Small businesses needed a simple, fast storefront without the overhead of complex e-commerce platforms.",
+    problem: "The challenge was to accurately translate a static design into a responsive webpage while keeping the code clean, semantic, and maintainable.",
     problemImageUrl: "/loopstudios.jpg", // ← replace
-    solution: "Built a lightweight storefront with a focus on speed, clean UX, and essential e-commerce features only.",
+    solution: "I built the page using HTML, CSS, and vanilla JavaScript, implementing the layout with Flexbox and Grid and carefully matching the provided design. Responsive breakpoints were added to ensure the layout works smoothly across mobile and desktop devices.",
     solutionImageUrl: "/loopstudios.jpg", // ← replace
+    results: "The final result closely matches the original design while maintaining clean, structured code and responsive behavior. The project helped strengthen my skills in layout implementation, responsive design, and writing organized frontend code.",
+    resultsImageUrl: "/loopstudios.jpg", // ← replace
     techStack: ["JavaScript", "HTML", "CSS"],
     imageUrl: "/loopstudios.jpg",
-    githubUrl: "https://github.com/Camperkunz/Loopstudios",
+    githubUrl: "https://github.com/niki0012A/Loopstudios-Website",
     liveUrl: "https://camperkunz.github.io/Loopstudios/",
   },
   // 
   {
     id: "4",
     title: "Advocacy Website for CAOT",
-    shortDescription: "Minimal storefront with cart management, product filtering, and a streamlined checkout flow.",
+    shortDescription: "A website redesign and prototype for an advocacy initiative by CAOT, focusing on modernizing the brand and improving the structure and clarity of the content.",
     fullDescription:
-      "A minimal e-commerce storefront featuring product listings, filtering, cart management, and a mock checkout flow. Fully responsive with optimistic UI updates.",
+      "This project involved designing and prototyping a new advocacy website for CAOT. Since the project had not yet been launched publicly, the main focus was on research, prototyping, and developing a strong visual direction for the platform. I worked primarily on the design side, rethinking the existing brand presentation and creating a clearer, more modern visual identity. After the design phase, I began implementing the website in Squarespace, using custom code and platform customization to match the design as closely as possible.",
     year: "2025",
     category: "Web Design & Development",
     highlights: [
-      "Optimistic UI updates for cart interactions",
-      "Advanced product filtering and search",
-      "Stripe integration for payment processing",
-      "Fully responsive mobile-first design",
+      "Designed the overall UI and layout for an advocacy-focused website",
+      "Developed interactive prototypes to test structure and user flow",
+      "Refined and modernized elements of the existing brand presentation",
+      "Implemented the design in Squarespace with custom code and styling",
     ],
-    problem: "Small businesses needed a simple, fast storefront without the overhead of complex e-commerce platforms.",
+    problem: "The organization needed a dedicated advocacy website that would clearly communicate its mission, present information in a structured way, and align better with modern web design standards.",
     problemImageUrl: "/advocacy.jpg", // ← replace
-    solution: "Built a lightweight storefront with a focus on speed, clean UX, and essential e-commerce features only.",
+    solution: "I designed a new visual direction for the website and created prototypes to establish clear page layouts and user flows. After finalizing the design approach, I began implementing the website in Squarespace, using custom code and platform customization to translate the design into a functional site.",
     solutionImageUrl: "/advocacy.jpg", // ← replace
+    results: "The project produced a complete design and working site structure ready for launch, giving the organization a clearer and more modern platform for communicating its advocacy initiatives once published.",
+    resultsImageUrl: "/advocacy.jpg", // ← replace
     techStack: ["Squarespace", "Figma", "JavaScript", "HTML", "CSS"],
     imageUrl: "/advocacy.jpg",
     liveUrl: "https://www.figma.com/proto/lnRSLrif5eREP6cWtG3tlB/Advocacy?page-id=0%3A1&node-id=0-188&viewport=474%2C376%2C0.11&t=ZRQUcjHabGhCNG7c-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=0%3A188",
@@ -171,22 +175,25 @@ export const projects: Project[] = [
   // 
   {
     id: "5",
-    title: "Notification App",
-    shortDescription: "CLI tool to scaffold developer portfolios from a JSON config with multiple themes.",
+    title: "Notifications App",
+    shortDescription: "A small React application for managing notifications, built as a final semester project to demonstrate frontend development and UI design skills.",
     fullDescription:
-      "A command-line tool that generates static portfolio websites from a JSON config file. Supports multiple themes and deployment to GitHub Pages.",
+      "This project is a micro web application built with React and Vite as part of a final semester assignment. The goal was to design and develop a clean, functional interface for managing notifications while practicing component-based architecture and state management in React. The application displays a list of notifications and allows users to interact with them by deleting individual items or clearing the entire list.",
     year: "2025",
     category: "Personal Project",
     highlights: [
-      "JSON-based configuration for easy customization",
-      "Multiple built-in themes",
-      "One-command deployment to GitHub Pages",
-      "Handlebars templating for flexible layouts",
+      "Built a notification management interface using React",
+      "Implemented dynamic notification count with React state",
+      "Added functionality to remove individual notifications",
+      "Implemented “clear all” functionality for quick actions",
+      "Created a responsive layout for different screen sizes",
     ],
-    problem: "Developers wanted a quick way to generate portfolio sites without manually coding each one from scratch.",
+    problem: "The assignment required building a small interactive application that demonstrates frontend development fundamentals such as component structure, state management, and user interaction.",
     problemImageUrl: "/notifications.jpg", // ← replace
-    solution: "Built a CLI that reads a simple JSON file and generates a fully styled, deployable portfolio in seconds.",
+    solution: "I developed a React-based application that displays notifications in a structured interface and allows users to manage them through simple actions like deleting individual notifications or clearing the entire list. The project was built using Vite for fast development and organized into reusable components.",
     solutionImageUrl: "/notifications.jpg", // ← replace
+    results: "The result is a clean, interactive micro application that demonstrates core React concepts and UI design skills. You can explore the live version of the project and interact with the notifications yourself.",
+    resultsImageUrl: "/notifications.jpg", // ← replace
     techStack: ["React", "Vite", "Firebase", "JavaScript", "CSS"],
     imageUrl: "/notifications.jpg",
     liveUrl: "https://camperkunz.github.io/Notifications-App/",

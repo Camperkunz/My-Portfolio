@@ -36,7 +36,7 @@ function Navbar() {
   };
 
   return (
-    <nav className={`fixed top-0 z-40 w-full transition-all duration-300  ${scrolled ? "border-b bg-background/90 backdrop-blur-md shadow-sm" : "bg-transparent"}`}>
+    <nav className={`fixed top-0 z-40 w-full transition-all duration-300  ${scrolled ? "border-b bg-background/80 backdrop-blur-lg shadow-sm" : "bg-transparent"}`}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <a href="/#" className="font-mono text-sm font-bold tracking-tight text-foreground">
           <img src={personalInfo.logo} alt="Logo" className="h-9 w-9 logo" />
@@ -125,7 +125,7 @@ function Footer() {
           </a>
         </div>
 
-        <p className="text-xs text-muted-foreground/50">© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground/50">© {new Date().getFullYear()} {personalInfo.name}. Made with love ❤️</p>
       </div>
     </footer>
   );

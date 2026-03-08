@@ -45,7 +45,7 @@ export default function ProjectsSection() {
                 {p.liveUrl && (
                   <Button variant="outline" size="sm" className="gap-1.5 text-xs border-accent/20 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
                     <a href={p.liveUrl} target="_blank" rel="noreferrer">
-                      <ExternalLink className="h-3.5 w-3.5" /> Demo
+                      <ExternalLink className="h-3.5 w-3.5" /> Live Preview
                     </a>
                   </Button>
                 )}
