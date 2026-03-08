@@ -151,6 +151,34 @@ export const projects: Project[] = [
   // 
   {
     id: "4",
+    title: "Contact Book App",
+    shortDescription: "A single-page contact management application built with Vue, allowing users to add, edit, search, and manage contacts stored in local storage.",
+    fullDescription:
+      "This project is a single-page contact management application developed as part of a coursework assignment. The goal was to build a functional web app using Vue, Vue Router, and Vite while implementing persistent data storage through the browser’s local storage. The application allows users to browse a list of contacts, search by name, and manage contact information through a simple interface.Users can create new contacts, view detailed information, edit existing entries, and delete contacts when needed.",
+    overviewImageUrl: "", // ← replace with your own screenshot
+    year: "2025",
+    category: "Personal Project",
+    highlights: [
+      "Built a single-page application using Vue 3 and Vue Router",
+      "Implemented contact search and alphabetical sorting",
+      "Added functionality to remove individual contacts",
+      "Implemented delete functionality with automatic UI updates",
+      "Stored and persisted data using browser local storage",
+    ],
+    problem: "The assignment required creating a fully functional contact management application that demonstrates SPA architecture, client-side routing, and persistent data storage.",
+    problemImageUrl: "/contact-problem.jpg", // ← replace
+    solution: "I built the application using Vue 3 and Vue Router, structuring the project into multiple views and reusable components. Local storage was used to store and persist contact data, while forms and interactive elements were implemented to allow users to add, edit, search, and delete contacts easily.",
+    solutionImageUrl: "/contact-solution.jpg", // ← replace
+    results: "The result is a simple and intuitive contact management application that demonstrates core frontend concepts such as client-side routing, state management, and data persistence. The project strengthened my understanding of building structured SPAs using Vue.",
+    resultsImageUrl: "/contact-result.jpg", // ← replace
+    techStack: ["Vue", "Vite", "JavaScript", "CSS"],
+    imageUrl: "/contact-book.jpg",
+    liveUrl: "https://niki0012a.github.io/Vue-Contact-Book/",
+    githubUrl: "https://github.com/niki0012A/Vue-Contact-Book",
+  },
+  // 
+  {
+    id: "5",
     title: "Advocacy Website for CAOT",
     shortDescription: "A website redesign and prototype for an advocacy initiative by CAOT, focusing on modernizing the brand and improving the structure and clarity of the content.",
     fullDescription:
@@ -176,11 +204,11 @@ export const projects: Project[] = [
   },
   // 
   {
-    id: "5",
+    id: "6",
     title: "Notifications App",
-    shortDescription: "A small React application for managing notifications, built as a final semester project to demonstrate frontend development and UI design skills.",
+    shortDescription: "A small React application for managing notifications, built as a college project to demonstrate frontend development and UI design skills.",
     fullDescription:
-      "This project is a micro web application built with React and Vite as part of a final semester assignment. The goal was to design and develop a clean, functional interface for managing notifications while practicing component-based architecture and state management in React. The application displays a list of notifications and allows users to interact with them by deleting individual items or clearing the entire list.",
+      "This project is a micro web application built with React and Vite as part of a college assignment. The goal was to design and develop a clean, functional interface for managing notifications while practicing component-based architecture and state management in React. The application displays a list of notifications and allows users to interact with them by deleting individual items or clearing the entire list.",
     overviewImageUrl: "/notification-overview.jpg", // ← replace with your own screenshot
     year: "2025",
     category: "Personal Project",
@@ -197,7 +225,7 @@ export const projects: Project[] = [
     solutionImageUrl: "/notification-solution.jpg", // ← replace
     results: "The result is a clean, interactive micro application that demonstrates core React concepts and UI design skills. You can explore the live version of the project and interact with the notifications yourself.",
     resultsImageUrl: "/notification-result.jpg", // ← replace
-    techStack: ["React", "Vite", "Firebase", "JavaScript", "CSS"],
+    techStack: ["React", "Vite", "JavaScript", "CSS"],
     imageUrl: "/notifications.jpg",
     liveUrl: "https://camperkunz.github.io/Notifications-App/",
     githubUrl: "https://github.com/Camperkunz/Notifications-App",
