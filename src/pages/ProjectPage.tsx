@@ -37,7 +37,10 @@ const fadeUp = {
 export default function ProjectPage() {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
-  const otherProjects = projects.filter((p) => p.id !== id).slice(0, 3);
+  const otherProjects = projects
+    .filter((p) => p.id !== id)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
 
   if (!project) {
     return (
