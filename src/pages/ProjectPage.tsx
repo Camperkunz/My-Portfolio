@@ -115,7 +115,7 @@ export default function ProjectPage() {
               {project.highlights.map((h, i) => (
                 <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}
                   className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-5 text-sm text-foreground leading-relaxed">
-                  <span className="inline-flex w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-bold items-center justify-center mb-3">
+                  <span className="inline-block w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-bold flex items-center justify-center mb-3">
                     {i + 1}
                   </span>
                   {h}

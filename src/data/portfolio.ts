@@ -71,49 +71,57 @@ export const projects: Project[] = [
   {
     id: "1",
     title: "Portfolio Website",
-    shortDescription: "A modern, responsive portfolio website showcasing my skills and projects.",
+    shortDescription: "A personal portfolio website built with React and Tailwind CSS to showcase my projects, skills, and approach to frontend development.",
     fullDescription:
-      "A sleek, responsive portfolio website built with React and TypeScript, featuring a clean design and smooth animations. Showcases my work, experience, and skills in a visually appealing manner.",
+      "This portfolio website is my first full project after graduation and represents a combination of manual development and AI-assisted workflows. The goal was to create a clean, modern space where I could present my work and demonstrate my frontend development skills. The project allowed me to experiment with React, components, layouts, and animation while translating my own ideas into a working product.",
     year: "2026",
     category: "Personal Project",
     highlights: [
-      "Drag-and-drop kanban boards with smooth animations",
-      "Real-time collaboration using WebSockets",
-      "JWT-based authentication with role management",
+      "Designed and developed a custom portfolio from scratch",
+      "Built with React, TypeScript, and Tailwind CSS",
+      "Fully responsive layout optimized for desktop, tablet, and mobile",
+      "Reusable component-based architecture",
+      "Smooth UI interactions and modern visual design",
+      "AI-assisted workflow combined with manual development",
     ],
-    problem: "Teams needed a lightweight, intuitive tool for managing tasks without the complexity of enterprise solutions.",
+    problem: "As a junior frontend developer, I needed a professional way to present my projects, skills, and development approach to potential employers. Existing portfolio templates felt generic and did not reflect my personal style or the combination of creativity and coding that defines my work",
     problemImageUrl: "/portfolio.jpg", // ← replace with your own screenshot
-    solution: "Built a streamlined kanban board with real-time sync, focusing on speed and simplicity over feature bloat.",
+    solution: "I designed and developed a custom portfolio website from scratch using React and Tailwind CSS. The focus was on simplicity, readability, and a clean visual structure that highlights projects while keeping navigation intuitive.",
     solutionImageUrl: "/portfolio.jpg", // ← replace with your own screenshot
-    results: "Achieved sub-100ms interaction latency and a fully responsive interface that works seamlessly across devices.",
+    results: "The result is a fast, responsive portfolio website that clearly showcases my projects, skills, and development style. It also became a valuable learning experience that strengthened my React workflow, UI design decisions, and overall frontend architecture skills. And of course - you’re already here, so feel free to explore the site and see the results for yourself!",
     resultsImageUrl: "/portfolio.jpg", // ← replace with your own screenshot
     techStack: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
     imageUrl: "/portfolio.jpg",
     githubUrl: "https://github.com",
     liveUrl: "https://example.com",
   },
+  // 
   {
     id: "2",
     title: "Shopify E-Commerce Store",
-    shortDescription: "A fully functional e-commerce store ",
+    shortDescription: "A custom Shopify store designed for a small fabric business to relaunch their online presence and convert social media traffic into sales.",
     fullDescription:
-      "A complete Shopify e-commerce website featuring a modern design, seamless user experience, and robust functionality for managing products, orders, and inventory.",
+      "This project focused on rebuilding the online presence of a small fabric business whose previous website was outdated and difficult to use. The goal was to migrate the brand from primarily selling through social media to a fully functional online store. I designed the entire website and built the store on Shopify, focusing on clear product presentation, intuitive navigation, and strong SEO foundations.",
     year: "2025",
     category: "Frontend Development",
     highlights: [
-      "Interactive charts with Recharts for data visualization",
-      "Geolocation-based automatic weather detection",
-      "7-day forecast with hourly breakdowns",
-      "Historical trend comparison views",
+      "Designed the complete UI and structure of the e-commerce store",
+      "Built and customized a Shopify theme using Liquid",
+      "Created custom sections and code blocks for additional flexibility",
+      "Implemented SEO best practices for improved search visibility",
+
     ],
-    problem: "Existing weather apps lacked clean data visualization and the ability to compare historical weather patterns.",
+    problem: "The business relied mostly on social media to sell products, while their existing website was outdated, slow, and difficult to navigate. It failed to properly showcase the products and did not support a smooth online shopping experience.",
     problemImageUrl: "/unique-website.jpg", // ← replace
-    solution: "Created a dashboard-first approach with interactive charts that make weather data intuitive and visually engaging.",
+    solution: "I redesigned the entire website and migrated the store to Shopify, creating a clean and intuitive shopping experience. The project included designing the layout, improving the content structure, organizing collections, and implementing SEO strategies. Custom Liquid code and theme modifications were used to adapt the Shopify theme to the specific needs of the business and allow more flexibility in presenting products.",
     solutionImageUrl: "/unique-website.jpg", // ← replace
+    results: "The new website provides the business with a modern, professional online store that properly showcases their products and supports online sales. The improved structure, SEO optimization, and clear product organization make it easier for customers to discover fabrics and complete purchases, while giving the business a scalable platform for future growth.",
+    resultsImageUrl: "/unique-website.jpg", // ← replace
     techStack: ["Shopify", "Figma", "HTML", "CSS"],
     imageUrl: "/unique-website.jpg",
     liveUrl: "https://uniquefabricpanels.com/",
   },
+  // 
   {
     id: "3",
     title: "Loop Studios",
@@ -137,6 +145,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/Camperkunz/Loopstudios",
     liveUrl: "https://camperkunz.github.io/Loopstudios/",
   },
+  // 
   {
     id: "4",
     title: "Advocacy Website for CAOT",
@@ -159,6 +168,7 @@ export const projects: Project[] = [
     imageUrl: "/advocacy.jpg",
     liveUrl: "https://www.figma.com/proto/lnRSLrif5eREP6cWtG3tlB/Advocacy?page-id=0%3A1&node-id=0-188&viewport=474%2C376%2C0.11&t=ZRQUcjHabGhCNG7c-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=0%3A188",
   },
+  // 
   {
     id: "5",
     title: "Notification App",
