@@ -74,6 +74,7 @@ export const projects: Project[] = [
     shortDescription: "A personal portfolio website built with React and Tailwind CSS to showcase my projects, skills, and approach to frontend development.",
     fullDescription:
       "This portfolio website is my first full project after graduation and represents a combination of manual development and AI-assisted workflows. The goal was to create a clean, modern space where I could present my work and demonstrate my frontend development skills. The project allowed me to experiment with React, components, layouts, and animation while translating my own ideas into a working product.",
+    overviewImageUrl: "/portfolio-overview.jpg", // ← replace with your own screenshot
     year: "2026",
     category: "Personal Project",
     highlights: [
@@ -85,11 +86,9 @@ export const projects: Project[] = [
       "AI-assisted workflow combined with manual development",
     ],
     problem: "As a junior frontend developer, I needed a professional way to present my projects, skills, and development approach to potential employers. Existing portfolio templates felt generic and did not reflect my personal style or the combination of creativity and coding that defines my work",
-    problemImageUrl: "/portfolio.jpg", // ← replace with your own screenshot
+    problemImageUrl: "/portfolio-problem.jpg", // ← replace with your own screenshot
     solution: "I designed and developed a custom portfolio website from scratch using React and Tailwind CSS. The focus was on simplicity, readability, and a clean visual structure that highlights projects while keeping navigation intuitive.",
-    solutionImageUrl: "/portfolio.jpg", // ← replace with your own screenshot
-    results: "The result is a fast, responsive portfolio website that clearly showcases my projects, skills, and development style. It also became a valuable learning experience that strengthened my React workflow, UI design decisions, and overall frontend architecture skills. And of course - you’re already here, so feel free to explore the site and see the results for yourself!",
-    resultsImageUrl: "/portfolio.jpg", // ← replace with your own screenshot
+    solutionImageUrl: "/portfolio-solution.jpg", // ← replace with your own screenshot
     techStack: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
     imageUrl: "/portfolio.jpg",
     githubUrl: "https://github.com",
@@ -102,6 +101,7 @@ export const projects: Project[] = [
     shortDescription: "A custom Shopify store designed for a small fabric business to relaunch their online presence and convert social media traffic into sales.",
     fullDescription:
       "This project focused on rebuilding the online presence of a small fabric business whose previous website was outdated and difficult to use. The goal was to migrate the brand from primarily selling through social media to a fully functional online store. I designed the entire website and built the store on Shopify, focusing on clear product presentation, intuitive navigation, and strong SEO foundations.",
+    overviewImageUrl: "", // ← replace with your own screenshot
     year: "2025",
     category: "Frontend Development",
     highlights: [
@@ -112,11 +112,11 @@ export const projects: Project[] = [
 
     ],
     problem: "The business relied mostly on social media to sell products, while their existing website was outdated, slow, and difficult to navigate. It failed to properly showcase the products and did not support a smooth online shopping experience.",
-    problemImageUrl: "/unique-website.jpg", // ← replace
+    problemImageUrl: "/unique-problem.jpg", // ← replace
     solution: "I redesigned the entire website and migrated the store to Shopify, creating a clean and intuitive shopping experience. The project included designing the layout, improving the content structure, organizing collections, and implementing SEO strategies. Custom Liquid code and theme modifications were used to adapt the Shopify theme to the specific needs of the business and allow more flexibility in presenting products.",
-    solutionImageUrl: "/unique-website.jpg", // ← replace
+    solutionImageUrl: "/unique-solution.jpg", // ← replace
     results: "The new website provides the business with a modern, professional online store that properly showcases their products and supports online sales. The improved structure, SEO optimization, and clear product organization make it easier for customers to discover fabrics and complete purchases, while giving the business a scalable platform for future growth.",
-    resultsImageUrl: "/unique-website.jpg", // ← replace
+    resultsImageUrl: "/unique-results.jpg", // ← replace
     techStack: ["Shopify", "Figma", "HTML", "CSS"],
     imageUrl: "/unique-website.jpg",
     liveUrl: "https://uniquefabricpanels.com/",
@@ -128,6 +128,7 @@ export const projects: Project[] = [
     shortDescription: "A fully responsive landing page for a VR company built as part of a Frontend Mentor challenge, focusing on clean code.",
     fullDescription:
       "This project is a responsive landing page built as part of a Frontend Mentor challenge. The goal was to recreate a provided design as accurately as possible while maintaining clean, semantic code and responsive behavior across different screen sizes. All HTML, CSS, and JavaScript were written from scratch based on the design reference.The project focused on translating a static design into a functional webpage.",
+    overviewImageUrl: "", // ← replace with your own screenshot
     year: "2025",
     category: "Frontend Development",
     highlights: [
@@ -137,11 +138,11 @@ export const projects: Project[] = [
       "Clean, semantic HTML structure and well-organized CSS"
     ],
     problem: "The challenge was to accurately translate a static design into a responsive webpage while keeping the code clean, semantic, and maintainable.",
-    problemImageUrl: "/loopstudios.jpg", // ← replace
+    problemImageUrl: "/loop-problem.jpg", // ← replace
     solution: "I built the page using HTML, CSS, and vanilla JavaScript, implementing the layout with Flexbox and Grid and carefully matching the provided design. Responsive breakpoints were added to ensure the layout works smoothly across mobile and desktop devices.",
-    solutionImageUrl: "/loopstudios.jpg", // ← replace
+    solutionImageUrl: "/loop-solution.jpg", // ← replace
     results: "The final result closely matches the original design while maintaining clean, structured code and responsive behavior. The project helped strengthen my skills in layout implementation, responsive design, and writing organized frontend code.",
-    resultsImageUrl: "/loopstudios.jpg", // ← replace
+    resultsImageUrl: "/loop-result.jpg", // ← replace
     techStack: ["JavaScript", "HTML", "CSS"],
     imageUrl: "/loopstudios.jpg",
     githubUrl: "https://github.com/niki0012A/Loopstudios-Website",
@@ -154,6 +155,7 @@ export const projects: Project[] = [
     shortDescription: "A website redesign and prototype for an advocacy initiative by CAOT, focusing on modernizing the brand and improving the structure and clarity of the content.",
     fullDescription:
       "This project involved designing and prototyping a new advocacy website for CAOT. Since the project had not yet been launched publicly, the main focus was on research, prototyping, and developing a strong visual direction for the platform. I worked primarily on the design side, rethinking the existing brand presentation and creating a clearer, more modern visual identity. After the design phase, I began implementing the website in Squarespace, using custom code and platform customization to match the design as closely as possible.",
+    overviewImageUrl: "", // ← replace with your own screenshot
     year: "2025",
     category: "Web Design & Development",
     highlights: [
@@ -163,11 +165,11 @@ export const projects: Project[] = [
       "Implemented the design in Squarespace with custom code and styling",
     ],
     problem: "The organization needed a dedicated advocacy website that would clearly communicate its mission, present information in a structured way, and align better with modern web design standards.",
-    problemImageUrl: "/advocacy.jpg", // ← replace
+    problemImageUrl: "/advocacy-problem.jpg", // ← replace
     solution: "I designed a new visual direction for the website and created prototypes to establish clear page layouts and user flows. After finalizing the design approach, I began implementing the website in Squarespace, using custom code and platform customization to translate the design into a functional site.",
-    solutionImageUrl: "/advocacy.jpg", // ← replace
+    solutionImageUrl: "/advocacy-solution.jpg", // ← replace
     results: "The project produced a complete design and working site structure ready for launch, giving the organization a clearer and more modern platform for communicating its advocacy initiatives once published.",
-    resultsImageUrl: "/advocacy.jpg", // ← replace
+    resultsImageUrl: "/advocacy-results.jpg", // ← replace
     techStack: ["Squarespace", "Figma", "JavaScript", "HTML", "CSS"],
     imageUrl: "/advocacy.jpg",
     liveUrl: "https://www.figma.com/proto/lnRSLrif5eREP6cWtG3tlB/Advocacy?page-id=0%3A1&node-id=0-188&viewport=474%2C376%2C0.11&t=ZRQUcjHabGhCNG7c-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=0%3A188",
@@ -179,6 +181,7 @@ export const projects: Project[] = [
     shortDescription: "A small React application for managing notifications, built as a final semester project to demonstrate frontend development and UI design skills.",
     fullDescription:
       "This project is a micro web application built with React and Vite as part of a final semester assignment. The goal was to design and develop a clean, functional interface for managing notifications while practicing component-based architecture and state management in React. The application displays a list of notifications and allows users to interact with them by deleting individual items or clearing the entire list.",
+    overviewImageUrl: "/notification-overview.jpg", // ← replace with your own screenshot
     year: "2025",
     category: "Personal Project",
     highlights: [
@@ -189,11 +192,11 @@ export const projects: Project[] = [
       "Created a responsive layout for different screen sizes",
     ],
     problem: "The assignment required building a small interactive application that demonstrates frontend development fundamentals such as component structure, state management, and user interaction.",
-    problemImageUrl: "/notifications.jpg", // ← replace
+    problemImageUrl: "/notification-problem.jpg", // ← replace
     solution: "I developed a React-based application that displays notifications in a structured interface and allows users to manage them through simple actions like deleting individual notifications or clearing the entire list. The project was built using Vite for fast development and organized into reusable components.",
-    solutionImageUrl: "/notifications.jpg", // ← replace
+    solutionImageUrl: "/notification-solution.jpg", // ← replace
     results: "The result is a clean, interactive micro application that demonstrates core React concepts and UI design skills. You can explore the live version of the project and interact with the notifications yourself.",
-    resultsImageUrl: "/notifications.jpg", // ← replace
+    resultsImageUrl: "/notification-result.jpg", // ← replace
     techStack: ["React", "Vite", "Firebase", "JavaScript", "CSS"],
     imageUrl: "/notifications.jpg",
     liveUrl: "https://camperkunz.github.io/Notifications-App/",

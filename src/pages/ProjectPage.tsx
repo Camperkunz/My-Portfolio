@@ -54,7 +54,7 @@ export default function ProjectPage() {
   }
 
   const contentBlocks = [
-    { title: "Overview", content: project.fullDescription, imageUrl: project.imageUrl },
+    { title: "Overview", content: project.fullDescription, imageUrl: project.overviewImageUrl || project.imageUrl },
     { title: "The Problem", content: project.problem, imageUrl: project.problemImageUrl || project.imageUrl },
     { title: "The Solution", content: project.solution, imageUrl: project.solutionImageUrl || project.imageUrl },
     { title: "Implementation", content: project.implementation, imageUrl: project.implementationImageUrl || project.imageUrl },

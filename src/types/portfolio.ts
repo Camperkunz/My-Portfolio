@@ -28,6 +28,7 @@ export interface Project {
   title: string;
   shortDescription: string;
   fullDescription: string;
+  overviewImageUrl: string;
   year: string;
   category: string;
   highlights: string[];
