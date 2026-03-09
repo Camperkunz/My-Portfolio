@@ -91,7 +91,7 @@ export const projects: Project[] = [
     solutionImageUrl: "/portfolio-solution.jpg", // ← replace with your own screenshot
     techStack: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
     imageUrl: "/portfolio.jpg",
-    githubUrl: "https://github.com",
+    githubUrl: "https://github.com/Camperkunz/My-Portfolio",
     liveUrl: "https://example.com",
   },
   // 
