@@ -92,7 +92,7 @@ export const projects: Project[] = [
     techStack: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
     imageUrl: "/portfolio.jpg",
     githubUrl: "https://github.com/Camperkunz/My-Portfolio",
-    liveUrl: "https://example.com",
+    liveUrl: "/",
   },
   // 
   {
