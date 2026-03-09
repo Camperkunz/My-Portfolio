@@ -3,7 +3,6 @@ import ScrollToTopButton from "@/components/portfolio/ScrollToTopButton";
 import { personalInfo } from "@/data/portfolio";
 import { Github, Linkedin, Mail, Menu, Moon, Sun } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 
 const navLinks = [
@@ -21,7 +20,7 @@ function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => setScrolled(window.scrollY > 150);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
