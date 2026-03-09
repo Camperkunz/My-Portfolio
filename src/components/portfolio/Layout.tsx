@@ -1,4 +1,5 @@
 import { ReactNode, useState, useEffect } from "react";
+import { Analytics } from "@vercel/analytics/next"
 import ScrollToTopButton from "@/components/portfolio/ScrollToTopButton";
 import { personalInfo } from "@/data/portfolio";
 import { Github, Linkedin, Mail, Menu, Moon, Sun } from "lucide-react";
@@ -154,7 +155,9 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen - text-foreground">
       <Navbar />
-      <main>{children}</main>
+      <main>{children}
+        <Analytics />
+      </main>
       <Footer />
       <ScrollToTopButton />
     </div>
