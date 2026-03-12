@@ -51,10 +51,6 @@ export default function HeroSection() {
             className="text-muted-foreground transition-colors hover:text-accent">
             <Linkedin className="h-5 w-5" />
           </a>
-          <a href={`mailto:${personalInfo.email}`} aria-label="Email"
-            className="text-muted-foreground transition-colors hover:text-accent">
-            <Mail className="h-5 w-5" />
-          </a>
         </div>
 
         <div className="mt-8 flex items-center justify-center gap-3">

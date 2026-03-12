@@ -20,16 +20,10 @@ export default function ContactSection() {
       <div className="mx-auto max-w-4xl">
         <SectionHeader preTitle="Let's connect" title="Contact" />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
           <InfoBlock icon={Mail} label="Email">
             <a href={`mailto:${personalInfo.email}`} className="transition-colors hover:text-accent">
               {personalInfo.email}
-            </a>
-          </InfoBlock>
-
-          <InfoBlock icon={Phone} label="Phone">
-            <a href={`tel:${personalInfo.phone}`} className="transition-colors hover:text-accent">
-              {personalInfo.phone}
             </a>
           </InfoBlock>
 
@@ -46,7 +40,7 @@ export default function ContactSection() {
               href={personalInfo.github}
               target="_blank"
               rel="noreferrer"
-              className="flex h-12 w-12 items-center justify-center rounded-xl border border-border/50 bg-card/30 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
+              className="flex h-12 w-12 text-white items-center justify-center rounded-xl border border-border/50 bg-card/30 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
               aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
@@ -55,7 +49,7 @@ export default function ContactSection() {
               href={personalInfo.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="flex h-12 w-12 items-center justify-center rounded-xl border border-border/50 bg-card/30 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
+              className="flex h-12 w-12 text-white items-center justify-center rounded-xl border border-border/50 bg-card/30 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
               aria-label="LinkedIn"
             >
               <Linkedin className="h-5 w-5" />
