@@ -27,12 +27,24 @@ function Navbar() {
   }, []);
 
   const handleClick = (href: string) => {
-    if (location.pathname.includes('/project/')) {
-      window.location.href = `/#${href.replace('#', '')}`;
+    setOpen(false);
+
+    if (location.pathname !== '/') {
+      window.location.href = `/${href}`;
       return;
     }
-    setOpen(false);
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+
+    const element = document.querySelector(href);
+    if (element) {
+      const navbarHeight = 64;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
   };
 
   return (
