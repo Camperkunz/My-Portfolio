@@ -69,7 +69,7 @@ export const educations: Education[] = [
 
 export const projects: Project[] = [
   {
-    id: "1",
+    id: "portfolio",
     title: "Portfolio Website",
     shortDescription: "A personal portfolio website built with React and Tailwind CSS to showcase my projects, skills, and approach to frontend development.",
     fullDescription:
@@ -96,7 +96,7 @@ export const projects: Project[] = [
   },
   // 
   {
-    id: "2",
+    id: "unique-ecommerce",
     title: "Shopify E-Commerce Store",
     shortDescription: "A custom Shopify store designed for a small fabric business to relaunch their online presence and convert social media traffic into sales.",
     fullDescription:
@@ -123,7 +123,7 @@ export const projects: Project[] = [
   },
   // 
   {
-    id: "3",
+    id: "loopstudios",
     title: "Loopstudios Landing Page",
     shortDescription: "A fully responsive landing page for a VR company built as part of a Frontend Mentor challenge, focusing on clean code.",
     fullDescription:
@@ -150,7 +150,7 @@ export const projects: Project[] = [
   },
   // 
   {
-    id: "4",
+    id: "contact-book",
     title: "Contact Book App",
     shortDescription: "A single-page contact management application built with Vue, allowing users to add, edit, search, and manage contacts stored in local storage.",
     fullDescription:
@@ -178,7 +178,7 @@ export const projects: Project[] = [
   },
   // 
   {
-    id: "5",
+    id: "advocacy-caot",
     title: "Advocacy Website for CAOT",
     shortDescription: "A website redesign and prototype for an advocacy initiative by CAOT, focusing on modernizing the brand and improving the structure and clarity of the content.",
     fullDescription:
@@ -204,7 +204,7 @@ export const projects: Project[] = [
   },
   // 
   {
-    id: "6",
+    id: "notifications-app",
     title: "Notifications App",
     shortDescription: "A small React application for managing notifications, built as a college project to demonstrate frontend development and UI design skills.",
     fullDescription:
