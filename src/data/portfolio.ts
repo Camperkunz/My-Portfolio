@@ -9,7 +9,7 @@ export const personalInfo = {
   email: "anyanikiforova04@gmail.com",
   phone: "+1 (343) 297-6170",
   address: "Ottawa, ON, Canada",
-  logo: '/favicon.png',
+  logo: '/favicon.webp',
   image: "/anna-photo.jpg",
 };
 
@@ -74,7 +74,7 @@ export const projects: Project[] = [
     shortDescription: "A personal portfolio website built with React and Tailwind CSS to showcase my projects, skills, and approach to frontend development.",
     fullDescription:
       "This portfolio website is my first full project after graduation and represents a combination of manual development and AI-assisted workflows. The goal was to create a clean, modern space where I could present my work and demonstrate my frontend development skills. The project allowed me to experiment with React, components, layouts, and animation while translating my own ideas into a working product.",
-    overviewImageUrl: "/portfolio-overview.jpg", // ← replace with your own screenshot
+    overviewImageUrl: "/portfolio/portfolio-overview.jpg", // ← replace with your own screenshot
     year: "2026",
     category: "Personal Project",
     highlights: [
@@ -86,11 +86,11 @@ export const projects: Project[] = [
       "AI-assisted workflow combined with manual development",
     ],
     problem: "As a junior frontend developer, I needed a professional way to present my projects, skills, and development approach to potential employers. Existing portfolio templates felt generic and did not reflect my personal style or the combination of creativity and coding that defines my work",
-    problemImageUrl: "/portfolio-problem.jpg", // ← replace with your own screenshot
+    problemImageUrl: "/portfolio/portfolio-problem.jpg", // ← replace with your own screenshot
     solution: "I designed and developed a custom portfolio website from scratch using React and Tailwind CSS. The focus was on simplicity, readability, and a clean visual structure that highlights projects while keeping navigation intuitive.",
-    solutionImageUrl: "/portfolio-solution.jpg", // ← replace with your own screenshot
+    solutionImageUrl: "/portfolio/portfolio-solution.jpg", // ← replace with your own screenshot
     techStack: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
-    imageUrl: "/portfolio.jpg",
+    imageUrl: "/portfolio/portfolio.jpg",
     githubUrl: "https://github.com/Camperkunz/My-Portfolio",
     liveUrl: "/",
   },
@@ -112,13 +112,13 @@ export const projects: Project[] = [
 
     ],
     problem: "The business relied mostly on social media to sell products, while their existing website was outdated, slow, and difficult to navigate. It failed to properly showcase the products and did not support a smooth online shopping experience.",
-    problemImageUrl: "/unique-problem.jpg", // ← replace
+    problemImageUrl: "/unique/unique-problem.jpg", // ← replace
     solution: "I redesigned the entire website and migrated the store to Shopify, creating a clean and intuitive shopping experience. The project included designing the layout, improving the content structure, organizing collections, and implementing SEO strategies. Custom Liquid code and theme modifications were used to adapt the Shopify theme to the specific needs of the business and allow more flexibility in presenting products.",
-    solutionImageUrl: "/unique-solution.jpg", // ← replace
+    solutionImageUrl: "/unique/unique-solution.jpg", // ← replace
     results: "The new website provides the business with a modern, professional online store that properly showcases their products and supports online sales. The improved structure, SEO optimization, and clear product organization make it easier for customers to discover fabrics and complete purchases, while giving the business a scalable platform for future growth.",
-    resultsImageUrl: "/unique-results.jpg", // ← replace
+    resultsImageUrl: "/unique/unique-results.jpg", // ← replace
     techStack: ["Shopify", "Figma", "HTML", "CSS"],
-    imageUrl: "/unique-website.jpg",
+    imageUrl: "/unique/unique-website.jpg",
     liveUrl: "https://uniquefabricpanels.com/",
   },
   // 
@@ -138,13 +138,13 @@ export const projects: Project[] = [
       "Clean, semantic HTML structure and well-organized CSS"
     ],
     problem: "The challenge was to accurately translate a static design into a responsive webpage while keeping the code clean, semantic, and maintainable.",
-    problemImageUrl: "/loop-problem.jpg", // ← replace
+    problemImageUrl: "/loop-studios/loop-problem.jpg", // ← replace
     solution: "I built the page using HTML, CSS, and vanilla JavaScript, implementing the layout with Flexbox and Grid and carefully matching the provided design. Responsive breakpoints were added to ensure the layout works smoothly across mobile and desktop devices.",
-    solutionImageUrl: "/loop-solution.jpg", // ← replace
+    solutionImageUrl: "/loop-studios/loop-solution.jpg", // ← replace
     results: "The final result closely matches the original design while maintaining clean, structured code and responsive behavior. The project helped strengthen my skills in layout implementation, responsive design, and writing organized frontend code.",
-    resultsImageUrl: "/loop-result.jpg", // ← replace
+    resultsImageUrl: "/loop-studios/loop-result.jpg", // ← replace
     techStack: ["JavaScript", "HTML", "CSS"],
-    imageUrl: "/loopstudios.jpg",
+    imageUrl: "/loop-studios/loopstudios.jpg",
     githubUrl: "https://github.com/niki0012A/Loopstudios-Website",
     liveUrl: "https://camperkunz.github.io/Loopstudios/",
   },
@@ -166,13 +166,13 @@ export const projects: Project[] = [
       "Stored and persisted data using browser local storage",
     ],
     problem: "The assignment required creating a fully functional contact management application that demonstrates SPA architecture, client-side routing, and persistent data storage.",
-    problemImageUrl: "/contact-problem.jpg", // ← replace
+    problemImageUrl: "/contact-book/contact-problem.jpg", // ← replace
     solution: "I built the application using Vue 3 and Vue Router, structuring the project into multiple views and reusable components. Local storage was used to store and persist contact data, while forms and interactive elements were implemented to allow users to add, edit, search, and delete contacts easily.",
-    solutionImageUrl: "/contact-solution.jpg", // ← replace
+    solutionImageUrl: "/contact-book/contact-solution.jpg", // ← replace
     results: "The result is a simple and intuitive contact management application that demonstrates core frontend concepts such as client-side routing, state management, and data persistence. The project strengthened my understanding of building structured SPAs using Vue.",
-    resultsImageUrl: "/contact-result.jpg", // ← replace
+    resultsImageUrl: "/contact-book/contact-result.jpg", // ← replace
     techStack: ["Vue", "Vite", "JavaScript", "CSS"],
-    imageUrl: "/contact-book.jpg",
+    imageUrl: "/contact-book/contact-book.jpg",
     liveUrl: "https://niki0012a.github.io/Vue-Contact-Book/",
     githubUrl: "https://github.com/niki0012A/Vue-Contact-Book",
   },
@@ -193,13 +193,13 @@ export const projects: Project[] = [
       "Implemented the design in Squarespace with custom code and styling",
     ],
     problem: "The organization needed a dedicated advocacy website that would clearly communicate its mission, present information in a structured way, and align better with modern web design standards.",
-    problemImageUrl: "/advocacy-problem.jpg", // ← replace
+    problemImageUrl: "/advocacy/advocacy-problem.jpg", // ← replace
     solution: "I designed a new visual direction for the website and created prototypes to establish clear page layouts and user flows. After finalizing the design approach, I began implementing the website in Squarespace, using custom code and platform customization to translate the design into a functional site.",
-    solutionImageUrl: "/advocacy-solution.jpg", // ← replace
+    solutionImageUrl: "/advocacy/advocacy-solution.jpg", // ← replace
     results: "The project produced a complete design and working site structure ready for launch, giving the organization a clearer and more modern platform for communicating its advocacy initiatives once published.",
-    resultsImageUrl: "/advocacy-results.jpg", // ← replace
+    resultsImageUrl: "/advocacy/advocacy-results.jpg", // ← replace
     techStack: ["Squarespace", "Figma", "JavaScript", "HTML", "CSS"],
-    imageUrl: "/advocacy.jpg",
+    imageUrl: "/advocacy/advocacy.jpg",
     liveUrl: "https://www.figma.com/proto/lnRSLrif5eREP6cWtG3tlB/Advocacy?page-id=0%3A1&node-id=0-188&viewport=474%2C376%2C0.11&t=ZRQUcjHabGhCNG7c-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=0%3A188",
   },
   // 
@@ -209,7 +209,7 @@ export const projects: Project[] = [
     shortDescription: "A small React application for managing notifications, built as a college project to demonstrate frontend development and UI design skills.",
     fullDescription:
       "This project is a micro web application built with React and Vite as part of a college assignment. The goal was to design and develop a clean, functional interface for managing notifications while practicing component-based architecture and state management in React. The application displays a list of notifications and allows users to interact with them by deleting individual items or clearing the entire list.",
-    overviewImageUrl: "/notification-overview.jpg", // ← replace with your own screenshot
+    overviewImageUrl: "/notification/notification-overview.jpg", // ← replace with your own screenshot
     year: "2025",
     category: "Personal Project",
     highlights: [
@@ -220,13 +220,13 @@ export const projects: Project[] = [
       "Created a responsive layout for different screen sizes",
     ],
     problem: "The assignment required building a small interactive application that demonstrates frontend development fundamentals such as component structure, state management, and user interaction.",
-    problemImageUrl: "/notification-problem.jpg", // ← replace
+    problemImageUrl: "/notification/notification-problem.jpg", // ← replace
     solution: "I developed a React-based application that displays notifications in a structured interface and allows users to manage them through simple actions like deleting individual notifications or clearing the entire list. The project was built using Vite for fast development and organized into reusable components.",
-    solutionImageUrl: "/notification-solution.jpg", // ← replace
+    solutionImageUrl: "/notification/notification-solution.jpg", // ← replace
     results: "The result is a clean, interactive micro application that demonstrates core React concepts and UI design skills. You can explore the live version of the project and interact with the notifications yourself.",
-    resultsImageUrl: "/notification-result.jpg", // ← replace
+    resultsImageUrl: "/notification/notification-result.jpg", // ← replace
     techStack: ["React", "Vite", "JavaScript", "CSS"],
-    imageUrl: "/notifications.jpg",
+    imageUrl: "/notification/notifications.jpg",
     liveUrl: "https://camperkunz.github.io/Notifications-App/",
     githubUrl: "https://github.com/Camperkunz/Notifications-App",
   },
