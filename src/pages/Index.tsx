@@ -11,9 +11,7 @@ import FadeInSection from "@/components/portfolio/FadeInSection";
 const Index = () => {
   return (
     <Layout>
-      <FadeInSection>
-        <HeroSection />
-      </FadeInSection>
+      <HeroSection />
       <FadeInSection>
         <AboutSection />
       </FadeInSection>

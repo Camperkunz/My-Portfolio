@@ -51,7 +51,7 @@ function Navbar() {
     <nav className={`fixed top-0 z-40 w-full transition-all duration-300  ${scrolled ? "border-b bg-background/80 backdrop-blur-lg shadow-sm" : "bg-transparent"}`}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <a href="/#" className="font-mono text-sm font-bold tracking-tight text-foreground">
-          <img src={personalInfo.logo} alt="Logo" className="h-9 w-9 logo" />
+          <img src={personalInfo.logo} alt="Logo" className="h-10 w-10 md:h-9 md:w-9 logo" />
         </a>
         <div className="flex items-center gap-4">
           <ul className="hidden gap-6 md:flex">
@@ -68,14 +68,14 @@ function Navbar() {
           </ul>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger className="md:hidden" aria-label="Open menu">
-              <Menu className="h-5 w-5" />
+              <Menu className="h-8 w-8" />
             </SheetTrigger>
             <SheetContent side="right" className="w-64">
               <SheetTitle className="sr-only">Navigation</SheetTitle>
               <ul className="mt-8 flex flex-col gap-4">
                 {navLinks.map((l) => (
                   <li key={l.href}>
-                    <button onClick={() => handleClick(l.href)} className="text-sm text-muted-foreground transition-colors hover:text-accent">
+                    <button onClick={() => handleClick(l.href)} className="text-md md:text-sm text-muted-foreground transition-colors hover:text-accent">
                       {l.label}
                     </button>
                   </li>

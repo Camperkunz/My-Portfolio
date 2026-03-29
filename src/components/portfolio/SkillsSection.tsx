@@ -88,9 +88,16 @@ function MarqueeRow({
         {doubled.map((skill, index) => (
           <div
             key={`${skill.name}-${index}`}
-            className="flex items-center gap-3 rounded-lg border border-border/50 bg-card/30 backdrop-blur-md px-8 py-5 text-medium font-medium text-foreground whitespace-nowrap transition-all duration-300 hover:scale-100 hover:border-accent hover:bg-accent/10 hover:shadow-lg hover:shadow-accent/20"
+            className="
+            /* Basic and mobile */
+            flex items-center gap-2 rounded-lg border border-border/50 bg-card/30 backdrop-blur-md 
+            px-5 py-3 text-sm font-medium text-foreground whitespace-nowrap transition-all duration-300 
+            /* Interaction States */
+            hover:scale-105 hover:border-accent hover:bg-accent/10 hover:shadow-lg hover:shadow-accent/20 active:scale-95
+            /* Desktop */
+            sm:gap-3 sm:px-8 sm:py-5 sm:text-base"
           >
-            <span className="text-3xl text-accent ">
+            <span className="text-2xl text-accent md:text-3xl">
               {skill.icon}
             </span>
             <span className="text-lg">
