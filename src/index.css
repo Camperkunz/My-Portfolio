@@ -91,12 +91,20 @@
 
   body {
     background-color: #050505;
-      color: #fff;
-      background-image: radial-gradient(circle at 50% -10%, #3d0909 0, #050505 90%);
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: top;
-      background-attachment: fixed;
+    color: #fff;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: radial-gradient(circle at 50% -10%, #3d0909 0, #050505 90%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top center;
+    pointer-events: none;
   }
 
   html {
