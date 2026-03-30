@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ExternalLink, Github, Sparkles } from "lucide-react";
 import Layout from "@/components/portfolio/Layout";
-import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs, SiNextdotjs, SiStripe, SiVercel, SiFigma, SiSquarespace, SiShopify, SiCss3, SiHtml5, SiJavascript, SiVite, SiFirebase, SiVuedotjs } from "react-icons/si";
+import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs, SiNextdotjs, SiStripe, SiVercel, SiFigma, SiSquarespace, SiShopify, SiCss3, SiHtml5, SiJavascript, SiVite, SiFirebase, SiVuedotjs, } from "react-icons/si";
+import { Brain } from "lucide-react";
 import { motion } from "framer-motion";
 
 const techIcons: Record<string, React.ReactNode> = {
@@ -24,6 +25,7 @@ const techIcons: Record<string, React.ReactNode> = {
   Vite: <SiVite className="h-5 w-5" />,
   Firebase: <SiFirebase className="h-5 w-5" />,
   Vue: <SiVuedotjs className="h-5 w-5" />,
+  "AI": <Brain className="h-5 w-5" />,
 };
 
 const fadeUp = {
