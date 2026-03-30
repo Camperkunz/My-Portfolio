@@ -168,7 +168,12 @@ export default function ProjectPage() {
             {otherProjects.map((p) => (
               <Link key={p.id} to={`/project/${p.id}`}
                 className="group rounded-xl border border-border/50 bg-card/30 backdrop-blur-md overflow-hidden hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all">
-                <img src={p.imageUrl} alt={p.title} className="w-full h-40 object-cover bg-muted" loading="lazy" />
+                <img
+                  src={p.imageUrl}
+                  alt={p.title}
+                  className="w-full h-40 object-cover bg-muted"
+                  loading="eager"
+                />
                 <div className="p-5">
                   <h3 className="font-bold text-foreground group-hover:text-accent transition-colors">{p.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{p.shortDescription}</p>
