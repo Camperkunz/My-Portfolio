@@ -50,7 +50,7 @@ export default function HeroSection() {
           </a>
         </div>
 
-        <div className="mt-8 flex items-center justify-center gap-3">
+        <div className="mt-8 flex items-center justify-center gap-5">
           <Button
             variant="outline"
             className="gap-2 border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all px-2 sm:px-4"
