@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://annanikiforova.vercel.app/sitemap.xml
