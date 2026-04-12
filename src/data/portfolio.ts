@@ -10,7 +10,7 @@ export const personalInfo = {
   phone: "+1 (343) 297-6170",
   address: "Ottawa, ON, Canada",
   logo: '/favicon.webp',
-  image: "/anna-photo.jpg",
+  image: "/anna-photo.webp",
 };
 
 export const experiences: Experience[] = [

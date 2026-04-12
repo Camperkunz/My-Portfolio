@@ -104,7 +104,7 @@ function Footer() {
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 px-6">
         {/* Logo */}
         <a href="/#" className="group">
-          <img src={personalInfo.logo} alt="Logo" className="h-8 w-8 opacity-60 group-hover:opacity-100 transition-opacity logo" />
+          <img src={personalInfo.logo} alt="Top Navigation Logo" className="h-8 w-8 opacity-60 group-hover:opacity-100 transition-opacity logo" />
         </a>
 
         {/* Navigation */}
@@ -131,13 +131,9 @@ function Footer() {
             className="text-muted-foreground/60 hover:text-accent transition-colors">
             <Linkedin className="h-4 w-4" />
           </a>
-          <a href={`mailto:${personalInfo.email}`} aria-label="Email"
-            className="text-muted-foreground/60 hover:text-accent transition-colors">
-            <Mail className="h-4 w-4" />
-          </a>
         </div>
 
-        <p className="text-xs text-muted-foreground/50">© {new Date().getFullYear()} {personalInfo.name}. Made with love ❤️</p>
+        <p className="text-xs text-muted-foreground/60">© {new Date().getFullYear()} {personalInfo.name}. Made with love ❤️</p>
       </div>
     </footer>
   );

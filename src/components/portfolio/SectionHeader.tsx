@@ -6,7 +6,7 @@ interface SectionHeaderProps {
 export default function SectionHeader({ preTitle, title }: SectionHeaderProps) {
   return (
     <div className="flex flex-col items-center text-center mb-16">
-      <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent/70 mb-3">
+      <span className="text-xs font-mono uppercase tracking-[0.3em] text-accent/80 mb-3">
         {preTitle}
       </span>
       <div className="flex items-center gap-4">
