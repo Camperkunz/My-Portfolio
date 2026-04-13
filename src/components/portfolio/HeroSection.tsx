@@ -2,8 +2,8 @@ import { personalInfo } from "@/data/portfolio";
 import { Github, Linkedin, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import Typewriter from "./Typewriter";
-import CodeToButton from "./CodeToButton";
+import Typewriter from "./animations/Typewriter";
+import CodeToButton from "./animations/CodeToButton";
 
 const roles = ["Frontend Developer", "Web Developer", "UI Engineer"];
 const stackItems = ["React", "TypeScript", "Liquid", "AWS"];

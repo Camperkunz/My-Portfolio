@@ -9,7 +9,7 @@ import Index from "./pages/Index";
 import ProjectPage from "./pages/ProjectPage";
 import AllProjectsPage from "./pages/AllProjectsPage";
 import NotFound from "./pages/NotFound";
-import ScrollToTop from "./components/portfolio/ScrollToTop";
+import ScrollToTop from "./components/portfolio/animations/ScrollToTop";
 
 const queryClient = new QueryClient();
 

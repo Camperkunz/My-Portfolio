@@ -6,7 +6,7 @@ import EducationSection from "@/components/portfolio/EducationSection";
 import SkillsSection from "@/components/portfolio/SkillsSection";
 import ProjectsSection from "@/components/portfolio/ProjectsSection";
 import ContactSection from "@/components/portfolio/ContactSection";
-import FadeInSection from "@/components/portfolio/FadeInSection";
+import FadeInSection from "@/components/portfolio/animations/FadeInSection";
 
 const Index = () => {
   return (
