@@ -6,7 +6,7 @@ export const personalInfo = {
   tagline: "Frontend Developer. Building clean, performant interfaces with modern web technologies.",
   github: "https://github.com/Camperkunz",
   linkedin: "https://www.linkedin.com/in/anna-nikiforova-ac/",
-  email: "AnnaNikiforova_Dev@proton.me",
+  email: "annanikiforova_dev@proton.me",
   phone: "+1 (343) 297-6170",
   address: "Ottawa, ON, Canada",
   logo: '/favicon.webp',
