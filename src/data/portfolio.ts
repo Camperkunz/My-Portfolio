@@ -11,6 +11,9 @@ export const personalInfo = {
   address: "Ottawa, ON, Canada",
   logo: '/favicon.webp',
   image: "/anna-photo.webp",
+  experienceYears: 2,
+  realProjects: 10,
+  certifications: 7,
 };
 
 export const experiences: Experience[] = [

@@ -1,9 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { personalInfo } from "@/data/portfolio";
 import SectionHeader from "./SectionHeader";
 
+function useCountUp(target: number, duration = 1500, startCounting = false) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!startCounting) return;
+    let start = 1;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [startCounting, target, duration]);
+
+  return count;
+}
+
+const statCardClass =
+  "w-full rounded-xl border border-accent/30 bg-card/50 backdrop-blur-md p-4 transition-all hover:shadow-lg hover:shadow-accent/10";
+
 export default function AboutSection() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [inView, setInView] = useState(false);
+  const statsRef = useRef<HTMLDivElement>(null);
+
+  const years = useCountUp(personalInfo.experienceYears, 1000, inView);
+  const projects = useCountUp(personalInfo.realProjects, 1500, inView);
+  const certs = useCountUp(personalInfo.certifications, 1200, inView);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      { threshold: 0.3 }
+    );
+    if (statsRef.current) observer.observe(statsRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -20,16 +60,34 @@ export default function AboutSection() {
 
       <div className="grid gap-12 md:grid-cols-2 items-center">
         {/* Text */}
-        <div className="text-center md:text-left"> 
+        <div className="text-center md:text-left">
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Hi, I’m Anna - a Front-End Developer from Ottawa with 2+ years of experience.
+            Hi, I'm Anna — a Front-End Developer who builds polished web experiences and isn't afraid to push them further with AI. With {personalInfo.experienceYears}+ years of experience in React, TypeScript, and various CMS platforms, I bridge the gap between creative design and maintainable code.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            I craft sleek, responsive, and interactive web experiences using React, TypeScript, and modern JS libraries, and I’m equally comfortable working with CMS platforms like Shopify and WordPress, diving into PHP, Liquid, and server-side logic when projects demand it.
+            I believe a great product is seen in the details — from the first wireframe to the final deploy. My goal is simple: to build interfaces that aren't just beautiful, but are accessible, performant, and solve real-world challenges.
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            I successfully combine creativity and coding, guiding projects all the way from idea and design to final implementation, creating clean, fast, and user-friendly digital experiences that look great and work perfectly.
+            Let’s build something together ❤️
           </p>
+
+          <div
+            ref={statsRef}
+            className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-12 md:mt-12 text-center md:text-start"
+          >
+            <div className={statCardClass}>
+              <p className="font-mono text-3xl font-bold">{years}+</p>
+              <p className="text-muted-foreground text-sm mt-1">Years of experience</p>
+            </div>
+            <div className={statCardClass}>
+              <p className="font-mono text-3xl font-bold">{projects}+</p>
+              <p className="text-muted-foreground text-sm mt-1">Projects Built</p>
+            </div>
+            <div className={`${statCardClass} col-span-2 sm:col-span-1`}>
+              <p className="font-mono text-3xl font-bold">{certs}+</p>
+              <p className="text-muted-foreground text-sm mt-1">Certifications Earned</p>
+            </div>
+          </div>
         </div>
 
         {/* Photo with parallax */}
