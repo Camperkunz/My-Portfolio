@@ -16,16 +16,16 @@ const Index = () => {
         <AboutSection />
       </FadeInSection>
       <FadeInSection>
-        <ExperienceSection />
-      </FadeInSection>
-      <FadeInSection>
-        <EducationSection />
-      </FadeInSection>
-      <FadeInSection>
         <SkillsSection />
       </FadeInSection>
       <FadeInSection>
         <ProjectsSection />
+      </FadeInSection>
+      <FadeInSection>
+        <ExperienceSection />
+      </FadeInSection>
+      <FadeInSection>
+        <EducationSection />
       </FadeInSection>
       <FadeInSection>
         <ContactSection />

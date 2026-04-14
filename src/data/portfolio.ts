@@ -7,7 +7,6 @@ export const personalInfo = {
   github: "https://github.com/Camperkunz",
   linkedin: "https://www.linkedin.com/in/anna-nikiforova-ac/",
   email: "annanikiforova_dev@proton.me",
-  phone: "+1 (343) 297-6170",
   address: "Ottawa, ON, Canada",
   logo: '/favicon.webp',
   image: "/anna-photo.webp",
