@@ -6,11 +6,16 @@ import { Menu } from "lucide-react";
 // 
 const navLinks = [
     { label: "About", href: "#about" },
+    { label: "Skills", href: "#skills" },
     { label: "Experience", href: "#experience" },
     { label: "Education", href: "#education" },
-    { label: "Skills", href: "#skills" },
-    { label: "Projects", href: "#projects" },
     { label: "Contact", href: "#contact" },
+    // Projects link different styling
+    {
+        label: "Projects", href: "#projects",
+        className: "rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-4 py-2 transition-all hover:shadow-lg hover:shadow-accent/10"
+    },
+    // 
 ];
 
 export default function Navbar() {
@@ -52,12 +57,12 @@ export default function Navbar() {
                     <img src={personalInfo.logo} alt="Logo" className="h-10 w-10 md:h-9 md:w-9 logo" />
                 </a>
                 <div className="flex items-center gap-4">
-                    <ul className="hidden gap-6 md:flex">
+                    <ul className="hidden gap-6 md:flex items-center">
                         {navLinks.map((l) => (
                             <li key={l.href}>
                                 <button
                                     onClick={() => handleClick(l.href)}
-                                    className="text-md text-muted-foreground transition-colors hover:text-accent"
+                                    className={`${l.className || "text-md text-muted-foreground transition-colors hover:text-accent"}`}
                                 >
                                     {l.label}
                                 </button>
@@ -73,7 +78,7 @@ export default function Navbar() {
                             <ul className="mt-8 flex flex-col gap-4">
                                 {navLinks.map((l) => (
                                     <li key={l.href}>
-                                        <button onClick={() => handleClick(l.href)} className="text-md md:text-sm text-muted-foreground transition-colors hover:text-accent">
+                                        <button onClick={() => handleClick(l.href)} className={`${l.className || "text-md text-muted-foreground transition-colors hover:text-accent"}`}>
                                             {l.label}
                                         </button>
                                     </li>
