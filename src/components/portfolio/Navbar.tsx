@@ -78,7 +78,7 @@ export default function Navbar() {
                             <ul className="mt-8 flex flex-col gap-4">
                                 {navLinks.map((l) => (
                                     <li key={l.href}>
-                                        <button onClick={() => handleClick(l.href)} className={`${l.className || "text-md text-muted-foreground transition-colors hover:text-accent"}`}>
+                                        <button onClick={() => handleClick(l.href)} className={"text-md text-muted-foreground transition-colors hover:text-accent"}>
                                             {l.label}
                                         </button>
                                     </li>
