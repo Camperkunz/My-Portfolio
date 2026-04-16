@@ -35,9 +35,8 @@ const technicalSkills: Skill[] = [
   { name: "JavaScript", icon: <SiJavascript /> },
   { name: "React", icon: <SiReact /> },
   { name: "Next.js", icon: <SiNextdotjs /> },
-  { name: "Tailwind CSS", icon: <SiTailwindcss /> },
+  { name: "TailwindCSS", icon: <SiTailwindcss /> },
   { name: "Node.js", icon: <SiNodedotjs /> },
-  { name: "Git", icon: <SiGit /> },
   { name: "HTML", icon: <SiHtml5 /> },
   { name: "CSS", icon: <SiCss3 /> },
   { name: "Vite", icon: <SiVite /> },
@@ -50,12 +49,12 @@ const technicalSkills: Skill[] = [
 
 const designSkills: Skill[] = [
   { name: "Photoshop", icon: <SiAdobephotoshop /> },
-  { name: "Illustrator", icon: <SiAdobeillustrator /> },
   { name: "Affinity", icon: <SiAffinity /> },
   { name: "Canva", icon: <SiCanva /> },
+  { name: "Illustrator", icon: <SiAdobeillustrator /> },
   { name: "Figma", icon: <SiFigma /> },
-  { name: "Blender", icon: <SiBlender /> },
   { name: "Premier Pro", icon: <SiAdobepremierepro /> },
+  { name: "Blender", icon: <SiBlender /> }
 ];
 
 interface MarqueeRowProps {
@@ -67,7 +66,7 @@ interface MarqueeRowProps {
 function MarqueeRow({
   items,
   direction = "left",
-  duration = 25,
+  duration = 250,
 }: MarqueeRowProps) {
   const animationClass =
     direction === "left"
@@ -95,7 +94,7 @@ function MarqueeRow({
             /* Interaction States */
             hover:scale-105 hover:border-accent hover:bg-accent/10 hover:shadow-lg hover:shadow-accent/20 active:scale-95
             /* Desktop */
-            sm:gap-3 sm:px-8 sm:py-5 sm:text-base"
+            sm:gap-3 sm:px-7 sm:py-4 sm:text-base"
           >
             <span className="text-2xl text-accent md:text-3xl">
               {skill.icon}
@@ -116,8 +115,8 @@ export default function SkillsSection() {
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader preTitle="What I use" title="Skills" />
         <div>
-          <MarqueeRow items={technicalSkills} direction="left" duration={70} />
-          <MarqueeRow items={designSkills} direction="right" duration={50} />
+          <MarqueeRow items={technicalSkills} direction="left" duration={80} />
+          <MarqueeRow items={designSkills} direction="right" duration={80} />
         </div>
       </div>
     </section>
