@@ -91,7 +91,7 @@ export default function ProjectPage() {
               <img
                 src={project.imageUrl}
                 alt={project.title}
-                className="w-full h-[540px] md:h-[520px] object-cover 
+                className="w-full h-[70vh] md:h-[70vh] object-cover 
                    transition-transform duration-700 ease-out
                    group-hover:scale-[1.01]"
               />
@@ -129,7 +129,7 @@ export default function ProjectPage() {
 
                 {/* title */}
                 <h1
-                  className="font-mono text-4xl md:text-5xl font-bold text-white 
+                  className="font-mono text-3xl md:text-5xl font-bold text-white 
                      leading-tight max-w-2xl "
                 >
                   {project.title}
