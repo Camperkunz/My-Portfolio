@@ -66,48 +66,144 @@ export default function ProjectPage() {
 
   return (
     <Layout>
-      <div className="mx-auto max-w-6xl px-6 py-16 mt-10">
+      <div className="mx-auto max-w-6xl px-6 py-16 mt-8">
         <Link to="/#projects">
-          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground mb-8 transition-colors hover:text-foreground">
-            <ArrowLeft className="h-4 w-4" /> Back to projects
+          <Button variant="ghost" size="sm" className="gap-3 text-muted-foreground mb-8 transition-colors hover:text-foreground">
+            <ArrowLeft className="h-5 w-5" /> Back to projects
           </Button>
         </Link>
 
         {/* Hero Header */}
-        <motion.section initial="hidden" animate="visible" className="grid md:grid-cols-2 gap-10 items-center mb-40">
-          <motion.div variants={fadeUp} custom={0}>
-            <div className="flex items-center gap-3 mb-4">
-              <Badge variant="outline" className="border-accent/30 text-accent text-xs px-3 py-1">
-                {project.category}
-              </Badge>
-              <span className="text-xs text-muted-foreground font-mono">{project.year}</span>
+        <motion.section
+          initial="hidden"
+          animate="visible"
+          className="mb-32"
+        >
+          <div
+            className="group relative rounded-2xl border border-border/50 overflow-hidden 
+               bg-card/30 backdrop-blur-md 
+               shadow-xl shadow-black/10 
+               transition-all duration-500 
+               hover:shadow-2xl hover:shadow-black/30"
+          >
+            {/* IMAGE */}
+            <div className="relative">
+              <img
+                src={project.imageUrl}
+                alt={project.title}
+                className="w-full h-[540px] md:h-[520px] object-cover 
+                   transition-transform duration-700 ease-out
+                   group-hover:scale-[1.01]"
+              />
+
+              {/* gradient overlay */}
+              <div
+                className="absolute -inset-[1px] bg-gradient-to-t from-black/80 via-black/25 to-black/10 
+                transition-opacity duration-500 group-hover:opacity-90"
+              />
+              {/* subtle dark layer */}
+              <div className="absolute inset-0 bg-black/40 md:bg-black/35" />
             </div>
-            <h1 className="font-mono text-4xl sm:text-5xl font-bold text-foreground leading-tight">
-              {project.title}
-            </h1>
-            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-              {project.shortDescription}
-            </p>
-            <div className="mt-8 flex gap-3">
-              {project.liveUrl && (
-                <Button className="gap-2 bg-accent text-accent-foreground hover:bg-accent/90 transition-all" asChild>
-                  <a href={project.liveUrl} target="_blank" rel="noreferrer">
-                    <ExternalLink className="h-4 w-4" /> Live Preview
-                  </a>
-                </Button>
-              )}
-              {project.githubUrl && (
-                <Button variant="outline" className="gap-2 border-accent/30 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
-                  <a href={project.githubUrl} target="_blank" rel="noreferrer">
-                    <Github className="h-4 w-4" /> Source Code
-                  </a>
-                </Button>
-              )}
+
+            {/* CONTENT */}
+            <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10">
+              <motion.div variants={fadeUp} custom={0}>
+                {/* meta */}
+                <div className="flex items-center gap-3 mb-3">
+                  <Badge
+                    variant="outline"
+                    className="border-white/20 bg-black/40 backdrop-blur text-white text-sm px-3 py-1
+                       transition-all duration-300 group-hover:bg-black/60
+                       md:text-xs"
+                  >
+                    {project.category}
+                  </Badge>
+                  <span
+                    className="text-sm font-mono text-white/80 bg-black/40 px-2 py-1 rounded-md backdrop-blur
+                    transition-all duration-300 group-hover:bg-black/60
+                    md:text-xs"
+                  >
+                    {project.year}
+                  </span>
+                </div>
+
+                {/* title */}
+                <h1
+                  className="font-mono text-4xl md:text-5xl font-bold text-white 
+                     leading-tight max-w-2xl "
+                >
+                  {project.title}
+                </h1>
+
+                {/* description */}
+                <p className="mt-4 text-white/85 text-lg leading-relaxed max-w-xl">
+                  {project.shortDescription}
+                </p>
+              </motion.div>
+
+              {/* bottom row */}
+              <motion.div
+                variants={fadeUp}
+                custom={1}
+                className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+              >
+                {/* buttons */}
+                <div className="flex gap-3">
+                  {project.liveUrl && (
+                    <Button
+                      className="gap-2 bg-accent text-accent-foreground 
+                         hover:bg-accent/90 
+                         transition-all duration-300 
+                         hover:shadow-lg hover:shadow-accent/30"
+                      asChild
+                    >
+                      <a href={project.liveUrl} target="_blank" rel="noreferrer">
+                        <ExternalLink className="h-4 w-4" /> Live Preview
+                      </a>
+                    </Button>
+                  )}
+
+                  {project.githubUrl && (
+                    <Button
+                      variant="outline"
+                      className="gap-2 border-white/30 text-white
+                         hover:bg-white hover:text-black 
+                         transition-all duration-300 "
+                      asChild
+                    >
+                      <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                        <Github className="h-4 w-4" /> Source
+                      </a>
+                    </Button>
+                  )}
+                </div>
+
+                {/* tech stack */}
+                <div className="flex flex-wrap gap-2 mt-6 md:mt-0">
+                  {project.techStack.slice(0, 6).map((t) => (
+                    <div
+                      key={t}
+                      className="flex items-center gap-2 px-4 py-2 text-xs rounded-lg 
+                         bg-black/50 backdrop-blur-md border border-white/10 text-white"
+                    >
+                      {techIcons[t] && (
+                        <span className="text-accent">{techIcons[t]}</span>
+                      )}
+                      {t}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
-          <motion.div variants={fadeUp} custom={1}>
-            <img src={project.imageUrl} alt={project.title} className="w-full aspect-[3/2] rounded-xl object-cover bg-muted border border-border/50" />
-          </motion.div>
+
+            {/* subtle accent glow */}
+            <div
+              className="pointer-events-none absolute inset-0 rounded-2xl 
+                 opacity-0 group-hover:opacity-100 
+                 transition-opacity duration-500
+                 bg-gradient-to-tr from-accent/10 via-transparent to-transparent"
+            />
+          </div>
         </motion.section>
 
         {/* Highlights */}
@@ -130,19 +226,6 @@ export default function ProjectPage() {
             </div>
           </section>
         )}
-
-        {/* Tools & Technologies */}
-        <section className="mb-20">
-          <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono mb-8">Tools & Technologies</h2>
-          <div className="flex flex-wrap gap-3 justify-center">
-            {project.techStack.map((t) => (
-              <div key={t} className="flex items-center gap-2.5 rounded-xl border border-border/50 bg-card/30 backdrop-blur-md px-5 py-3 text-sm text-foreground hover:border-accent/40 hover:scale-105 transition-all">
-                {techIcons[t] && <span className="text-accent">{techIcons[t]}</span>}
-                {t}
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* Alternating Content Blocks — each with its own image */}
         {contentBlocks.map((block, i) => {
