@@ -19,7 +19,7 @@ export const experiences: Experience[] = [
   {
     company: "Algonquin College",
     role: "Web Developer & UX Designer",
-    period: "Jan 2026 — Present",
+    period: "Jan 2026 — Apr 2026",
     description: [
       "Built and designed a React website based on analytical report data from 10+ Canadian universities and colleges.",
       "Developed custom React components and responsive UI with modern frontend practices.",

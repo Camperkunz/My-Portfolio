@@ -50,17 +50,18 @@ export default function AllProjectsPage() {
                   </div>
                 </div>
                 <div className="mt-auto flex gap-2 pt-6 border-t border-border/30">
-                  {p.githubUrl && (
-                    <Button variant="outline" size="sm" className="gap-1.5 text-xs border-accent/20 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
-                      <a href={p.githubUrl} target="_blank" rel="noreferrer">
-                        <Github className="h-3.5 w-3.5" /> Source
+                  {p.liveUrl && (
+                    <Button variant="accent" size="sm" className="gap-1.5 text-xs" asChild>
+                      <a href={p.liveUrl} target="_blank" rel="noreferrer">
+                        <ExternalLink className="h-3.5 w-3.5" /> Live Preview
                       </a>
                     </Button>
                   )}
-                  {p.liveUrl && (
-                    <Button variant="outline" size="sm" className="gap-1.5 text-xs border-accent/20 hover:bg-accent hover:text-accent-foreground transition-all" asChild>
-                      <a href={p.liveUrl} target="_blank" rel="noreferrer">
-                        <ExternalLink className="h-3.5 w-3.5" /> Live Preview
+
+                  {p.githubUrl && (
+                    <Button variant="outline" size="sm" className="gap-1.5 text-xs hover:bg-accent hover:text-accent-foreground transition-all" asChild>
+                      <a href={p.githubUrl} target="_blank" rel="noreferrer">
+                        <Github className="h-3.5 w-3.5" /> Source
                       </a>
                     </Button>
                   )}

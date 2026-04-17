@@ -151,8 +151,8 @@ export default function ProjectPage() {
                 <div className="flex gap-3">
                   {project.liveUrl && (
                     <Button
+                      variant="accent"
                       className="gap-2 bg-accent text-accent-foreground 
-                         hover:bg-accent/90 
                          transition-all duration-300 
                          hover:shadow-lg hover:shadow-accent/30"
                       asChild
