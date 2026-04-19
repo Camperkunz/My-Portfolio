@@ -6,7 +6,7 @@ import Typewriter from "./animations/Typewriter";
 import CodeToButton from "./animations/CodeToButton";
 
 const roles = ["Frontend Developer", "Web Developer", "UI Engineer"];
-const stackItems = ["React", "TypeScript", "Liquid", "AWS"];
+const stackItems = ["React", "TypeScript", "Shopify", "AWS"];
 
 export default function HeroSection() {
   return (
