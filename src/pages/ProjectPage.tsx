@@ -91,14 +91,14 @@ export default function ProjectPage() {
               <img
                 src={project.imageUrl}
                 alt={project.title}
-                className="w-full h-[70vh] md:h-[70vh] object-cover 
+                className="w-full h-[70vh] md:h-[65vh] object-cover 
                    transition-transform duration-700 ease-out
                    group-hover:scale-[1.01]"
               />
 
               {/* gradient overlay */}
               <div
-                className="absolute -inset-[1px] bg-gradient-to-t from-black/80 via-black/25 to-black/10 
+                className="absolute -inset-[1px] bg-gradient-to-t from-black/80 via-black/30 to-black/10 
                 transition-opacity duration-500 group-hover:opacity-90"
               />
               {/* subtle dark layer */}
@@ -183,7 +183,7 @@ export default function ProjectPage() {
                   {project.techStack.slice(0, 6).map((t) => (
                     <div
                       key={t}
-                      className="flex items-center gap-2 px-4 py-2 text-xs rounded-lg 
+                      className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg 
                          bg-black/50 backdrop-blur-md border border-white/10 text-white"
                     >
                       {techIcons[t] && (
@@ -208,19 +208,38 @@ export default function ProjectPage() {
 
         {/* Highlights */}
         {project.highlights.length > 0 && (
-          <section className="mb-20">
-            <div className="flex items-center gap-3 mb-8">
+          <section className="mb-24">
+            <div className="flex items-center gap-3 mb-10">
               <Sparkles className="h-4 w-4 text-accent" />
-              <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono">Highlights</h2>
+              <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono">
+                Highlights
+              </h2>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+            <div className="space-y-4">
               {project.highlights.map((h, i) => (
-                <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}
-                  className="rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-5 text-sm text-foreground leading-relaxed">
-                  <span className="inline-block w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-bold flex items-center justify-center mb-3">
-                    {i + 1}
+                <motion.div
+                  key={i}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={i}
+                  className="group flex items-start gap-4 rounded-xl 
+                     border border-border/50 
+                     bg-card/30 backdrop-blur-md 
+                     p-4 transition-all duration-300
+                     hover:border-accent/30 hover:bg-card/50"
+                >
+                  {/* number */}
+                  <span className="text-accent font-mono text-md mt-1 opacity-70 group-hover:opacity-100">
+                    0{i + 1}
                   </span>
-                  {h}
+
+                  {/* content */}
+                  <p className="text-foreground leading-relaxed">
+                    {h}
+                  </p>
                 </motion.div>
               ))}
             </div>

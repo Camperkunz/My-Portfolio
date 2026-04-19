@@ -12,7 +12,7 @@ export const personalInfo = {
   image: "/anna-photo.webp",
   experienceYears: 2,
   realProjects: 10,
-  certifications: 7,
+  certifications: 8,
 };
 
 export const experiences: Experience[] = [
@@ -82,7 +82,6 @@ export const projects: Project[] = [
     category: "Personal Project",
     highlights: [
       "Designed and developed a custom portfolio from scratch",
-      "Built with React, TypeScript, and Tailwind CSS",
       "Fully responsive layout optimized for desktop, tablet, and mobile",
       "Reusable component-based architecture",
       "Smooth UI interactions and modern visual design",

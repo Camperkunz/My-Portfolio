@@ -66,7 +66,7 @@ interface MarqueeRowProps {
 function MarqueeRow({
   items,
   direction = "left",
-  duration = 250,
+  duration = 1000,
 }: MarqueeRowProps) {
   const animationClass =
     direction === "left"
