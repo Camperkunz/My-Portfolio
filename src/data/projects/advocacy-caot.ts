@@ -23,7 +23,7 @@ const advocacyCaot: Project = {
     solutionImageUrl: "/advocacy/solution.jpg", // ← replace
     results: "The project produced a complete design and working site structure ready for launch, giving the organization a clearer and more modern platform for communicating its advocacy initiatives once published.",
     resultsImageUrl: "/advocacy/results.jpg", // ← replace
-    techStack: ["Squarespace", "Figma", "JavaScript", "HTML", "CSS"],
+    techStack: ["Squarespace", "Figma", "JavaScript"],
     liveUrl: "https://www.figma.com/proto/lnRSLrif5eREP6cWtG3tlB/Advocacy?page-id=0%3A1&node-id=0-188&viewport=474%2C376%2C0.11&t=ZRQUcjHabGhCNG7c-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=0%3A188",
 };
 
