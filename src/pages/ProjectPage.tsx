@@ -1,8 +1,17 @@
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { projects } from "@/data/projects";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ExternalLink, Github, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  ExternalLink,
+  Github,
+  Sparkles,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import Layout from "@/components/portfolio/Layout";
 import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs, SiNextdotjs, SiStripe, SiVercel, SiFigma, SiSquarespace, SiShopify, SiCss3, SiHtml5, SiJavascript, SiVite, SiFirebase, SiVuedotjs, } from "react-icons/si";
 import { Brain } from "lucide-react";
@@ -45,6 +54,10 @@ export default function ProjectPage() {
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
 
+  // For the gallery lightbox
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
   if (!project) {
     return (
       <Layout>
@@ -63,6 +76,55 @@ export default function ProjectPage() {
     { title: "Implementation", content: project.implementation, imageUrl: project.implementationImageUrl || project.imageUrl },
     { title: "Results", content: project.results, imageUrl: project.resultsImageUrl || project.imageUrl },
   ].filter((b) => b.content);
+
+  // All images that can be opened in the gallery (hero image excluded on purpose)
+  const galleryImages = contentBlocks
+    .map((b) => b.imageUrl)
+    .filter(Boolean) as string[];
+
+  const showPrev = () => {
+    setOpenIndex((prev) => {
+      if (prev === null) return prev;
+      return (prev - 1 + galleryImages.length) % galleryImages.length;
+    });
+  };
+
+  const showNext = () => {
+    setOpenIndex((prev) => {
+      if (prev === null) return prev;
+      return (prev + 1) % galleryImages.length;
+    });
+  };
+
+  useEffect(() => {
+    if (openIndex === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenIndex(null);
+      if (e.key === "ArrowLeft") showPrev();
+      if (e.key === "ArrowRight") showNext();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [openIndex, galleryImages.length]);
+
+  // Swipe for mobile
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    const threshold = 50; // minimum distance in pixels to consider it a swipe
+
+    if (deltaX > threshold) showPrev();
+    if (deltaX < -threshold) showNext();
+
+    setTouchStartX(null);
+  };
 
   return (
     <Layout>
@@ -249,6 +311,8 @@ export default function ProjectPage() {
         {/* Alternating Content Blocks — each with its own image */}
         {contentBlocks.map((block, i) => {
           const isReversed = i % 2 !== 0;
+          const imageIndex = block.imageUrl ? galleryImages.indexOf(block.imageUrl) : -1;
+
           return (
             <motion.section key={block.title} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}
               className="grid md:grid-cols-2 gap-10 items-center mb-40">
@@ -257,7 +321,12 @@ export default function ProjectPage() {
                 <p className="text-foreground leading-relaxed">{block.content}</p>
               </div>
               <div className={isReversed ? "md:order-1" : ""}>
-                <img src={block.imageUrl} alt={`${project.title} — ${block.title}`} className="w-full aspect-[16/9] rounded-xl object-cover" />
+                <img
+                  src={block.imageUrl}
+                  alt={`${project.title} — ${block.title}`}
+                  onClick={() => imageIndex !== -1 && setOpenIndex(imageIndex)}
+                  className="w-full aspect-[16/9] rounded-xl object-cover cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+                />
               </div>
             </motion.section>
           );
@@ -285,6 +354,56 @@ export default function ProjectPage() {
           </div>
         </section>
       </div>
+
+      {/* Gallery Lightbox */}
+      {openIndex !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+          onClick={() => setOpenIndex(null)}
+        >
+          <button
+            onClick={() => setOpenIndex(null)}
+            className="absolute top-4 right-4 md:top-6 md:right-6 text-white/80 hover:text-white p-2"
+            aria-label="Close"
+          >
+            <X className="h-8 w-8" />
+          </button>
+
+          {galleryImages.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  showPrev();
+                }}
+                className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="h-10 w-10" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  showNext();
+                }}
+                className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2"
+                aria-label="Next image"
+              >
+                <ChevronRight className="h-10 w-10" />
+              </button>
+            </>
+          )}
+
+          <img
+            src={galleryImages[openIndex]}
+            alt="Full-size preview"
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+          />
+        </div>
+      )}
     </Layout>
   );
 }
