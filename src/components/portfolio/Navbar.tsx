@@ -12,7 +12,7 @@ const navLinks = [
     { label: "Education", href: "#education" },
     // Projects link different styling
     {
-        label: "Contact me", href: "#contact",
+        label: "Get in touch", href: "#contact",
         className: "rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-4 py-2 transition-all hover:shadow-lg hover:shadow-accent/10"
     },
     // 
