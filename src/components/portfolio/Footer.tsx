@@ -1,24 +1,14 @@
 import { Github, Linkedin } from "lucide-react";
 import { personalInfo } from "@/data/personalInfo";
 
-
-const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Experience", href: "#experience" },
-    { label: "Education", href: "#education" },
-    { label: "Skills", href: "#skills" },
-    { label: "Projects", href: "#projects" },
-    { label: "Contact", href: "#contact" },
-];
-
 export default function Footer() {
     const navLinks_ = [
-        { label: "About", href: "/#about" },
-        { label: "Experience", href: "/#experience" },
-        { label: "Education", href: "/#education" },
-        { label: "Skills", href: "/#skills" },
-        { label: "Projects", href: "/#projects" },
-        { label: "Contact", href: "/#contact" },
+        { label: "About", href: "#about" },
+        { label: "Skills", href: "#skills" },
+        { label: "Projects", href: "#projects" },
+        { label: "Experience", href: "#experience" },
+        { label: "Education", href: "#education" },
+        { label: "Contact", href: "#contact" },
     ];
 
     return (
@@ -55,7 +45,7 @@ export default function Footer() {
                     </a>
                 </div>
 
-                <p className="text-xs text-muted-foreground/60">© {new Date().getFullYear()} {personalInfo.name}. Made with love ❤️</p>
+                <p className="text-xs text-muted-foreground/60">© {new Date().getFullYear()}. Made with love ❤️ by {personalInfo.name}</p>
             </div>
         </footer>
     );
