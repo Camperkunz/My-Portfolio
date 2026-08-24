@@ -7,12 +7,12 @@ import { Menu } from "lucide-react";
 const navLinks = [
     { label: "About", href: "#about" },
     { label: "Skills", href: "#skills" },
+    { label: "Projects", href: "#projects" },
     { label: "Experience", href: "#experience" },
     { label: "Education", href: "#education" },
-    { label: "Contact", href: "#contact" },
     // Projects link different styling
     {
-        label: "Projects", href: "#projects",
+        label: "Contact me", href: "#contact",
         className: "rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-4 py-2 transition-all hover:shadow-lg hover:shadow-accent/10"
     },
     // 
