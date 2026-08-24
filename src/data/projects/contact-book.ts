@@ -6,7 +6,8 @@ const contactBook: Project = {
     shortDescription: "A single-page contact management application built with Vue, allowing users to add, edit, search, and manage contacts stored in local storage.",
     fullDescription:
         "This project is a single-page contact management application developed as part of a coursework assignment. The goal was to build a functional web app using Vue, Vue Router, and Vite while implementing persistent data storage through the browser’s local storage. The application allows users to browse a list of contacts, search by name, and manage contact information through a simple interface.Users can create new contacts, view detailed information, edit existing entries, and delete contacts when needed.",
-    overviewImageUrl: "", // ← replace with your own screenshot
+    imageUrl: "/contact-book/contact-book.jpg", // ← this is the main image for the project, like a cover image
+    overviewImageUrl: "/contact-book/contact-overview.jpg", // ← inside the component, first
     year: "2025",
     category: "Personal Project",
     highlights: [
@@ -23,7 +24,6 @@ const contactBook: Project = {
     results: "The result is a simple and intuitive contact management application that demonstrates core frontend concepts such as client-side routing, state management, and data persistence. The project strengthened my understanding of building structured SPAs using Vue.",
     resultsImageUrl: "/contact-book/contact-result.jpg", // ← replace
     techStack: ["Vue", "Vite", "JavaScript", "CSS"],
-    imageUrl: "/contact-book/contact-book.jpg",
     liveUrl: "https://niki0012a.github.io/Vue-Contact-Book/",
     githubUrl: "https://github.com/niki0012A/Vue-Contact-Book",
 };

@@ -6,7 +6,8 @@ const notificationsApp: Project = {
     shortDescription: "A small React application for managing notifications, built as a college project to demonstrate frontend development and UI design skills.",
     fullDescription:
         "This project is a micro web application built with React and Vite as part of a college assignment. The goal was to design and develop a clean, functional interface for managing notifications while practicing component-based architecture and state management in React. The application displays a list of notifications and allows users to interact with them by deleting individual items or clearing the entire list.",
-    overviewImageUrl: "/notification/notification-overview.jpg", // ← replace with your own screenshot
+    imageUrl: "/notification/notifications.jpg", // ← this is the main image for the project, like a cover image
+    overviewImageUrl: "/notification/notification-overview.jpg", // ← inside the component, first
     year: "2025",
     category: "Personal Project",
     highlights: [
@@ -23,7 +24,6 @@ const notificationsApp: Project = {
     results: "The result is a clean, interactive micro application that demonstrates core React concepts and UI design skills. You can explore the live version of the project and interact with the notifications yourself.",
     resultsImageUrl: "/notification/notification-result.jpg", // ← replace
     techStack: ["React", "Vite", "JavaScript", "CSS"],
-    imageUrl: "/notification/notifications.jpg",
     liveUrl: "https://camperkunz.github.io/Notifications-App/",
     githubUrl: "https://github.com/Camperkunz/Notifications-App",
 };

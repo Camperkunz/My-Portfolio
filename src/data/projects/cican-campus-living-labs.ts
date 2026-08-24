@@ -6,7 +6,8 @@ const cicanCampusLivingLabs: Project = {
     shortDescription: "An interactive digital report for collegiate micro-grant projects, featuring dynamic filtering and custom UI/UX design.",
     fullDescription:
         "Developed during my full-time position at Algonquin College, this project serves as a comprehensive digital report for CICan’s Campus Living Labs. It showcases eight distinct micro-grant projects from over 10 Canadian colleges and universities. I was responsible for the entire lifecycle of the project, from the initial UI/UX design to the final deployment, ensuring a seamless way to present complex analytical data.",
-    overviewImageUrl: "/cican/cican-overview.jpg", // ← replace with your own screenshot
+    imageUrl: "/cican/cican-overview.jpg", // ← this is the main image for the project, like a cover image
+    overviewImageUrl: "/cican/cican-overview.jpg", // ← inside the component, first
     year: "2026",
     category: "Web Development & UX Design",
     highlights: [
@@ -23,7 +24,6 @@ const cicanCampusLivingLabs: Project = {
     results: "The final platform provides a professional and intuitive way to explore the fourth cohort of projects. It successfully bridges the gap between raw data and user-friendly interaction, meeting high standards for both design and web accessibility.",
     resultsImageUrl: "/cican/cican-results.jpg", // ← replace
     techStack: ["React", "TypeScript", "Tailwind CSS", "AI"],
-    imageUrl: "/cican/cican-overview.jpg",
     githubUrl: "", // ← add if available
     liveUrl: "https://humansofimpact.ca/",
 };
