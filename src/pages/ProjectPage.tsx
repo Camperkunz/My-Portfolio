@@ -13,7 +13,24 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Layout from "@/components/portfolio/Layout";
-import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs, SiNextdotjs, SiStripe, SiVercel, SiFigma, SiSquarespace, SiShopify, SiCss3, SiHtml5, SiJavascript, SiVite, SiFirebase, SiVuedotjs, } from "react-icons/si";
+import {
+  SiReact,
+  SiTypescript,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiNextdotjs,
+  SiStripe,
+  SiVercel,
+  SiFigma,
+  SiSquarespace,
+  SiShopify,
+  SiCss3,
+  SiHtml5,
+  SiJavascript,
+  SiVite,
+  SiFirebase,
+  SiVuedotjs,
+} from "react-icons/si";
 import { Brain } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -34,7 +51,7 @@ const techIcons: Record<string, React.ReactNode> = {
   Vite: <SiVite className="h-5 w-5" />,
   Firebase: <SiFirebase className="h-5 w-5" />,
   Vue: <SiVuedotjs className="h-5 w-5" />,
-  "AI": <Brain className="h-5 w-5" />,
+  AI: <Brain className="h-5 w-5" />,
 };
 
 const fadeUp = {
@@ -54,9 +71,10 @@ export default function ProjectPage() {
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
 
-  // For the gallery lightbox
+  // State for the gallery lightbox
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
 
   if (!project) {
     return (
@@ -77,11 +95,12 @@ export default function ProjectPage() {
     { title: "Results", content: project.results, imageUrl: project.resultsImageUrl || project.imageUrl },
   ].filter((b) => b.content);
 
-  // All images that can be opened in the gallery (hero image excluded on purpose)
+  // Images that can be opened in the gallery (hero excluded for now)
   const galleryImages = contentBlocks
     .map((b) => b.imageUrl)
     .filter(Boolean) as string[];
 
+  // Buttons to navigate through the gallery images
   const showPrev = () => {
     setOpenIndex((prev) => {
       if (prev === null) return prev;
@@ -96,6 +115,7 @@ export default function ProjectPage() {
     });
   };
 
+  // Keyboard navigation for the gallery lightbox
   useEffect(() => {
     if (openIndex === null) return;
 
@@ -109,6 +129,7 @@ export default function ProjectPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [openIndex, galleryImages.length]);
 
+  // Lock page scroll while the lightbox is open
   useEffect(() => {
     if (openIndex !== null) {
       document.body.style.overflow = "hidden";
@@ -121,21 +142,29 @@ export default function ProjectPage() {
     };
   }, [openIndex]);
 
-  // Swipe for mobile
+  const SWIPE_THRESHOLD = 50;
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX);
+    setTouchStartY(e.touches[0].clientY);
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null) return;
-    const deltaX = e.changedTouches[0].clientX - touchStartX;
-    const threshold = 50; // minimum distance in pixels to consider it a swipe
+    if (touchStartX === null || touchStartY === null) return;
 
-    if (deltaX > threshold) showPrev();
-    if (deltaX < -threshold) showNext();
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    const deltaY = e.changedTouches[0].clientY - touchStartY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD) {
+      if (deltaX > 0) {
+        showPrev();
+      } else {
+        showNext();
+      }
+    }
 
     setTouchStartX(null);
+    setTouchStartY(null);
   };
 
   return (
@@ -154,7 +183,7 @@ export default function ProjectPage() {
           className="mb-32"
         >
           <div
-            className="group relative rounded-2xl border border-border/50 overflow-hidden 
+            className="group relative rounded-2xl border border-border/50 overflow-hidden
                bg-card/30 backdrop-blur-md 
                shadow-xl shadow-black/10 
                transition-all duration-500 
@@ -173,10 +202,11 @@ export default function ProjectPage() {
               {/* gradient overlay */}
               <div
                 className="absolute -inset-[1px] bg-gradient-to-t from-black/80 via-black/30 to-black/10 
+                pointer-events-none
                 transition-opacity duration-500 group-hover:opacity-90"
               />
               {/* subtle dark layer */}
-              <div className="absolute inset-0 bg-black/40 md:bg-black/35" />
+              <div className="absolute inset-0 bg-black/40 md:bg-black/35 pointer-events-none" />
             </div>
 
             {/* CONTENT */}
@@ -222,7 +252,7 @@ export default function ProjectPage() {
                 className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
               >
                 {/* buttons */}
-                <div className="flex gap-3">
+                <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
                   {project.liveUrl && (
                     <Button
                       variant="accent"
@@ -370,12 +400,18 @@ export default function ProjectPage() {
       {/* Gallery Lightbox */}
       {openIndex !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
-          onClick={() => setOpenIndex(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 touch-none"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setOpenIndex(null);
+            }
+          }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           <button
             onClick={() => setOpenIndex(null)}
-            className="absolute top-4 right-4 md:top-6 md:right-6 text-white/80 hover:text-white p-2"
+            className="absolute top-4 right-4 md:top-6 md:right-6 text-white/80 hover:text-white p-2 z-10"
             aria-label="Close"
           >
             <X className="h-8 w-8" />
@@ -388,7 +424,7 @@ export default function ProjectPage() {
                   e.stopPropagation();
                   showPrev();
                 }}
-                className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2"
+                className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2 z-10"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="h-10 w-10" />
@@ -398,7 +434,7 @@ export default function ProjectPage() {
                   e.stopPropagation();
                   showNext();
                 }}
-                className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2"
+                className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2 z-10"
                 aria-label="Next image"
               >
                 <ChevronRight className="h-10 w-10" />
@@ -409,10 +445,7 @@ export default function ProjectPage() {
           <img
             src={galleryImages[openIndex]}
             alt="Full-size preview"
-            onClick={(e) => e.stopPropagation()}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg select-none pointer-events-none"
           />
         </div>
       )}
