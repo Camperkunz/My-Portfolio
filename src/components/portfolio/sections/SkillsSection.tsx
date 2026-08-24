@@ -6,7 +6,6 @@ import {
   SiNextdotjs,
   SiTailwindcss,
   SiNodedotjs,
-  SiGit,
   SiFigma,
   SiAdobephotoshop,
   SiAdobeillustrator,
@@ -23,7 +22,7 @@ import {
   SiVercel
 
 } from "react-icons/si";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../SectionHeader";
 
 type Skill = {
   name: string;

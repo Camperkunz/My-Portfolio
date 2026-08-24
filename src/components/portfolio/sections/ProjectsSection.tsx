@@ -1,10 +1,10 @@
-import { projects } from "@/data/portfolio";
+import { projects } from "@/data/projectsInfo";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../SectionHeader";
 
 export default function ProjectsSection() {
   const featured = projects.slice(0, 3);

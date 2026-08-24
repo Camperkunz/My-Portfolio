@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { personalInfo } from "@/data/portfolio";
-import SectionHeader from "./SectionHeader";
+import { personalInfo } from "@/data/personalInfo";
+import SectionHeader from "../SectionHeader";
 
 function useCountUp(target: number, duration = 1500, startCounting = false) {
   const [count, setCount] = useState(0);

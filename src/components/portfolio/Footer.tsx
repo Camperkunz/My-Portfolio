@@ -1,5 +1,5 @@
 import { Github, Linkedin } from "lucide-react";
-import { personalInfo } from "@/data/portfolio";
+import { personalInfo } from "@/data/personalInfo";
 
 
 const navLinks = [

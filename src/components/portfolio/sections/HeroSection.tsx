@@ -1,9 +1,9 @@
-import { personalInfo } from "@/data/portfolio";
+import { personalInfo } from "@/data/personalInfo";
 import { Github, Linkedin, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import Typewriter from "./animations/Typewriter";
-import CodeToButton from "./animations/CodeToButton";
+import Typewriter from "../animations/Typewriter";
+import CodeToButton from "../animations/CodeToButton";
 
 const roles = ["Frontend Developer", "Web Developer", "UI Engineer"];
 const stackItems = ["React", "TypeScript", "Shopify", "AWS"];
@@ -21,7 +21,7 @@ export default function HeroSection() {
         <h1 className="mt-4 font-mono text-4xl font-bold tracking-tight text-foreground sm:text-7xl">
           {personalInfo.name}
         </h1>
-        <p className="mt-4 max-w-md mx-auto text-base text-muted-foreground leading-relaxed text-lg sm:text-xl">
+        <p className="mt-4 max-w-md mx-auto text-muted-foreground leading-relaxed text-lg sm:text-xl">
           {personalInfo.tagline}
         </p>
 

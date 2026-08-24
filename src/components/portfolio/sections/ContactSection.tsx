@@ -1,6 +1,6 @@
-import { personalInfo } from "@/data/portfolio";
+import { personalInfo } from "@/data/personalInfo";
 import { Github, Linkedin, Mail, Phone, MapPin } from "lucide-react";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../SectionHeader";
 
 function InfoBlock({ icon: Icon, label, children }: { icon: React.ElementType; label: string; children: React.ReactNode }) {
   return (

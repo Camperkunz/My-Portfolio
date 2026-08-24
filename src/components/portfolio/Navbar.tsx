@@ -1,7 +1,7 @@
 import { ReactNode, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { personalInfo } from "@/data/portfolio";
+import { personalInfo } from "@/data/personalInfo";
 import { Menu } from "lucide-react";
 // 
 const navLinks = [
