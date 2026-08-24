@@ -6,7 +6,8 @@ const contactBook: Project = {
     shortDescription: "A single-page contact management application built with Vue, allowing users to add, edit, search, and manage contacts stored in local storage.",
     fullDescription:
         "This project is a single-page contact management application developed as part of a coursework assignment. The goal was to build a functional web app using Vue, Vue Router, and Vite while implementing persistent data storage through the browser’s local storage. The application allows users to browse a list of contacts, search by name, and manage contact information through a simple interface.Users can create new contacts, view detailed information, edit existing entries, and delete contacts when needed.",
-    imageUrl: "/contact-book/contact-book.jpg", // ← this is the main image for the project, like a cover image
+    thumbnailImageUrl: "/contact-book/contact-book.jpg", // ← this is the small thumbnail image for the project, used in the projects section
+    imageUrl: "/contact-book/contact-book.jpg",// ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/contact-book/contact-overview.jpg", // ← inside the component, first
     year: "2025",
     category: "Personal Project",

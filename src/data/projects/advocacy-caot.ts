@@ -6,7 +6,8 @@ const advocacyCaot: Project = {
     shortDescription: "A website redesign and prototype for an advocacy initiative by CAOT, focusing on modernizing the brand and improving the structure and clarity of the content.",
     fullDescription:
         "This project involved designing and prototyping a new advocacy website for CAOT. Since the project had not yet been launched publicly, the main focus was on research, prototyping, and developing a strong visual direction for the platform. I worked primarily on the design side, rethinking the existing brand presentation and creating a clearer, more modern visual identity. After the design phase, I began implementing the website in Squarespace, using custom code and platform customization to match the design as closely as possible.",
-    imageUrl: "/advocacy/advocacy.jpg", // ← this is the main image for the project, like a cover image
+    thumbnailImageUrl: "/advocacy/advocacy.jpg", // ← this is the small thumbnail image for the project, used in the projects section
+    imageUrl: "/advocacy/advocacy.jpg", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "", // ← inside the component, first
     year: "2025",
     category: "Web Design & Development",

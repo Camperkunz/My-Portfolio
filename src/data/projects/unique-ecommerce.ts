@@ -6,7 +6,8 @@ const uniqueEcommerce: Project = {
     shortDescription: "A custom Shopify store designed for a small fabric business to relaunch their online presence and convert social media traffic into sales.",
     fullDescription:
         "This project focused on rebuilding the online presence of a small fabric business whose previous website was outdated and difficult to use. The goal was to migrate the brand from primarily selling through social media to a fully functional online store. I designed the entire website and built the store on Shopify, focusing on clear product presentation, intuitive navigation, and strong SEO foundations.",
-    imageUrl: "/unique/unique-website.jpg", // ← this is the main image for the project, like a cover image
+    thumbnailImageUrl: "/unique/unique-website.jpg", // ← this is the small thumbnail image for the project, used in the projects section
+    imageUrl: "/unique/unique-website.jpg", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/unique/unique-overview.jpg", // ← inside the component, first
     year: "2025",
     category: "Frontend Development",
@@ -24,6 +25,8 @@ const uniqueEcommerce: Project = {
     resultsImageUrl: "/unique/unique-results.jpg", // ← replace
     techStack: ["Shopify", "Figma", "HTML", "CSS"],
     liveUrl: "https://uniquefabricpanels.com/",
+    // 
+    featured: true,
 };
 
 export default uniqueEcommerce;

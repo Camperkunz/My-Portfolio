@@ -89,9 +89,9 @@ export default function ProjectPage() {
             {/* IMAGE */}
             <div className="relative">
               <img
-                src={project.imageUrl}
+                src={project.imageUrl || project.thumbnailImageUrl || "/placeholder-project.jpg"}
                 alt={project.title}
-                className="w-full h-[70vh] md:h-[65vh] object-cover 
+                className="w-full h-[70vh] md:h-[65vh] object-cover object-top
                    transition-transform duration-700 ease-out
                    group-hover:scale-[1.01]"
               />

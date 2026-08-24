@@ -6,7 +6,8 @@ const portfolio: Project = {
     shortDescription: "A personal portfolio website built with React and Tailwind CSS to showcase my projects, skills, and approach to frontend development.",
     fullDescription:
         "This portfolio website is my first full project after graduation and represents a combination of manual development and AI-assisted workflows. The goal was to create a clean, modern space where I could present my work and demonstrate my frontend development skills. The project allowed me to experiment with React, components, layouts, and animation while translating my own ideas into a working product.",
-    imageUrl: "/portfolio/portfolio.jpg", // ← this is the main image for the project, like a cover image
+    thumbnailImageUrl: "/portfolio/portfolio.jpg", // ← this is the small thumbnail image for the project, used in the projects section
+    imageUrl: "/portfolio/portfolio.jpg", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/portfolio/portfolio-overview.jpg", // ← inside the component, first
     year: "2026",
     category: "Personal Project",

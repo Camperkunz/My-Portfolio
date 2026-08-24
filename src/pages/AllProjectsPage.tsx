@@ -27,9 +27,9 @@ export default function AllProjectsPage() {
             >
               <Link to={`/project/${p.id}`}>
                 <img
-                  src={p.imageUrl}
+                  src={p.thumbnailImageUrl}
                   alt={p.title}
-                  className="h-60 w-full rounded-t-lg object-cover bg-muted"
+                  className="h-60 w-full rounded-t-lg object-cover"
                   loading="lazy"
                 />
               </Link>

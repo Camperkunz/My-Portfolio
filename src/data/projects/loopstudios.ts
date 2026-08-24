@@ -6,7 +6,8 @@ const loopstudios: Project = {
     shortDescription: "A fully responsive landing page for a VR company built as part of a Frontend Mentor challenge, focusing on clean code.",
     fullDescription:
         "This project is a responsive landing page built as part of a Frontend Mentor challenge. The goal was to recreate a provided design as accurately as possible while maintaining clean, semantic code and responsive behavior across different screen sizes. All HTML, CSS, and JavaScript were written from scratch based on the design reference.The project focused on translating a static design into a functional webpage.",
-    imageUrl: "/loop-studios/loopstudios.jpg", // ← this is the main image for the project, like a cover image
+    thumbnailImageUrl: "/loop-studios/loopstudios.jpg", // ← this is the small thumbnail image for the project, used in the projects section
+    imageUrl: "/loop-studios/loopstudios.jpg", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/loop-studios/loop-overview.jpg", // ← inside the component, first
     year: "2025",
     category: "Frontend Development",

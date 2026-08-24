@@ -7,6 +7,7 @@ import loopstudios from "./loopstudios";
 import contactBook from "./contact-book";
 import advocacyCaot from "./advocacy-caot";
 import notificationsApp from "./notifications-app";
+import findYourSpot from "./find-your-spot";
 
 // Order here controls display order across the site.
 export const projects: Project[] = [
@@ -17,4 +18,5 @@ export const projects: Project[] = [
     contactBook,
     advocacyCaot,
     notificationsApp,
+    findYourSpot
 ];

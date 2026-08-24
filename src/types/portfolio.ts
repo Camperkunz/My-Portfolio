@@ -42,6 +42,7 @@ export interface Project {
   resultsImageUrl?: string;
   techStack: string[];
   imageUrl: string;
+  thumbnailImageUrl?: string;
   githubUrl?: string;
   liveUrl?: string;
   featured?: boolean;

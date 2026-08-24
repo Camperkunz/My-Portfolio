@@ -6,7 +6,8 @@ const notificationsApp: Project = {
     shortDescription: "A small React application for managing notifications, built as a college project to demonstrate frontend development and UI design skills.",
     fullDescription:
         "This project is a micro web application built with React and Vite as part of a college assignment. The goal was to design and develop a clean, functional interface for managing notifications while practicing component-based architecture and state management in React. The application displays a list of notifications and allows users to interact with them by deleting individual items or clearing the entire list.",
-    imageUrl: "/notification/notifications.jpg", // ← this is the main image for the project, like a cover image
+    thumbnailImageUrl: "/notification/notifications.jpg", // ← this is the small thumbnail image for the project, used in the projects section
+    imageUrl: "/notification/notifications.jpg", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/notification/notification-overview.jpg", // ← inside the component, first
     year: "2025",
     category: "Personal Project",
