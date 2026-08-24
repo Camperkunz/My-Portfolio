@@ -6,8 +6,8 @@ const cicanCampusLivingLabs: Project = {
     shortDescription: "An interactive digital report for collegiate micro-grant projects, featuring dynamic filtering and custom UI/UX design.",
     fullDescription:
         "Developed during my full-time position at Algonquin College, this project serves as a comprehensive digital report for CICan’s Campus Living Labs. It showcases eight distinct micro-grant projects from over 10 Canadian colleges and universities. I was responsible for the entire lifecycle of the project, from the initial UI/UX design to the final deployment, ensuring a seamless way to present complex analytical data.",
-    thumbnailImageUrl: "/cican/cican-overview.jpg", // ← this is the small thumbnail image for the project, used in the projects section
-    imageUrl: "/cican/cican-overview.jpg", // ← this is the main image for the project, hero image on the project page
+    thumbnailImageUrl: "/cican/overview.jpg", // ← this is the small thumbnail image for the project, used in the projects section
+    imageUrl: "/cican/overview.jpg", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/cican/cican-overview.jpg", // ← inside the component, first
     year: "2026",
     category: "Web Development & UX Design",
@@ -19,11 +19,11 @@ const cicanCampusLivingLabs: Project = {
         "AI-augmented development workflow using React and TypeScript"
     ],
     problem: "The goal was to transform a static, data-heavy analytical report into an engaging, accessible, and responsive digital experience for educational stakeholders.",
-    problemImageUrl: "/cican/cican-problem.jpg", // ← replace
+    problemImageUrl: "/cican/problem.jpg", // ← replace
     solution: "I built the application using React and TypeScript with Tailwind CSS for rapid, modern styling. The development leveraged AI tools for efficiency while maintaining high-quality manual code for complex logic, such as the project filtering and the report download features.",
-    solutionImageUrl: "/cican/cican-solution.jpg", // ← replace
+    solutionImageUrl: "/cican/solution.jpg", // ← replace
     results: "The final platform provides a professional and intuitive way to explore the fourth cohort of projects. It successfully bridges the gap between raw data and user-friendly interaction, meeting high standards for both design and web accessibility.",
-    resultsImageUrl: "/cican/cican-results.jpg", // ← replace
+    resultsImageUrl: "/cican/results.jpg", // ← replace
     techStack: ["React", "TypeScript", "Tailwind CSS", "AI"],
     githubUrl: "", // ← add if available
     liveUrl: "https://humansofimpact.ca/",

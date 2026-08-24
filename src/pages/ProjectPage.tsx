@@ -57,7 +57,7 @@ export default function ProjectPage() {
   }
 
   const contentBlocks = [
-    { title: "Overview", content: project.fullDescription, imageUrl: project.overviewImageUrl || project.imageUrl },
+    { title: "Overview", content: project.fullDescription, imageUrl: project.overviewImageUrl || project.imageUrl || project.thumbnailImageUrl },
     { title: "The Problem", content: project.problem, imageUrl: project.problemImageUrl || project.imageUrl },
     { title: "The Solution", content: project.solution, imageUrl: project.solutionImageUrl || project.imageUrl },
     { title: "Implementation", content: project.implementation, imageUrl: project.implementationImageUrl || project.imageUrl },
@@ -257,7 +257,7 @@ export default function ProjectPage() {
                 <p className="text-foreground leading-relaxed">{block.content}</p>
               </div>
               <div className={isReversed ? "md:order-1" : ""}>
-                <img src={block.imageUrl} alt={`${project.title} — ${block.title}`} className="w-full aspect-[3/2] rounded-xl object-cover bg-muted border border-border/50" />
+                <img src={block.imageUrl} alt={`${project.title} — ${block.title}`} className="w-full aspect-[16/9] rounded-xl object-cover" />
               </div>
             </motion.section>
           );
@@ -271,9 +271,9 @@ export default function ProjectPage() {
               <Link key={p.id} to={`/project/${p.id}`}
                 className="group rounded-xl border border-border/50 bg-card/30 backdrop-blur-md overflow-hidden hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all">
                 <img
-                  src={p.imageUrl}
+                  src={p.thumbnailImageUrl || p.imageUrl || "/placeholder-project.jpg"}
                   alt={p.title}
-                  className="w-full h-40 object-cover bg-muted"
+                  className="w-full h-40 object-cover object-top"
                   loading="eager"
                 />
                 <div className="p-5">
