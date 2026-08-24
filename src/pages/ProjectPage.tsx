@@ -109,6 +109,18 @@ export default function ProjectPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [openIndex, galleryImages.length]);
 
+  useEffect(() => {
+    if (openIndex !== null) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [openIndex]);
+
   // Swipe for mobile
 
   const handleTouchStart = (e: React.TouchEvent) => {
