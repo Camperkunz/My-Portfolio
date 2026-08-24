@@ -7,7 +7,9 @@ import { Link } from "react-router-dom";
 import SectionHeader from "../SectionHeader";
 
 export default function ProjectsSection() {
-  const featured = projects.slice(0, 3);
+  const featuredProjects = projects.filter((p) => p.featured);
+  const featured =
+    featuredProjects.length > 0 ? featuredProjects.slice(0, 3) : projects.slice(0, 3);
 
   return (
     <section id="projects" className="mx-auto max-w-7xl px-6 py-24">
@@ -18,34 +20,48 @@ export default function ProjectsSection() {
             key={p.id}
             className="group flex flex-col border-border/50 bg-card/30 backdrop-blur-md transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
           >
-            <Link to={`/project/${p.id}`}>
-              <img src={p.imageUrl} alt={p.title}
-                className="h-60 w-full rounded-t-lg object-cover bg-muted" loading="lazy" />
+            <Link to={`/project/${p.id}`} className="block">
+              <img
+                src={p.imageUrl || "/placeholder-project.jpg"}
+                alt={p.title}
+                className="h-60 w-full rounded-t-lg object-cover bg-muted"
+                loading="lazy"
+                decoding="async"
+              />
+              <CardContent className="pt-8 px-8 pb-0">
+                <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
+                  {p.title}
+                </h3>
+              </CardContent>
             </Link>
-            <CardContent className="flex flex-col flex-1 p-8">
+            <CardContent className="flex flex-col flex-1 px-8 pb-8">
               <div className="flex-1">
-                <Link to={`/project/${p.id}`} className="hover:text-accent transition-colors">
-                  <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">{p.title}</h3>
-                </Link>
                 <p className="mt-1 text-sm text-muted-foreground">{p.shortDescription}</p>
                 <div className="mt-3 flex flex-wrap gap-1">
                   {p.techStack.slice(0, 3).map((t) => (
-                    <Badge key={t} variant="secondary" className="text-xs px-3 py-1.5 rounded-lg">{t}</Badge>
+                    <Badge key={t} variant="secondary" className="text-xs px-3 py-1.5 rounded-lg">
+                      {t}
+                    </Badge>
                   ))}
                 </div>
               </div>
               <div className="mt-auto flex gap-2 pt-6 border-t border-border/30">
                 {p.liveUrl && (
                   <Button variant="accent" size="sm" className="gap-1.5 text-xs" asChild>
-                    <a href={p.liveUrl} target="_blank" rel="noreferrer">
+                    <a href={p.liveUrl} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="h-3.5 w-3.5" /> Live Preview
                     </a>
                   </Button>
                 )}
 
                 {p.githubUrl && (
-                  <Button variant="outline" size="sm" className="gap-1.5 text-xs hover:bg-accent hover:text-accent-foreground transition-all" asChild>
-                    <a href={p.githubUrl} target="_blank" rel="noreferrer">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-1.5 text-xs hover:bg-accent hover:text-accent-foreground transition-all"
+                    asChild
+                  >
+                    <a href={p.githubUrl} target="_blank" rel="noopener noreferrer">
                       <Github className="h-3.5 w-3.5" /> Source
                     </a>
                   </Button>
