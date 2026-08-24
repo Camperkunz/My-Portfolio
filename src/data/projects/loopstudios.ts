@@ -1,0 +1,30 @@
+import { Project } from "@/types/portfolio";
+
+const loopstudios: Project = {
+    id: "loopstudios",
+    title: "Loopstudios Landing Page",
+    shortDescription: "A fully responsive landing page for a VR company built as part of a Frontend Mentor challenge, focusing on clean code.",
+    fullDescription:
+        "This project is a responsive landing page built as part of a Frontend Mentor challenge. The goal was to recreate a provided design as accurately as possible while maintaining clean, semantic code and responsive behavior across different screen sizes. All HTML, CSS, and JavaScript were written from scratch based on the design reference.The project focused on translating a static design into a functional webpage.",
+    overviewImageUrl: "", // ← replace with your own screenshot
+    year: "2025",
+    category: "Frontend Development",
+    highlights: [
+        "Pixel-accurate recreation of the original design",
+        "Fully responsive layout for mobile and desktop",
+        "Interactive UI elements built with vanilla JavaScript",
+        "Clean, semantic HTML structure and well-organized CSS"
+    ],
+    problem: "The challenge was to accurately translate a static design into a responsive webpage while keeping the code clean, semantic, and maintainable.",
+    problemImageUrl: "/loop-studios/loop-problem.jpg", // ← replace
+    solution: "I built the page using HTML, CSS, and vanilla JavaScript, implementing the layout with Flexbox and Grid and carefully matching the provided design. Responsive breakpoints were added to ensure the layout works smoothly across mobile and desktop devices.",
+    solutionImageUrl: "/loop-studios/loop-solution.jpg", // ← replace
+    results: "The final result closely matches the original design while maintaining clean, structured code and responsive behavior. The project helped strengthen my skills in layout implementation, responsive design, and writing organized frontend code.",
+    resultsImageUrl: "/loop-studios/loop-result.jpg", // ← replace
+    techStack: ["JavaScript", "HTML", "CSS"],
+    imageUrl: "/loop-studios/loopstudios.jpg",
+    githubUrl: "https://github.com/niki0012A/Loopstudios-Website",
+    liveUrl: "https://camperkunz.github.io/Loopstudios/",
+};
+
+export default loopstudios;

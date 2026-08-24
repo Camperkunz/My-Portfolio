@@ -1,4 +1,4 @@
-import { projects } from "@/data/projectsInfo";
+import { projects } from "@/data/projects";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
