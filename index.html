@@ -4,37 +4,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- TODO: Set the document title to the name of your application -->
-  <title>Anna Nikiforova — React Frontend Developer Portfolio</title>
+
+  <!-- Primary SEO -->
+  <title>Anna Nikiforova — React Frontend Developer</title>
+
+  <meta name="description"
+    content="Ottawa-based React Frontend Developer building responsive, accessible and polished web experiences with React, JavaScript, TypeScript and Tailwind CSS." />
+
+  <meta name="author" content="Anna Nikiforova" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://annanikiforova.vercel.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://annanikiforova.vercel.app/" />
+  <meta property="og:title" content="Anna Nikiforova — React Frontend Developer" />
+  <meta property="og:description"
+    content="Ottawa-based React Frontend Developer building responsive, accessible and polished web experiences." />
+  <meta property="og:image" content="  https://annanikiforova.vercel.app/portfolio/portfolio.jpg" />
+  <meta property="og:image:alt" content="Anna Nikiforova — React Frontend Developer Portfolio" />
+  <meta property="og:site_name" content="Anna Nikiforova — Portfolio" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Anna Nikiforova — React Frontend Developer" />
+  <meta name="twitter:description"
+    content="Ottawa-based React Frontend Developer building responsive, accessible and polished web experiences." />
+  <meta name="twitter:image" content="  https://annanikiforova.vercel.app/portfolio/portfolio.jpg" />
+  <meta name="twitter:image:alt" content="Anna Nikiforova — React Frontend Developer Portfolio" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.webp" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon-black.webp" media="(prefers-color-scheme: light)" />
+
   <!-- Fonts: async load, non-blocking -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet" media="print" onload="this.media='all'" />
+
   <noscript>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet" />
   </noscript>
-  <!-- Favicon Logo -->
-  <link rel="icon" href="/favicon.webp" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="/favicon-black.webp" media="(prefers-color-scheme: light)">
-  <!-- SEO Description -->
-  <meta name="description"
-    content="Ottawa-based React Developer: 2+ years crafting pixel-perfect sites. Explore my live projects on React, Tailwind & TypeScript. Let's build together!" />
-  <meta name="author" content="Anna Nikiforova" />
-  <meta property="og:title" content="React Frontend Developer — Anna Nikiforova" />
-  <meta property="og:description"
-    content="Ottawa-based React Developer: 2+ years crafting pixel-perfect sites. Explore my live projects on React, Tailwind & TypeScript. Let's build together!" />
-  <!-- Google tag (gtag.js) -->
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5VDQD7BG9X"></script>
+
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
 
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
     gtag('config', 'G-5VDQD7BG9X');
   </script>
-  <!--  -->
 </head>
 
 <body>
