@@ -53,6 +53,10 @@ export default function Navbar() {
                         <img
                             src={personalInfo.logo}
                             alt="Anna Nikiforova — home"
+                            width={100}
+                            height={100}
+                            loading="eager"
+                            decoding="async"
                             className="h-10 w-10 md:h-9 md:w-9 logo"
                         />
                     </Link>

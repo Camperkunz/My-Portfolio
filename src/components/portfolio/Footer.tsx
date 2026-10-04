@@ -20,6 +20,10 @@ export default function Footer() {
                     <img
                         src={personalInfo.logo}
                         alt="Anna Nikiforova — home"
+                        width={100}
+                        height={100}
+                        loading="lazy"
+                        decoding="async"
                         className="h-8 w-8 opacity-60 transition-opacity group-hover:opacity-100 logo"
                     />
                 </Link>

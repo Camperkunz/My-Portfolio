@@ -105,6 +105,10 @@ export default function AboutSection() {
             <img
               src={personalInfo.image}
               alt={personalInfo.name}
+              width={512}
+              height={768}
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />

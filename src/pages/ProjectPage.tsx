@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { projects } from "@/data/projects";
+import { imageDimensions } from "@/data/imageDimensions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -159,6 +160,9 @@ export default function ProjectPage() {
 
   const SWIPE_THRESHOLD = 50;
 
+  const heroSrc = project.imageUrl || project.thumbnailImageUrl;
+  const heroDims = heroSrc ? imageDimensions[heroSrc] : undefined;
+
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX);
     setTouchStartY(e.touches[0].clientY);
@@ -207,8 +211,12 @@ export default function ProjectPage() {
             {/* IMAGE */}
             <div className="relative">
               <img
-                src={project.imageUrl || project.thumbnailImageUrl}
+                src={heroSrc}
                 alt={project.title}
+                width={heroDims?.w}
+                height={heroDims?.h}
+                fetchPriority="high"
+                decoding="async"
                 className="w-full h-[70vh] md:h-[65vh] object-cover object-top
                    transition-transform duration-700 ease-out
                    group-hover:scale-[1.01]"
@@ -381,7 +389,11 @@ export default function ProjectPage() {
                 <img
                   src={block.imageUrl}
                   alt={`${project.title} — ${block.title}`}
+                  width={block.imageUrl ? imageDimensions[block.imageUrl]?.w : undefined}
+                  height={block.imageUrl ? imageDimensions[block.imageUrl]?.h : undefined}
                   onClick={() => imageIndex !== -1 && setOpenIndex(imageIndex)}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full aspect-[16/9] rounded-xl object-cover cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
                 />
               </div>
@@ -393,21 +405,28 @@ export default function ProjectPage() {
         <section className="pt-16 border-t border-border/30">
           <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono mb-8 text-center">Explore More Projects</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {otherProjects.map((p) => (
+            {otherProjects.map((p) => {
+              const src = p.thumbnailImageUrl || p.imageUrl;
+              const dims = src ? imageDimensions[src] : undefined;
+              return (
               <Link key={p.id} to={`/project/${p.id}`}
                 className="group rounded-xl border border-border/50 bg-card/30 backdrop-blur-md overflow-hidden hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all">
                 <img
-                  src={p.thumbnailImageUrl || p.imageUrl}
+                  src={src}
                   alt={p.title}
+                  width={dims?.w}
+                  height={dims?.h}
                   className="w-full h-40 object-cover object-top"
-                  loading="eager"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="p-5">
                   <h3 className="font-bold text-foreground group-hover:text-accent transition-colors">{p.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{p.shortDescription}</p>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         </section>
       </div>
@@ -459,7 +478,10 @@ export default function ProjectPage() {
 
           <img
             src={galleryImages[openIndex]}
-            alt="Full-size preview"
+            alt={`Full-size preview — ${project.title}`}
+            width={imageDimensions[galleryImages[openIndex]]?.w}
+            height={imageDimensions[galleryImages[openIndex]]?.h}
+            decoding="async"
             className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg select-none pointer-events-none"
           />
         </div>

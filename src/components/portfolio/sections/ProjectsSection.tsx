@@ -1,4 +1,5 @@
 import { projects } from "@/data/projects";
+import { imageDimensions } from "@/data/imageDimensions";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,8 @@ export default function ProjectsSection() {
               <img
                 src={p.thumbnailImageUrl || p.imageUrl}
                 alt={p.title}
+                width={imageDimensions[p.thumbnailImageUrl || p.imageUrl || ""]?.w}
+                height={imageDimensions[p.thumbnailImageUrl || p.imageUrl || ""]?.h}
                 className="h-60 w-full rounded-t-lg object-cover"
                 loading="lazy"
                 decoding="async"

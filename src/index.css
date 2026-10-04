@@ -93,6 +93,7 @@
     background-color: #050505;
     color: #fff;
     position: relative;
+    font-family: "Montserrat Variable", Montserrat, ui-sans-serif, system-ui, sans-serif;
   }
 
   body::before {

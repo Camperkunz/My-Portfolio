@@ -14,7 +14,11 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Google Analytics is the single analytics source (loaded once via react-ga4).
 // Vercel Analytics is mounted separately inside Layout — both are tiny and async.
-ReactGA.initialize("G-5VDQD7BG9X");
+// `send_page_view: false` disables gtag's automatic initial page_view so the
+// landing page is not counted twice (AnalyticsTracker sends it manually).
+ReactGA.initialize("G-5VDQD7BG9X", {
+  gtagOptions: { send_page_view: false },
+});
 
 // 2. Tracking component — sends pageviews on every SPA route change.
 const AnalyticsTracker = () => {
@@ -39,8 +43,10 @@ const PageMeta = () => {
 
 const App = () => (
   <BrowserRouter>
-    <AnalyticsTracker />
+    {/* PageMeta runs before AnalyticsTracker so document.title is already
+        updated when the pageview is sent. */}
     <PageMeta />
+    <AnalyticsTracker />
     <ScrollToTop />
     <Toaster />
     <Suspense fallback={null}>

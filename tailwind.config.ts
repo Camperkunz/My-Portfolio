@@ -79,9 +79,13 @@ export default {
         "marquee-right": "marquee-right linear infinite",
       },
       fontFamily: {
-        // Montserrat is the brand typeface (proportional); the mono key is
-        // kept only as an alias so legacy `font-mono` classes keep rendering.
-        mono: ['Montserrat', 'ui-monospace', 'monospace'],
+        // Montserrat Variable is the brand typeface (self-hosted via
+        // @fontsource-variable/montserrat, which registers the family under the
+        // exact name "Montserrat Variable"). The mono key is a legacy alias for
+        // the many `font-mono` classes, so it must point at the same variable
+        // font — plain "Montserrat" is no longer loaded anywhere.
+        sans: ['"Montserrat Variable"', 'Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['"Montserrat Variable"', 'Montserrat', 'ui-monospace', 'monospace'],
       },
       
     },
