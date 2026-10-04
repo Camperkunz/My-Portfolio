@@ -1,30 +1,20 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { personalInfo } from "@/data/personalInfo";
-import { navigateToSection } from "../navigation.ts";
-
-const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Skills", href: "#skills" },
-    { label: "Projects", href: "#projects" },
-    { label: "Experience", href: "#experience" },
-    { label: "Education", href: "#education" },
-    // Projects link different styling
-    {
-        label: "Get in touch",
-        href: "#contact",
-        className:
-            "rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-4 py-2 transition-all hover:shadow-lg hover:shadow-accent/10",
-    },
-    // 
-];
+import { navLinks, navigateToSection } from "@/components/navigation";
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
+
+    const ctaClassName =
+        "rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-4 py-2 transition-all hover:shadow-lg hover:shadow-accent/10";
+    const linkClassName =
+        "text-md text-muted-foreground transition-colors hover:text-accent";
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 150);
@@ -34,80 +24,95 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
-    const handleClick = (href: string) => {
+    const handleClick = (e: React.MouseEvent, href: string) => {
+        e.preventDefault();
         setOpen(false);
-        navigateToSection(href, location.pathname);
+        navigateToSection(href, location.pathname, navigate);
     };
 
     return (
-        <nav
-            className={`fixed top-0 z-40 w-full transition-all duration-300 ${scrolled
-                ? "border-b bg-background/80 backdrop-blur-lg shadow-sm"
-                : "bg-transparent"
-                }`}
-        >
-            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-                <a
-                    href="/#"
-                    className="font-mono text-sm font-bold tracking-tight text-foreground"
-                >
-                    <img
-                        src={personalInfo.logo}
-                        alt="Logo"
-                        className="h-10 w-10 md:h-9 md:w-9 logo"
-                    />
-                </a>
+        <>
+            <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:text-accent-foreground"
+            >
+                Skip to content
+            </a>
+            <nav
+                aria-label="Primary"
+                className={`fixed top-0 z-40 w-full transition-all duration-300 ${scrolled
+                    ? "border-b bg-background/80 backdrop-blur-lg shadow-sm"
+                    : "bg-transparent"
+                    }`}
+            >
+                <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+                    <Link
+                        to="/"
+                        className="font-sans text-sm font-bold tracking-tight text-foreground"
+                    >
+                        <img
+                            src={personalInfo.logo}
+                            alt="Anna Nikiforova — home"
+                            className="h-10 w-10 md:h-9 md:w-9 logo"
+                        />
+                    </Link>
 
-                <div className="flex items-center gap-4">
-                    {/* Desktop navigation */}
-                    <ul className="hidden items-center gap-6 md:flex">
-                        {navLinks.map((link) => (
-                            <li key={link.href}>
-                                <button
-                                    onClick={() => handleClick(link.href)}
-                                    className={
-                                        link.className ||
-                                        "text-md text-muted-foreground transition-colors hover:text-accent"
-                                    }
-                                >
-                                    {link.label}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+                    <div className="flex items-center gap-4">
+                        {/* Desktop navigation — native anchors keep hrefs crawlable; clicks stay SPA. */}
+                        <ul className="hidden items-center gap-6 md:flex">
+                            {navLinks.map((link) => (
+                                <li key={link.href}>
+                                    <a
+                                        href={`/${link.href}`}
+                                        onClick={(e) => handleClick(e, link.href)}
+                                        aria-current={
+                                            location.hash === link.href ? "true" : undefined
+                                        }
+                                        className={
+                                            link.variant === "cta" ? ctaClassName : linkClassName
+                                        }
+                                    >
+                                        {link.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
 
-                    {/* Mobile navigation */}
-                    <Sheet open={open} onOpenChange={setOpen}>
-                        <SheetTrigger
-                            className="md:hidden"
-                            aria-label="Open menu"
-                        >
-                            <Menu className="h-8 w-8" />
-                        </SheetTrigger>
+                        {/* Mobile navigation */}
+                        <Sheet open={open} onOpenChange={setOpen}>
+                            <SheetTrigger
+                                className="md:hidden"
+                                aria-label="Open menu"
+                            >
+                                <Menu className="h-8 w-8" />
+                            </SheetTrigger>
 
-                        <SheetContent side="right" className="w-64">
-                            <SheetTitle className="sr-only">
-                                Navigation
-                            </SheetTitle>
+                            <SheetContent side="right" className="w-64">
+                                <SheetTitle className="sr-only">
+                                    Navigation
+                                </SheetTitle>
 
-                            <ul className="mt-8 flex flex-col gap-4">
-                                {navLinks.map((link) => (
-                                    <li key={link.href}>
-                                        <button
-                                            onClick={() =>
-                                                handleClick(link.href)
-                                            }
-                                            className="text-md text-muted-foreground transition-colors hover:text-accent"
-                                        >
-                                            {link.label}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </SheetContent>
-                    </Sheet>
+                                <ul className="mt-8 flex flex-col gap-4">
+                                    {navLinks.map((link) => (
+                                        <li key={link.href}>
+                                            <a
+                                                href={`/${link.href}`}
+                                                onClick={(e) => handleClick(e, link.href)}
+                                                aria-current={
+                                                    location.hash === link.href ? "true" : undefined
+                                                }
+                                                className="text-md text-muted-foreground transition-colors hover:text-accent"
+                                            >
+                                                {link.label}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </SheetContent>
+                        </Sheet>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </>
     );
 }

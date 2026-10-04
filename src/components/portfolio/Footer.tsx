@@ -1,56 +1,52 @@
-import { Github, Linkedin } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { Github, Linkedin, Mail } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { personalInfo } from "@/data/personalInfo";
-import { navigateToSection } from "../navigation.ts";
-
-const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Skills", href: "#skills" },
-    { label: "Projects", href: "#projects" },
-    { label: "Experience", href: "#experience" },
-    { label: "Education", href: "#education" },
-    { label: "Contact", href: "#contact" },
-];
+import { navLinks, navigateToSection } from "@/components/navigation";
 
 export default function Footer() {
     const location = useLocation();
+    const navigate = useNavigate();
 
-    const handleClick = (href: string) => {
-        navigateToSection(href, location.pathname);
+    const handleClick = (e: React.MouseEvent, href: string) => {
+        e.preventDefault();
+        navigateToSection(href, location.pathname, navigate);
     };
 
     return (
         <footer className="border-t border-border/50 py-12">
             <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 px-6">
                 {/* Logo */}
-                <a href="/#" className="group">
+                <Link to="/" className="group" aria-label="Back to home">
                     <img
                         src={personalInfo.logo}
-                        alt="Top Navigation Logo"
+                        alt="Anna Nikiforova — home"
                         className="h-8 w-8 opacity-60 transition-opacity group-hover:opacity-100 logo"
                     />
-                </a>
+                </Link>
 
-                {/* Navigation */}
-                <ul className="flex flex-wrap justify-center gap-6">
-                    {navLinks.map((link) => (
-                        <li key={link.href}>
-                            <button
-                                onClick={() => handleClick(link.href)}
-                                className="text-sm text-muted-foreground transition-colors hover:text-accent"
-                            >
-                                {link.label}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
+                {/* Navigation — native anchors keep hrefs crawlable; clicks stay SPA. */}
+                <nav aria-label="Footer">
+                    <ul className="flex flex-wrap justify-center gap-6">
+                        {navLinks.map((link) => (
+                            <li key={link.href}>
+                                <a
+                                    href={`/${link.href}`}
+                                    onClick={(e) => handleClick(e, link.href)}
+                                    className="text-sm text-muted-foreground transition-colors hover:text-accent"
+                                >
+                                    {link.label}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
 
                 {/* Social */}
                 <div className="flex gap-5">
                     <a
                         href={personalInfo.github}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         aria-label="GitHub"
                         className="text-muted-foreground transition-colors hover:text-accent"
                     >
@@ -60,11 +56,19 @@ export default function Footer() {
                     <a
                         href={personalInfo.linkedin}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                         aria-label="LinkedIn"
                         className="text-muted-foreground transition-colors hover:text-accent"
                     >
                         <Linkedin className="h-6 w-6 md:h-4 md:w-4" />
+                    </a>
+
+                    <a
+                        href={`mailto:${personalInfo.email}`}
+                        aria-label="Email"
+                        className="text-muted-foreground transition-colors hover:text-accent"
+                    >
+                        <Mail className="h-6 w-6 md:h-4 md:w-4" />
                     </a>
                 </div>
 

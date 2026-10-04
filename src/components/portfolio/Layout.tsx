@@ -5,32 +5,25 @@ import { useLocation } from "react-router-dom";
 // Components
 import Navbar from "@/components/portfolio/Navbar";
 import Footer from "@/components/portfolio/Footer";
+import { scrollToSection } from "@/components/navigation";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const location = useLocation();
 
+  // When arriving at /#section from another page, scroll to it
+  // with the navbar offset (NAVBAR_HEIGHT = 64px).
   useEffect(() => {
-    if (location.hash) {
-      setTimeout(() => {
-        const element = document.querySelector(location.hash);
-        if (element) {
-          const navbarHeight = 56; // h-14 = 3.5rem = 56px
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+    if (!location.hash) return;
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          });
-        }
-      });
-    }
+    const timer = setTimeout(() => scrollToSection(location.hash), 0);
+    return () => clearTimeout(timer);
   }, [location.hash]);
 
   return (
-    <div className="min-h-screen - text-foreground">
+    <div className="min-h-screen text-foreground">
       <Navbar />
-      <main>{children}
+      <main id="main-content">
+        {children}
         <Analytics />
       </main>
       <Footer />

@@ -22,7 +22,7 @@ export default function ProjectsSection() {
           >
             <Link to={`/project/${p.id}`} className="block">
               <img
-                src={p.thumbnailImageUrl || p.imageUrl || "/placeholder-project.jpg"}
+                src={p.thumbnailImageUrl || p.imageUrl}
                 alt={p.title}
                 className="h-60 w-full rounded-t-lg object-cover"
                 loading="lazy"

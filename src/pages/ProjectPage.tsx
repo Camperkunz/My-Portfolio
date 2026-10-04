@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { projects } from "@/data/projects";
 import { Badge } from "@/components/ui/badge";
@@ -66,54 +66,56 @@ const fadeUp = {
 export default function ProjectPage() {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
-  const otherProjects = projects
-    .filter((p) => p.id !== id)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
 
   // State for the gallery lightbox
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
 
-  if (!project) {
-    return (
-      <Layout>
-        <div className="mx-auto max-w-4xl px-6 py-24 text-center">
-          <h1 className="text-2xl font-mono font-bold text-foreground">Project not found</h1>
-          <Link to="/" className="mt-4 inline-block text-sm text-accent hover:underline">← Back home</Link>
-        </div>
-      </Layout>
-    );
-  }
+  // Stable pick of "other projects" per id — Math.random() on every render
+  // shuffled the cards on each state change and caused layout shifts.
+  const otherProjects = useMemo(
+    () =>
+      [...projects]
+        .filter((p) => p.id !== id)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3),
+    [id]
+  );
 
-  const contentBlocks = [
-    { title: "Overview", content: project.fullDescription, imageUrl: project.overviewImageUrl || project.imageUrl || project.thumbnailImageUrl },
-    { title: "The Problem", content: project.problem, imageUrl: project.problemImageUrl || project.imageUrl },
-    { title: "The Solution", content: project.solution, imageUrl: project.solutionImageUrl || project.imageUrl },
-    { title: "Implementation", content: project.implementation, imageUrl: project.implementationImageUrl || project.imageUrl },
-    { title: "Results", content: project.results, imageUrl: project.resultsImageUrl || project.imageUrl },
-  ].filter((b) => b.content);
+  const contentBlocks = useMemo(() => {
+    if (!project) return [];
+
+    return [
+      { title: "Overview", content: project.fullDescription, imageUrl: project.overviewImageUrl || project.imageUrl || project.thumbnailImageUrl },
+      { title: "The Problem", content: project.problem, imageUrl: project.problemImageUrl || project.imageUrl },
+      { title: "The Solution", content: project.solution, imageUrl: project.solutionImageUrl || project.imageUrl },
+      { title: "Implementation", content: project.implementation, imageUrl: project.implementationImageUrl || project.imageUrl },
+      { title: "Results", content: project.results, imageUrl: project.resultsImageUrl || project.imageUrl },
+    ].filter((b) => b.content);
+  }, [project]);
 
   // Images that can be opened in the gallery (hero excluded for now)
-  const galleryImages = contentBlocks
-    .map((b) => b.imageUrl)
-    .filter(Boolean) as string[];
+  const galleryImages = useMemo(
+    () => contentBlocks.map((b) => b.imageUrl).filter(Boolean) as string[],
+    [contentBlocks]
+  );
+  const galleryCount = galleryImages.length;
 
   // Buttons to navigate through the gallery images
-  const showPrev = () => {
+  const showPrev = useCallback(() => {
     setOpenIndex((prev) => {
-      if (prev === null) return prev;
-      return (prev - 1 + galleryImages.length) % galleryImages.length;
+      if (prev === null || galleryCount === 0) return prev;
+      return (prev - 1 + galleryCount) % galleryCount;
     });
-  };
+  }, [galleryCount]);
 
-  const showNext = () => {
+  const showNext = useCallback(() => {
     setOpenIndex((prev) => {
-      if (prev === null) return prev;
-      return (prev + 1) % galleryImages.length;
+      if (prev === null || galleryCount === 0) return prev;
+      return (prev + 1) % galleryCount;
     });
-  };
+  }, [galleryCount]);
 
   // Keyboard navigation for the gallery lightbox
   useEffect(() => {
@@ -127,7 +129,7 @@ export default function ProjectPage() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [openIndex, galleryImages.length]);
+  }, [openIndex, showPrev, showNext]);
 
   // Lock page scroll while the lightbox is open
   useEffect(() => {
@@ -141,6 +143,19 @@ export default function ProjectPage() {
       document.body.style.overflow = "";
     };
   }, [openIndex]);
+
+  // NOTE: early return stays AFTER all hooks (rules of hooks) so that
+  // navigating to an unknown project id cannot crash the component.
+  if (!project) {
+    return (
+      <Layout>
+        <div className="mx-auto max-w-4xl px-6 py-24 text-center">
+          <h1 className="text-2xl font-mono font-bold text-foreground">Project not found</h1>
+          <Link to="/" className="mt-4 inline-block text-sm text-accent hover:underline">← Back home</Link>
+        </div>
+      </Layout>
+    );
+  }
 
   const SWIPE_THRESHOLD = 50;
 
@@ -192,7 +207,7 @@ export default function ProjectPage() {
             {/* IMAGE */}
             <div className="relative">
               <img
-                src={project.imageUrl || project.thumbnailImageUrl || "/placeholder-project.jpg"}
+                src={project.imageUrl || project.thumbnailImageUrl}
                 alt={project.title}
                 className="w-full h-[70vh] md:h-[65vh] object-cover object-top
                    transition-transform duration-700 ease-out
@@ -382,7 +397,7 @@ export default function ProjectPage() {
               <Link key={p.id} to={`/project/${p.id}`}
                 className="group rounded-xl border border-border/50 bg-card/30 backdrop-blur-md overflow-hidden hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all">
                 <img
-                  src={p.thumbnailImageUrl || p.imageUrl || "/placeholder-project.jpg"}
+                  src={p.thumbnailImageUrl || p.imageUrl}
                   alt={p.title}
                   className="w-full h-40 object-cover object-top"
                   loading="eager"

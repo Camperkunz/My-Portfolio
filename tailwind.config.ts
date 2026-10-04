@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
   darkMode: ["class"],
@@ -96,10 +97,12 @@ export default {
         "marquee-right": "marquee-right linear infinite",
       },
       fontFamily: {
-        mono: ['Montserrat', 'monospace'],
-  },
+        // Montserrat is the brand typeface (proportional); the mono key is
+        // kept only as an alias so legacy `font-mono` classes keep rendering.
+        mono: ['Montserrat', 'ui-monospace', 'monospace'],
+      },
       
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 } satisfies Config;
