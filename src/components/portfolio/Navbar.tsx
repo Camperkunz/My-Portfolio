@@ -12,9 +12,9 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     const ctaClassName =
-        "rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-4 py-2 transition-all hover:shadow-lg hover:shadow-accent/10";
+        "inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-5 py-2.5 text-sm font-medium transition-all hover:shadow-lg hover:shadow-accent/10";
     const linkClassName =
-        "text-md text-muted-foreground transition-colors hover:text-accent";
+        "shrink-0 whitespace-nowrap text-base text-muted-foreground transition-colors hover:text-accent";
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 150);
@@ -45,7 +45,7 @@ export default function Navbar() {
                     : "bg-transparent"
                     }`}
             >
-                <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+                <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
                     <Link
                         to="/"
                         className="font-sans text-sm font-bold tracking-tight text-foreground"
@@ -63,7 +63,7 @@ export default function Navbar() {
 
                     <div className="flex items-center gap-4">
                         {/* Desktop navigation — native anchors keep hrefs crawlable; clicks stay SPA. */}
-                        <ul className="hidden items-center gap-6 md:flex">
+                        <ul className="hidden items-center gap-6 lg:flex">
                             {navLinks.map((link) => (
                                 <li key={link.href}>
                                     <a
@@ -85,7 +85,7 @@ export default function Navbar() {
                         {/* Mobile navigation */}
                         <Sheet open={open} onOpenChange={setOpen}>
                             <SheetTrigger
-                                className="md:hidden"
+                                className="lg:hidden"
                                 aria-label="Open menu"
                             >
                                 <Menu className="h-8 w-8" />
@@ -105,7 +105,7 @@ export default function Navbar() {
                                                 aria-current={
                                                     location.hash === link.href ? "true" : undefined
                                                 }
-                                                className="text-md text-muted-foreground transition-colors hover:text-accent"
+                                                className="whitespace-nowrap text-sm text-muted-foreground transition-colors hover:text-accent"
                                             >
                                                 {link.label}
                                             </a>

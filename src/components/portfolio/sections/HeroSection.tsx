@@ -10,7 +10,7 @@ const stackItems = ["React", "TypeScript", "Shopify", "AWS"];
 
 export default function HeroSection() {
   return (
-    <section className="relative flex min-h-[95vh] flex-col items-center justify-center px-6 text-center overflow-hidden">
+    <section className="relative flex min-h-[95vh] flex-col items-center justify-center px-6 pt-20 text-center overflow-hidden">
       <motion.div
         className="relative z-10"
         initial={{ opacity: 0, y: 30 }}

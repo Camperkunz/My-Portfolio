@@ -1,7 +1,7 @@
 import type { NavigateFunction } from "react-router-dom";
 
-// h-16 = 4rem = 64px — must match the navbar height in Navbar.tsx
-export const NAVBAR_HEIGHT = 64;
+// h-20 = 5rem = 80px — must match the navbar height in Navbar.tsx
+export const NAVBAR_HEIGHT = 80;
 
 export type NavLink = {
     label: string;
