@@ -66,14 +66,6 @@ export default function Footer() {
                     >
                         <Linkedin className="h-6 w-6 md:h-4 md:w-4" />
                     </a>
-
-                    <a
-                        href={`mailto:${personalInfo.email}`}
-                        aria-label="Email"
-                        className="text-muted-foreground transition-colors hover:text-accent"
-                    >
-                        <Mail className="h-6 w-6 md:h-4 md:w-4" />
-                    </a>
                 </div>
 
                 {/* Copyright */}

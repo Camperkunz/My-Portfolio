@@ -12,7 +12,7 @@ export default function Navbar() {
     const navigate = useNavigate();
 
     const ctaClassName =
-        "inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-5 py-2.5 text-sm font-medium transition-all hover:shadow-lg hover:shadow-accent/10";
+        "inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-5 py-2 text-base font-medium transition-all hover:shadow-lg hover:shadow-accent/10";
     const linkClassName =
         "shrink-0 whitespace-nowrap text-base text-muted-foreground transition-colors hover:text-accent";
 
