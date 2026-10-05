@@ -8,17 +8,22 @@ function useCountUp(target: number, duration = 1500, startCounting = false) {
   useEffect(() => {
     if (!startCounting) return;
     let start = 1;
-    const step = target / (duration / 16);
-    const timer = setInterval(() => {
+    // ~10 updates/sec instead of one React commit per frame (the old 16 ms
+    // interval ran three counters at 60 commits/sec each). Those frequent
+    // commits interleaved with layout reads are what Lighthouse reports as
+    // "Forced reflow".
+    const TICK_MS = 100;
+    const step = target / (duration / TICK_MS);
+    const timer = window.setInterval(() => {
       start += step;
       if (start >= target) {
         setCount(target);
-        clearInterval(timer);
+        window.clearInterval(timer);
       } else {
         setCount(Math.floor(start));
       }
-    }, 16);
-    return () => clearInterval(timer);
+    }, TICK_MS);
+    return () => window.clearInterval(timer);
   }, [startCounting, target, duration]);
 
   return count;
@@ -31,6 +36,7 @@ export default function AboutSection() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [inView, setInView] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
+  const tiltRafRef = useRef<number | null>(null);
 
   const years = useCountUp(personalInfo.experienceYears, 1000, inView);
   const projects = useCountUp(personalInfo.realProjects, 1500, inView);
@@ -45,11 +51,24 @@ export default function AboutSection() {
     return () => observer.disconnect();
   }, []);
 
+  // Cancel any pending tilt frame on unmount.
+  useEffect(() => () => {
+    if (tiltRafRef.current !== null) window.cancelAnimationFrame(tiltRafRef.current);
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -10;
-    setTilt({ x, y });
+    // At most one layout read + state update per animation frame — doing it on
+    // every mousemove event forces synchronous reflows. `currentTarget` must
+    // be captured now (it is null after the event finishes dispatching).
+    if (tiltRafRef.current !== null) return;
+    const { clientX, clientY, currentTarget } = e;
+    tiltRafRef.current = window.requestAnimationFrame(() => {
+      tiltRafRef.current = null;
+      const rect = currentTarget.getBoundingClientRect();
+      const x = ((clientX - rect.left) / rect.width - 0.5) * 10;
+      const y = ((clientY - rect.top) / rect.height - 0.5) * -10;
+      setTilt({ x, y });
+    });
   };
 
   const handleMouseLeave = () => setTilt({ x: 0, y: 0 });

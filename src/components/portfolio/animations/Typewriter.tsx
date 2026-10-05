@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 interface Props {
   roles: string[];
@@ -19,6 +19,9 @@ export default function Typewriter({
   const [text, setText] = useState(roles[0] || "");
   const [isDeleting, setIsDeleting] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [everSeen, setEverSeen] = useState(false);
+  const [inView, setInView] = useState(false);
+  const rootRef = useRef<HTMLSpanElement>(null);
 
   const currentRole = roles[roleIndex];
 
@@ -42,25 +45,43 @@ export default function Typewriter({
     }
   }, [text, isDeleting, currentRole, roles.length, pauseDuration, hasStarted]);
 
+  // The animation only runs while the hero is on screen — off-screen ticks are
+  // wasted main-thread work (and a forced-reflow source during long loads).
   useEffect(() => {
-    const startTimer = setTimeout(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+        if (entry.isIntersecting) setEverSeen(true);
+      },
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Kick off the first deletion after the initial delay, once the hero has
+  // been on screen at least once.
+  useEffect(() => {
+    if (!everSeen) return;
+    const timeout = window.setTimeout(() => {
       setHasStarted(true);
-      setIsDeleting(true)
+      setIsDeleting(true);
     }, initialDelay);
-
-    return () => clearTimeout(startTimer);
-  }, [initialDelay]);
+    return () => window.clearTimeout(timeout);
+  }, [everSeen, initialDelay]);
 
   useEffect(() => {
-    if (!hasStarted) return;
+    if (!hasStarted || !inView) return;
 
     const speed = isDeleting ? deletingSpeed : typingSpeed;
-    const timer = setTimeout(tick, speed);
-    return () => clearTimeout(timer);
-  }, [tick, isDeleting, deletingSpeed, typingSpeed, hasStarted]);
+    const timer = window.setTimeout(tick, speed);
+    return () => window.clearTimeout(timer);
+  }, [tick, isDeleting, deletingSpeed, typingSpeed, hasStarted, inView]);
 
   return (
-    <span className="text-md tracking-widest uppercase text-accent font-medium">
+    <span ref={rootRef} className="text-md tracking-widest uppercase text-accent font-medium">
       {text}
       <span className="animate-pulse text-accent">|</span>
     </span>

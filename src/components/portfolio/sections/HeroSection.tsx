@@ -1,7 +1,6 @@
 import { personalInfo } from "@/data/personalInfo";
 import { Github, Linkedin, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import Typewriter from "../animations/Typewriter";
 import CodeToButton from "../animations/CodeToButton";
 
@@ -11,12 +10,11 @@ const stackItems = ["React", "TypeScript", "Shopify", "AWS"];
 export default function HeroSection() {
   return (
     <section className="relative flex min-h-[95vh] flex-col items-center justify-center px-6 pt-20 text-center overflow-hidden">
-      <motion.div
-        className="relative z-10"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-      >
+      {/* CSS entrance animation (was framer-motion) — keeps the animation
+          library out of the critical entry bundle. `animate-fade-up` uses
+          fill-mode `both`, so the from-state applies before the first frame
+          and the LCP text never flashes unstyled. */}
+      <div className="relative z-10 animate-fade-up motion-reduce:animate-none">
         <Typewriter roles={roles} />
         <h1 className="mt-4 font-mono text-4xl font-bold tracking-tight text-foreground sm:text-7xl">
           {personalInfo.name}
@@ -67,7 +65,7 @@ export default function HeroSection() {
             }
           />
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

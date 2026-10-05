@@ -73,10 +73,44 @@ export default {
           "0%": { transform: "translateX(-50%)" },
           "100%": { transform: "translateX(0%)" },
         },
+        // CSS replacements for the framer-motion entrance animations that used
+        // to ship in the entry bundle. `both` fill applies the from-state before
+        // the first frame, so there is no unstyled flash before the animation.
+        "fade-up": {
+          from: { opacity: "0", transform: "translateY(30px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in-blur": {
+          from: { opacity: "0", filter: "blur(4px)", transform: "scale(0.95)" },
+          to: { opacity: "1", filter: "blur(0px)", transform: "scale(1)" },
+        },
+        "fade-out-blur": {
+          from: { opacity: "1", filter: "blur(0px)", transform: "scale(1)" },
+          to: { opacity: "0", filter: "blur(4px)", transform: "scale(0.95)" },
+        },
+        "pop-in": {
+          from: { opacity: "0", transform: "scale(0.8)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        "pop-out": {
+          from: { opacity: "1", transform: "scale(1)" },
+          to: { opacity: "0", transform: "scale(0.8)" },
+        },
       },
       animation: {
         "marquee-left": "marquee-left linear infinite",
         "marquee-right": "marquee-right linear infinite",
+        "fade-up": "fade-up 0.7s ease-out both",
+        "fade-in-blur": "fade-in-blur 0.4s ease-out both",
+        "fade-out-blur": "fade-out-blur 0.4s ease-in both",
+        "pop-in": "pop-in 0.2s ease-out both",
+        "pop-out": "pop-out 0.2s ease-in both",
+      },
+      // Named so `duration-1200` is unambiguous — the arbitrary form
+      // `duration-[1200ms]` is reported as ambiguous (and silently skipped)
+      // by Tailwind because tailwindcss-animate also claims duration-*.
+      transitionDuration: {
+        1200: "1200ms",
       },
       fontFamily: {
         // Montserrat Variable is the brand typeface (self-hosted via

@@ -13,22 +13,44 @@ const AllProjectsPage = lazy(() => import("./pages/AllProjectsPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Google Analytics is the single analytics source (loaded once via react-ga4).
-// Vercel Analytics is mounted separately inside Layout — both are tiny and async.
-// `send_page_view: false` disables gtag's automatic initial page_view so the
-// landing page is not counted twice (AnalyticsTracker sends it manually).
-ReactGA.initialize("G-5VDQD7BG9X", {
-  gtagOptions: { send_page_view: false },
-});
+// Vercel Analytics is mounted separately inside Layout — both are tiny.
+// Initialization is deferred until the browser is idle so gtag.js never
+// competes with the entry bundle for bandwidth or main-thread time during
+// page load. `send_page_view: false` disables gtag's automatic initial
+// page_view so the landing page is not counted twice (the tracker below
+// sends it manually).
+let gaReady: Promise<void> | undefined;
+const ensureGA = (): Promise<void> => {
+  if (!gaReady) {
+    gaReady = new Promise((resolve) => {
+      const start = () => {
+        ReactGA.initialize("G-5VDQD7BG9X", {
+          gtagOptions: { send_page_view: false },
+        });
+        resolve();
+      };
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(start, { timeout: 5000 });
+      } else {
+        globalThis.setTimeout(start, 3000);
+      }
+    });
+  }
+  return gaReady;
+};
 
-// 2. Tracking component — sends pageviews on every SPA route change.
+// 2. Tracking component — sends a pageview for every SPA route change once
+// the deferred GA initialization above has completed.
 const AnalyticsTracker = () => {
   const location = useLocation();
 
   useEffect(() => {
-    ReactGA.send({
-      hitType: "pageview",
-      page: location.pathname + location.search + location.hash,
-      title: document.title,
+    ensureGA().then(() => {
+      ReactGA.send({
+        hitType: "pageview",
+        page: location.pathname + location.search + location.hash,
+        title: document.title,
+      });
     });
   }, [location]);
 

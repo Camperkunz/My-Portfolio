@@ -1,0 +1,16 @@
+# Anna Nikiforova — React Frontend Developer
+
+> Ottawa-based React Frontend Developer building responsive, accessible and polished web experiences with React, JavaScript, TypeScript and Tailwind CSS. This site is a portfolio presenting projects, work experience, skills, education and contact information.
+
+## Pages
+
+- [Projects](https://annanikiforova.vercel.app/projects): Selected frontend projects with case studies, tech stacks, screenshots and live demos.
+- [About](https://annanikiforova.vercel.app/#about): Professional summary, years of experience, certifications and core skills.
+- [Experience](https://annanikiforova.vercel.app/#experience): Work history as a Frontend Developer.
+- [Education](https://annanikiforova.vercel.app/#education): Education background and certifications.
+- [Contact](https://annanikiforova.vercel.app/#contact): Get in touch by email, GitHub or LinkedIn.
+- [Resume PDF](https://annanikiforova.vercel.app/anna-nikiforova-resume.pdf): Downloadable resume.
+
+## Optional
+
+- [Home](https://annanikiforova.vercel.app/): Portfolio homepage with the full single-page overview.

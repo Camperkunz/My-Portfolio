@@ -1,0 +1,23 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Anna Nikiforova",
+    "documentationUrl": "https://annanikiforova.vercel.app/",
+    "logoUrl": "https://annanikiforova.vercel.app/favicon.webp"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:annanikiforova:portfolio:anna-nikiforova",
+      "displayName": "Anna Nikiforova — Portfolio",
+      "type": "text/html",
+      "url": "https://annanikiforova.vercel.app/",
+      "description": "Portfolio and project showcase of Anna Nikiforova, a React Frontend Developer based in Ottawa, Canada.",
+      "tags": ["portfolio", "frontend", "react", "typescript", "resume"],
+      "representativeQueries": [
+        "What projects has Anna Nikiforova built?",
+        "What is Anna Nikiforova's tech stack and experience?",
+        "How can I contact Anna Nikiforova?"
+      ]
+    }
+  ]
+}
