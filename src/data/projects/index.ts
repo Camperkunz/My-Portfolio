@@ -11,12 +11,12 @@ import findYourSpot from "./find-your-spot";
 
 // Order here controls display order across the site.
 export const projects: Project[] = [
-    portfolio,
     uniqueEcommerce,
+    findYourSpot,
     cicanCampusLivingLabs,
+    advocacyCaot,
+    portfolio,
     loopstudios,
     contactBook,
-    advocacyCaot,
     notificationsApp,
-    findYourSpot
 ];
