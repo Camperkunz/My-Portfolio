@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Github, Linkedin, Menu } from "lucide-react";
 import { personalInfo } from "@/data/personalInfo";
 import { navLinks, navigateToSection } from "@/components/navigation";
 
@@ -81,6 +81,28 @@ export default function Navbar() {
                                 </li>
                             ))}
                         </ul>
+
+                        {/* Social links */}
+                        <div className="flex items-center gap-3 md:pl-3 pr-3 md:pr-0">
+                            <a
+                                href={personalInfo.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="GitHub"
+                                className="text-muted-foreground transition-colors hover:text-accent"
+                            >
+                                <Github className="size-5 md:size-4" />
+                            </a>
+                            <a
+                                href={personalInfo.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="LinkedIn"
+                                className="text-muted-foreground transition-colors hover:text-accent"
+                            >
+                                <Linkedin className="size-5 md:size-4" />
+                            </a>
+                        </div>
 
                         {/* Mobile navigation */}
                         <Sheet open={open} onOpenChange={setOpen}>
