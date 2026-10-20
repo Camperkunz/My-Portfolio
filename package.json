@@ -9,6 +9,7 @@
     "build": "tsc && vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -27,6 +28,7 @@
     "react-ga4": "^2.1.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^6.30.1",
+    "resend": "^6.34.1",
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"

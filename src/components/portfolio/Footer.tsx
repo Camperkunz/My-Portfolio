@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { personalInfo } from "@/data/personalInfo";
 import { navLinks, navigateToSection } from "@/components/navigation";

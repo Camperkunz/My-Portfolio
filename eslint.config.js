@@ -23,4 +23,12 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     },
   },
+  {
+    // Serverless functions and Vite config run in Node, not in the browser.
+    files: ["api/**/*.ts", "tests/**/*.ts", "vite.config.ts"],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+
 );

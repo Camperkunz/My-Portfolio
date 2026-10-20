@@ -6,6 +6,7 @@ export const personalInfo = {
   linkedin: "https://www.linkedin.com/in/anna-nikiforova-ac/",
   email: "annanikiforova_dev@proton.me",
   address: "Ottawa, ON, Canada",
+  contactNote: "I'm always happy to connect — whether it's about a role, a project, or just to say hi.",
   logo: '/favicon.webp',
   image: "/anna-photo.webp",
   experienceYears: 2,

@@ -1,62 +1,97 @@
 import { personalInfo } from "@/data/personalInfo";
-import { Github, Linkedin, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Mail, MapPin } from "lucide-react";
 import SectionHeader from "../SectionHeader";
+import ContactForm from "../ContactForm";
 
-function InfoBlock({ icon: Icon, label, children }: { icon: React.ElementType; label: string; children: React.ReactNode }) {
+const rowClass =
+  "group flex items-center gap-4 rounded-xl border border-border/50 bg-card/30 p-4 backdrop-blur-md transition-all hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40";
+
+interface ContactRowProps {
+  icon: React.ElementType;
+  label: string;
+  value: string;
+  href?: string;
+  external?: boolean;
+}
+
+function ContactRow({ icon: Icon, label, value, href, external = false }: ContactRowProps) {
+  const content = (
+    <>
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-accent/10 transition-colors group-hover:bg-accent/15">
+        <Icon className="h-5 w-5 text-accent" aria-hidden="true" />
+      </span>
+      <span className="min-w-0">
+        <span className="block text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          {label}
+        </span>
+        <span className="mt-1 block break-words text-sm font-medium text-foreground">{value}</span>
+      </span>
+      {external && (
+        <ArrowUpRight
+          className="ml-auto h-4 w-4 shrink-0 text-muted-foreground/60 transition-colors group-hover:text-accent"
+          aria-hidden="true"
+        />
+      )}
+    </>
+  );
+
+  if (!href) {
+    return <div className={rowClass}>{content}</div>;
+  }
+
   return (
-    <div className="flex flex-col items-center gap-3 rounded-xl border border-border/50 bg-card/30 backdrop-blur-md p-8">
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
-        <Icon className="h-5 w-5 text-accent" />
-      </div>
-      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{label}</span>
-      <div className="text-base font-medium text-foreground">{children}</div>
-    </div>
+    <a href={href} className={rowClass} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
+      {content}
+    </a>
   );
 }
 
 export default function ContactSection() {
   return (
     <section id="contact" className="w-full px-6 py-24">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-6xl">
         <SectionHeader preTitle="Let's connect" title="Contact" />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
-          <InfoBlock icon={Mail} label="Email">
-            <a href={`mailto:${personalInfo.email}`} className="transition-colors hover:text-accent">
-              {personalInfo.email}
-            </a>
-          </InfoBlock>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start">
+          {/* Left: contact form */}
+          <ContactForm />
 
-          <InfoBlock icon={MapPin} label="Location">
-            <span>{personalInfo.address}</span>
-          </InfoBlock>
-        </div>
+          {/* Right: direct contact details */}
+          <div>
+            <h3 className="font-mono text-lg font-semibold text-foreground">Or Reach me directly</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Prefer email or socials? Everything is one click away.
+            </p>
 
-        {/* Social Links */}
-        <div className="mt-10 flex flex-col items-center gap-4">
-          <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">Social</span>
-          <div className="flex justify-center gap-4">
-            <a
-              href={personalInfo.github}
-              target="_blank"
-              rel="noreferrer"
-              className="flex h-12 w-12 text-white items-center justify-center rounded-xl border border-border/50 bg-card/30 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
-              aria-label="GitHub"
-            >
-              <Github className="h-5 w-5" />
-            </a>
-            <a
-              href={personalInfo.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="flex h-12 w-12 text-white items-center justify-center rounded-xl border border-border/50 bg-card/30 text-muted-foreground transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/5"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
+            <div className="mt-6 flex flex-col gap-3">
+              <ContactRow
+                icon={Mail}
+                label="Email"
+                value={personalInfo.email}
+                href={`mailto:${personalInfo.email}`}
+              />
+              <ContactRow icon={MapPin} label="Location" value={personalInfo.address} />
+              <ContactRow
+                icon={Github}
+                label="GitHub"
+                value="github.com/Camperkunz"
+                href={personalInfo.github}
+                external
+              />
+              <ContactRow
+                icon={Linkedin}
+                label="LinkedIn"
+                value="linkedin.com/in/anna-nikiforova-ac"
+                href={personalInfo.linkedin}
+                external
+              />
+            </div>
+
+            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{personalInfo.contactNote}</p>
           </div>
         </div>
       </div>
     </section>
   );
 }
+
