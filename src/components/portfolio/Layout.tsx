@@ -1,5 +1,4 @@
 import { ReactNode, useEffect } from "react";
-import { Analytics } from "@vercel/analytics/react";
 import ScrollToTopButton from "@/components/portfolio/animations/ScrollToTopButton";
 import { useLocation } from "react-router-dom";
 // Components
@@ -22,10 +21,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen text-foreground">
       <Navbar />
-      <main id="main-content">
-        {children}
-        <Analytics />
-      </main>
+      <main id="main-content">{children}</main>
       <Footer />
       <ScrollToTopButton />
     </div>
