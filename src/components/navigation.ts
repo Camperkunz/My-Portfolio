@@ -1,3 +1,4 @@
+import type { MouseEvent as ReactMouseEvent } from "react";
 import type { NavigateFunction } from "react-router-dom";
 
 // h-20 = 5rem = 80px — must match the navbar height in Navbar.tsx
@@ -37,6 +38,40 @@ export const scrollToSection = (hash: string) => {
         top: offsetPosition,
         behavior: "smooth",
     });
+};
+
+/**
+ * Smoothly scroll back to the top of the current page.
+ * The global `html { scroll-behavior: smooth }` ignores reduced-motion
+ * preferences, so the explicit scroll honours them here.
+ */
+export const scrollToTop = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    window.scrollTo({
+        top: 0,
+        behavior: reduceMotion ? "auto" : "smooth",
+    });
+};
+
+/**
+ * Click handler for the site logo, which always leads home.
+ * - On any other page the router navigates home as usual.
+ * - On the homepage there is nothing to navigate to, so scroll back to the
+ *   top instead (dropping any #section hash so active-link state resets).
+ */
+export const handleLogoClick = (
+    e: ReactMouseEvent,
+    location: { pathname: string; hash: string },
+    navigate: NavigateFunction
+) => {
+    // Let modifier/middle clicks open a new tab as usual.
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (location.pathname !== "/") return;
+
+    e.preventDefault();
+    if (location.hash) navigate("/", { replace: true });
+    scrollToTop();
 };
 
 /**

@@ -1,7 +1,12 @@
 import { Github, Linkedin, ArrowUp } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { personalInfo } from "@/data/personalInfo";
-import { navLinks, navigateToSection } from "@/components/navigation";
+import {
+    navLinks,
+    navigateToSection,
+    handleLogoClick,
+    scrollToTop,
+} from "@/components/navigation";
 import { Button } from "../ui/button";
 
 export default function Footer() {
@@ -13,18 +18,16 @@ export default function Footer() {
         navigateToSection(href, location.pathname, navigate);
     };
 
-    // The global `html { scroll-behavior: smooth }` ignores reduced-motion
-    // preferences, so the explicit scroll honours them here.
-    const scrollToTop = () => {
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
-    };
-
     return (
         <footer className="border-t border-border/50 py-12">
             <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 px-6">
                 {/* Logo */}
-                <Link to="/" className="group" aria-label="Back to home">
+                <Link
+                    to="/"
+                    onClick={(e) => handleLogoClick(e, location, navigate)}
+                    className="group"
+                    aria-label="Back to home"
+                >
                     <img
                         src={personalInfo.logo}
                         alt="Anna Nikiforova — home"

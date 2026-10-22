@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Github, Linkedin, Menu } from "lucide-react";
 import { personalInfo } from "@/data/personalInfo";
-import { navLinks, navigateToSection } from "@/components/navigation";
+import { navLinks, navigateToSection, handleLogoClick } from "@/components/navigation";
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
@@ -48,6 +48,7 @@ export default function Navbar() {
                 <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
                     <Link
                         to="/"
+                        onClick={(e) => handleLogoClick(e, location, navigate)}
                         className="font-sans text-sm font-bold tracking-tight text-foreground"
                     >
                         <img
