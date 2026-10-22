@@ -14,6 +14,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Layout from "@/components/portfolio/Layout";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
   SiReact,
   SiTypescript,
@@ -67,6 +68,11 @@ const fadeUp = {
 export default function ProjectPage() {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
+
+  // Phones skip the per-card reveal: the staggered `whileInView` animation
+  // pops highlights in one by one on small screens and looks janky there.
+  // 767px matches Tailwind's `md` breakpoint.
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   // State for the gallery lightbox
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -348,8 +354,8 @@ export default function ProjectPage() {
                 <motion.div
                   key={i}
                   variants={fadeUp}
-                  initial="hidden"
-                  whileInView="visible"
+                  initial={isMobile ? "visible" : "hidden"}
+                  whileInView={isMobile ? undefined : "visible"}
                   viewport={{ once: true }}
                   custom={i}
                   className="group flex items-start gap-4 rounded-xl 
