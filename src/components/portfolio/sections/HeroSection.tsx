@@ -19,7 +19,7 @@ export default function HeroSection() {
         <h1 className="mt-4 font-mono text-4xl font-bold tracking-tight text-foreground sm:text-7xl">
           {personalInfo.name}
         </h1>
-        <p className="mt-4 max-w-md mx-auto text-muted-foreground leading-relaxed text-lg sm:text-xl">
+        <p className="mt-4 max-w-md mx-auto text-muted-foreground leading-relaxed text-base sm:text-xl">
           {personalInfo.tagline}
         </p>
 
@@ -40,11 +40,11 @@ export default function HeroSection() {
         <div className="mt-7 flex items-center justify-center gap-5">
           <a href={personalInfo.github} target="_blank" rel="noreferrer" aria-label="GitHub"
             className="text-muted-foreground transition-colors hover:text-accent">
-            <Github className="h-7 w-7" />
+            <Github className="size-5 md:size-6" />
           </a>
           <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"
             className="text-muted-foreground transition-colors hover:text-accent">
-            <Linkedin className="h-7 w-7" />
+            <Linkedin className="size-5 md:size-6" />
           </a>
         </div>
 

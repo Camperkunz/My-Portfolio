@@ -110,7 +110,7 @@ export default function Navbar() {
                                 className="lg:hidden"
                                 aria-label="Open menu"
                             >
-                                <Menu className="h-8 w-8" />
+                                <Menu className="size-8" />
                             </SheetTrigger>
 
                             <SheetContent side="right" className="w-64">
@@ -127,7 +127,7 @@ export default function Navbar() {
                                                 aria-current={
                                                     location.hash === link.href ? "true" : undefined
                                                 }
-                                                className="whitespace-nowrap text-sm text-muted-foreground transition-colors hover:text-accent"
+                                                className="whitespace-nowrap text-base text-muted-foreground transition-colors hover:text-accent"
                                             >
                                                 {link.label}
                                             </a>
