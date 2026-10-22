@@ -13,7 +13,7 @@ export const experiences: Experience[] = [
         ],
     },
     {
-        company: "Unque",
+        company: "Unique",
         role: "Junior Web Developer",
         period: "Aug 2024 — Sep 2025",
         description: [

@@ -54,7 +54,7 @@ export default function HeroSection() {
             className="gap-2 border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all px-2 sm:px-4"
             asChild
           >
-            <a href="/anna-nikiforova-resume.pdf" target="_blank" rel="noreferrer">
+            <a href="/anna-nikiforova-resume.pdf" data-track="resume_click" data-track-label="hero" target="_blank" rel="noreferrer">
               <Download className="h-4 w-4" />
               Download Resume
             </a>

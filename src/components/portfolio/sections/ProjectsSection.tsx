@@ -21,7 +21,7 @@ export default function ProjectsSection() {
             key={p.id}
             className="group flex flex-col border-border/50 bg-card/30 backdrop-blur-md transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
           >
-            <Link to={`/project/${p.id}`} className="block">
+            <Link to={`/project/${p.id}`} data-track="project_open" data-track-label={p.id} className="block">
               <img
                 src={p.thumbnailImageUrl || p.imageUrl}
                 alt={p.title}
@@ -51,7 +51,7 @@ export default function ProjectsSection() {
               <div className="mt-auto flex gap-2 pt-6 border-t border-border/30">
                 {p.liveUrl && (
                   <Button variant="accent" size="sm" className="gap-1.5 text-xs" asChild>
-                    <a href={p.liveUrl} target="_blank" rel="noopener noreferrer">
+                    <a href={p.liveUrl} data-track="project_live_click" data-track-label={p.id} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="h-3.5 w-3.5" /> Live Preview
                     </a>
                   </Button>
@@ -64,7 +64,7 @@ export default function ProjectsSection() {
                     className="gap-1.5 text-xs hover:bg-accent hover:text-accent-foreground transition-all"
                     asChild
                   >
-                    <a href={p.githubUrl} target="_blank" rel="noopener noreferrer">
+                    <a href={p.githubUrl} data-track="project_source_click" data-track-label={p.id} target="_blank" rel="noopener noreferrer">
                       <Github className="h-3.5 w-3.5" /> Source
                     </a>
                   </Button>
