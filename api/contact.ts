@@ -12,6 +12,9 @@
  *   interpolated into the notification email.
  * - A honeypot field and a best-effort per-instance rate limit keep casual
  *   spam out without adding a database dependency.
+ * - The client IP is used only for the in-memory rate limit. It is never
+ *   written into the notification email, so no persistent PII is created
+ *   beyond what the visitor chose to submit.
  */
 
 import { Resend } from "resend";
@@ -195,7 +198,7 @@ function escapeHtml(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
-function buildEmail(data: ContactData, meta: { ip: string; userAgent: string }) {
+function buildEmail(data: ContactData, meta: { userAgent: string }) {
   const reason = REASONS[data.reason];
   const safeName = escapeHtml(data.name);
   const safeEmail = escapeHtml(data.email);
@@ -228,7 +231,7 @@ function buildEmail(data: ContactData, meta: { ip: string; userAgent: string }) 
         </div>
       </div>
       <div style="padding:16px 24px;background:#101010;border-top:1px solid #2a2a2a;color:#777777;font-size:12px;">
-        Sent ${escapeHtml(sentAt)} · IP ${escapeHtml(meta.ip)}
+        Sent ${escapeHtml(sentAt)}
       </div>
     </div>
   </body>
@@ -246,7 +249,6 @@ function buildEmail(data: ContactData, meta: { ip: string; userAgent: string }) 
     "",
     "--",
     `Sent: ${sentAt}`,
-    `IP: ${meta.ip}`,
     userAgent ? `User agent: ${userAgent}` : "",
   ]
     .filter(Boolean)
@@ -314,7 +316,6 @@ export default async function handler(req: ContactRequest, res: ContactResponse)
     "Portfolio contact";
 
   const { html, text, reason } = buildEmail(data, {
-    ip,
     userAgent: getHeader(req, "user-agent") ?? "",
   });
 
@@ -341,5 +342,3 @@ export default async function handler(req: ContactRequest, res: ContactResponse)
     res.status(500).json({ error: "The message could not be sent. Please try again or email me directly." });
   }
 }
-
-
