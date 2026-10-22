@@ -113,7 +113,27 @@ export default function SkillsSection() {
     <section id="skills" className="py-24">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader preTitle="What I use" title="Skills" />
-        <div>
+        {/* The marquee below duplicates every chip to loop seamlessly, so the
+            skill names are exposed once, in reading order, here. */}
+        <ul className="sr-only">
+          <li>
+            <h3>Technical skills</h3>
+            <ul>
+              {technicalSkills.map((skill) => (
+                <li key={skill.name}>{skill.name}</li>
+              ))}
+            </ul>
+          </li>
+          <li>
+            <h3>Design tools</h3>
+            <ul>
+              {designSkills.map((skill) => (
+                <li key={skill.name}>{skill.name}</li>
+              ))}
+            </ul>
+          </li>
+        </ul>
+        <div aria-hidden="true">
           <MarqueeRow items={technicalSkills} direction="left" duration={80} />
           <MarqueeRow items={designSkills} direction="right" duration={80} />
         </div>

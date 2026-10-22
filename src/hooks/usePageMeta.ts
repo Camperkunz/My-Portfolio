@@ -1,43 +1,78 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { projects } from "@/data/projects";
+import { getRouteMeta, type RouteMeta } from "@/lib/seo";
 
-const SITE_TITLE = "Anna Nikiforova — React Frontend Developer";
-const SITE_DESCRIPTION =
-  "Ottawa-based React Frontend Developer building responsive, accessible and polished web experiences with React, JavaScript, TypeScript and Tailwind CSS.";
+const upsertMeta = (key: string, content: string, attribute: "name" | "property" = "name") => {
+  let element = document.head.querySelector<HTMLMetaElement>(
+    `meta[${attribute}="${key}"]`
+  );
+  if (!element) {
+    element = document.createElement("meta");
+    element.setAttribute(attribute, key);
+    document.head.appendChild(element);
+  }
+  element.setAttribute("content", content);
+};
 
-// Updates document.title and meta description per route in the SPA,
-// where server meta tags stay the homepage ones (helps Google SEO).
+const upsertCanonical = (href: string) => {
+  const existing = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+
+  if (!href) {
+    existing?.remove();
+    return;
+  }
+
+  const link = existing ?? document.createElement("link");
+  link.setAttribute("rel", "canonical");
+  link.setAttribute("href", href);
+  if (!existing) document.head.appendChild(link);
+};
+
+const upsertJsonLd = (jsonLd: RouteMeta["jsonLd"]) => {
+  let script = document.getElementById("route-jsonld") as HTMLScriptElement | null;
+  if (!script) {
+    script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "route-jsonld";
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify(jsonLd);
+};
+
+/**
+ * Keeps `<title>`, description, canonical, Open Graph / Twitter tags and
+ * structured data in sync with the current route.
+ *
+ * The same values are baked into static HTML shells at build time
+ * (`vite.config.ts` -> `seoHtmlShells`), so crawlers that do not run JS and
+ * social-preview bots see route-specific metadata without waiting for React.
+ */
 export function usePageMeta() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    let title = SITE_TITLE;
-    let description = SITE_DESCRIPTION;
+    const meta = getRouteMeta(pathname);
 
-    if (pathname === "/projects") {
-      title = "All Projects — Anna Nikiforova";
-      description =
-        "Browse all frontend projects by Anna Nikiforova: React, TypeScript, Shopify, Tailwind CSS and more.";
-    } else if (pathname.startsWith("/project/")) {
-      const project = projects.find((p) => `/project/${p.id}` === pathname);
-      if (project) {
-        title = `${project.title} — Anna Nikiforova`;
-        description = project.shortDescription;
-      } else {
-        title = "Project Not Found — Anna Nikiforova";
-        description = "This project does not exist.";
-      }
-    } else if (pathname !== "/") {
-      title = "Page Not Found — Anna Nikiforova";
-      description = "This page does not exist.";
-    }
+    document.title = meta.title;
 
-    document.title = title;
+    upsertMeta("description", meta.description);
+    upsertMeta("robots", meta.robots);
 
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", description);
-    }
+    upsertMeta("og:type", meta.ogType, "property");
+    upsertMeta("og:title", meta.title, "property");
+    upsertMeta("og:description", meta.description, "property");
+    upsertMeta("og:url", meta.canonical || window.location.href, "property");
+    upsertMeta("og:image", meta.image, "property");
+    upsertMeta("og:image:alt", meta.imageAlt, "property");
+    upsertMeta("og:image:width", String(meta.imageWidth), "property");
+    upsertMeta("og:image:height", String(meta.imageHeight), "property");
+
+    upsertMeta("twitter:title", meta.title);
+    upsertMeta("twitter:description", meta.description);
+    upsertMeta("twitter:image", meta.image);
+    upsertMeta("twitter:image:alt", meta.imageAlt);
+
+    upsertCanonical(meta.canonical);
+    upsertJsonLd(meta.jsonLd);
   }, [pathname]);
 }

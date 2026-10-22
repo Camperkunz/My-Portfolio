@@ -42,6 +42,16 @@ export default function Footer() {
                                 </a>
                             </li>
                         ))}
+                        {/* The case-study index is a real route, so it belongs in the
+                            footer nav (keeps it crawlable from every page). */}
+                        <li>
+                            <Link
+                                to="/projects"
+                                className="text-sm text-muted-foreground transition-colors hover:text-accent"
+                            >
+                                All Projects
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
 

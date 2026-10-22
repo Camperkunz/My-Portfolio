@@ -18,6 +18,9 @@ export default function HeroSection() {
         <Typewriter roles={roles} />
         <h1 className="mt-4 font-mono text-4xl font-bold tracking-tight text-foreground sm:text-7xl">
           {personalInfo.name}
+          {/* Gives the single H1 a descriptive, keyword-relevant tail for search
+              engines and screen readers without changing the visual design. */}
+          <span className="sr-only"> — React Frontend Developer in Ottawa</span>
         </h1>
         <p className="mt-4 max-w-md mx-auto text-muted-foreground leading-relaxed text-base sm:text-xl">
           {personalInfo.tagline}
@@ -38,11 +41,11 @@ export default function HeroSection() {
         </p>
 
         <div className="mt-7 flex items-center justify-center gap-5">
-          <a href={personalInfo.github} target="_blank" rel="noreferrer" aria-label="GitHub"
+          <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)"
             className="text-muted-foreground transition-colors hover:text-accent">
             <Github className="size-5 md:size-6" />
           </a>
-          <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"
+          <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)"
             className="text-muted-foreground transition-colors hover:text-accent">
             <Linkedin className="size-5 md:size-6" />
           </a>
@@ -54,7 +57,7 @@ export default function HeroSection() {
             className="gap-2 border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all px-2 sm:px-4"
             asChild
           >
-            <a href="/anna-nikiforova-resume.pdf" data-track="resume_click" data-track-label="hero" target="_blank" rel="noreferrer">
+            <a href="/anna-nikiforova-resume.pdf" data-track="resume_click" data-track-label="hero" target="_blank" rel="noopener">
               <Download className="h-4 w-4" />
               Download Resume
             </a>

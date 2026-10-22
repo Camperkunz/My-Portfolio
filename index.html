@@ -6,38 +6,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Primary SEO -->
-  <title>Anna Nikiforova — React Frontend Developer</title>
+  <title>Anna Nikiforova — React Frontend Developer in Ottawa</title>
 
   <meta name="description"
     content="Ottawa-based React Frontend Developer building responsive, accessible and polished web experiences with React, JavaScript, TypeScript and Tailwind CSS." />
 
   <meta name="author" content="Anna Nikiforova" />
   <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#050505" />
 
   <!-- Canonical URL -->
   <link rel="canonical" href="https://annanikiforova.vercel.app/" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_CA" />
   <meta property="og:url" content="https://annanikiforova.vercel.app/" />
-  <meta property="og:title" content="Anna Nikiforova — React Frontend Developer" />
+  <meta property="og:title" content="Anna Nikiforova — React Frontend Developer in Ottawa" />
   <meta property="og:description"
     content="Ottawa-based React Frontend Developer building responsive, accessible and polished web experiences." />
   <meta property="og:image" content="https://annanikiforova.vercel.app/portfolio/portfolio-og.jpg" />
   <meta property="og:image:alt" content="Anna Nikiforova — React Frontend Developer Portfolio" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:site_name" content="Anna Nikiforova — Portfolio" />
 
   <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Anna Nikiforova — React Frontend Developer" />
+  <meta name="twitter:title" content="Anna Nikiforova — React Frontend Developer in Ottawa" />
   <meta name="twitter:description"
     content="Ottawa-based React Frontend Developer building responsive, accessible and polished web experiences." />
   <meta name="twitter:image" content="https://annanikiforova.vercel.app/portfolio/portfolio-og.jpg" />
   <meta name="twitter:image:alt" content="Anna Nikiforova — React Frontend Developer Portfolio" />
 
   <!-- Favicon -->
-  <link rel="icon" href="/favicon.webp" media="(prefers-color-scheme: dark)" />
-  <link rel="icon" href="/favicon-black.webp" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/webp" href="/favicon.webp" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/webp" href="/favicon-black.webp" media="(prefers-color-scheme: light)" />
 
   <!-- Agentic discovery: explicit signals for Lighthouse's agentic-browsing audits
        (llms.txt + ARD ai-catalog manifest). -->
@@ -48,26 +52,77 @@
        No Google Fonts request — avoids a third-party connection and layout shifts. -->
 
   <!-- Google Analytics: loaded once via react-ga4 in src/App.tsx (SPA-aware pageviews) -->
-  <!-- Structured data for search engines -->
-  <script type="application/ld+json">
+  <!-- Structured data for search engines. Per-route graphs are injected by
+       src/lib/seo.ts (runtime) and baked into static shells at build time. -->
+  <script type="application/ld+json" id="route-jsonld">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Anna Nikiforova",
-      "url": "https://annanikiforova.vercel.app/",
-      "image": "https://annanikiforova.vercel.app/anna-photo.webp",
-      "jobTitle": "Frontend Developer",
-      "email": "mailto:annanikiforova_dev@proton.me",
-      "sameAs": [
-        "https://github.com/Camperkunz",
-        "https://www.linkedin.com/in/anna-nikiforova-ac/"
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://annanikiforova.vercel.app/#person",
+          "name": "Anna Nikiforova",
+          "url": "https://annanikiforova.vercel.app/",
+          "image": "https://annanikiforova.vercel.app/anna-photo.webp",
+          "jobTitle": "Frontend Developer",
+          "email": "mailto:annanikiforova_dev@proton.me",
+          "description": "Ottawa-based React Frontend Developer building responsive, accessible and polished web experiences.",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Ottawa",
+            "addressRegion": "ON",
+            "addressCountry": "CA"
+          },
+          "knowsAbout": [
+            "React",
+            "TypeScript",
+            "JavaScript",
+            "Tailwind CSS",
+            "Shopify",
+            "Frontend Development",
+            "Web Accessibility",
+            "Web Performance"
+          ],
+          "sameAs": [
+            "https://github.com/Camperkunz",
+            "https://www.linkedin.com/in/anna-nikiforova-ac/"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://annanikiforova.vercel.app/#website",
+          "url": "https://annanikiforova.vercel.app/",
+          "name": "Anna Nikiforova — Portfolio",
+          "inLanguage": "en",
+          "publisher": { "@id": "https://annanikiforova.vercel.app/#person" }
+        }
       ]
     }
   </script>
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <!-- Rendered only when JavaScript is unavailable: a readable fallback with
+         the essential identity, navigation and contact path. -->
+    <noscript>
+      <div style="max-width: 40rem; margin: 4rem auto; padding: 0 1.5rem; font-family: system-ui, sans-serif; line-height: 1.6;">
+        <h1 style="font-size: 1.75rem; margin-bottom: 1rem;">Anna Nikiforova — React Frontend Developer in Ottawa</h1>
+        <p>This portfolio is built with React and needs JavaScript for the full experience.</p>
+        <p>
+          You can still browse
+          <a href="/projects">all projects and case studies</a>
+          or reach me at
+          <a href="mailto:annanikiforova_dev@proton.me">annanikiforova_dev@proton.me</a>.
+        </p>
+        <p>
+          <a href="https://github.com/Camperkunz">GitHub</a> ·
+          <a href="https://www.linkedin.com/in/anna-nikiforova-ac/">LinkedIn</a> ·
+          <a href="/anna-nikiforova-resume.pdf">Resume (PDF)</a>
+        </p>
+      </div>
+    </noscript>
+  </div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

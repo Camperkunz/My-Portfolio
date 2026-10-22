@@ -27,7 +27,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       <Link to={`/project/${project.id}`} data-track="project_open" data-track-label={project.id} className="block">
         <img
           src={imageSrc}
-          alt={project.title}
+          alt={`${project.title} — ${project.category} project preview`}
           width={dimensions?.w}
           height={dimensions?.h}
           className="h-60 w-full rounded-t-lg object-cover"

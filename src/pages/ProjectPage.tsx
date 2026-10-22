@@ -189,7 +189,7 @@ export default function ProjectPage() {
   return (
     <Layout>
       <div className="mx-auto max-w-6xl px-6 py-16 mt-8">
-        <Link to="/#projects">
+        <Link to="/projects">
           <Button variant="ghost" size="sm" className="gap-3 text-muted-foreground mb-8 transition-colors hover:text-foreground">
             <ArrowLeft className="h-5 w-5" /> Back to projects
           </Button>
@@ -212,7 +212,7 @@ export default function ProjectPage() {
             <div className="relative">
               <img
                 src={heroSrc}
-                alt={project.title}
+                alt={`${project.title} — ${project.category} project hero screenshot`}
                 width={heroDims?.w}
                 height={heroDims?.h}
                 fetchPriority="high"
@@ -284,7 +284,7 @@ export default function ProjectPage() {
                          hover:shadow-lg hover:shadow-accent/30"
                       asChild
                     >
-                      <a href={project.liveUrl} target="_blank" rel="noreferrer">
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="h-4 w-4" /> Live Preview
                       </a>
                     </Button>
@@ -298,7 +298,7 @@ export default function ProjectPage() {
                          transition-all duration-300 "
                       asChild
                     >
-                      <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
                         <Github className="h-4 w-4" /> Source
                       </a>
                     </Button>
@@ -409,22 +409,22 @@ export default function ProjectPage() {
               const src = p.thumbnailImageUrl || p.imageUrl;
               const dims = src ? imageDimensions[src] : undefined;
               return (
-              <Link key={p.id} to={`/project/${p.id}`}
-                className="group rounded-xl border border-border/50 bg-card/30 backdrop-blur-md overflow-hidden hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all">
-                <img
-                  src={src}
-                  alt={p.title}
-                  width={dims?.w}
-                  height={dims?.h}
-                  className="w-full h-40 object-cover object-top"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="p-5">
-                  <h3 className="font-bold text-foreground group-hover:text-accent transition-colors">{p.title}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{p.shortDescription}</p>
-                </div>
-              </Link>
+                <Link key={p.id} to={`/project/${p.id}`}
+                  className="group rounded-xl border border-border/50 bg-card/30 backdrop-blur-md overflow-hidden hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all">
+                  <img
+                    src={src}
+                    alt={`${p.title} — ${p.category} project preview`}
+                    width={dims?.w}
+                    height={dims?.h}
+                    className="w-full h-40 object-cover object-top"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="p-5">
+                    <h3 className="font-bold text-foreground group-hover:text-accent transition-colors">{p.title}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{p.shortDescription}</p>
+                  </div>
+                </Link>
               );
             })}
           </div>

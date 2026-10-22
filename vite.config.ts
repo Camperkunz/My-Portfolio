@@ -4,9 +4,117 @@ import path from "path";
 import { promises as fs } from "fs";
 import type { IncomingMessage, ServerResponse } from "http";
 import type { ContactRequest, ContactResponse } from "./api/contact";
+import {
+  getSeoRoutes,
+  notFoundRoute,
+  SITE_URL,
+  type RouteMeta,
+  type SeoRoute,
+} from "./src/lib/seo";
+
+/** Escapes a value for use inside an HTML attribute. */
+const escapeAttr = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
+/** Replaces an existing <meta> tag in the built HTML (appends it if missing). */
+function setMetaTag(
+  html: string,
+  key: string,
+  content: string,
+  attribute: "name" | "property" = "name",
+) {
+  const tag = `<meta ${attribute}="${key}" content="${escapeAttr(content)}" />`;
+  const pattern = new RegExp(`<meta ${attribute}="${key}"[^>]*>`);
+  return pattern.test(html)
+    ? html.replace(pattern, tag)
+    : html.replace("</head>", `  ${tag}\n</head>`);
+}
 
 /**
- * Post-build HTML optimization (production builds only):
+ * Rewrites the shared built HTML into a route-specific shell: title,
+ * description, canonical, robots, Open Graph, Twitter and JSON-LD.
+ */
+function applyRouteMeta(html: string, meta: RouteMeta): string {
+  let out = html
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeAttr(meta.title)}</title>`)
+    .replace(
+      /<link rel="canonical"[^>]*>/,
+      meta.canonical ? `<link rel="canonical" href="${escapeAttr(meta.canonical)}" />` : "",
+    );
+
+  out = setMetaTag(out, "description", meta.description);
+  out = setMetaTag(out, "robots", meta.robots);
+
+  out = setMetaTag(out, "og:type", meta.ogType, "property");
+  out = setMetaTag(out, "og:title", meta.title, "property");
+  out = setMetaTag(out, "og:description", meta.description, "property");
+  out = setMetaTag(out, "og:url", meta.canonical || `${SITE_URL}/404`, "property");
+  out = setMetaTag(out, "og:image", meta.image, "property");
+  out = setMetaTag(out, "og:image:alt", meta.imageAlt, "property");
+  out = setMetaTag(out, "og:image:width", String(meta.imageWidth), "property");
+  out = setMetaTag(out, "og:image:height", String(meta.imageHeight), "property");
+
+  out = setMetaTag(out, "twitter:title", meta.title);
+  out = setMetaTag(out, "twitter:description", meta.description);
+  out = setMetaTag(out, "twitter:image", meta.image);
+  out = setMetaTag(out, "twitter:image:alt", meta.imageAlt);
+
+  const jsonLd = JSON.stringify(meta.jsonLd, null, 2).replace(/<\//g, "<\\/");
+  return out.replace(
+    /<script type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/,
+    `<script type="application/ld+json" id="route-jsonld">\n${jsonLd}\n  </script>`,
+  );
+}
+
+/** Builds sitemap.xml from the same route list that gets static shells. */
+function buildSitemap(routes: SeoRoute[], lastMods: Map<string, string>): string {
+  const urls = routes
+    .map(({ path: routePath, meta }) => {
+      const loc = meta.canonical || `${SITE_URL}${routePath}`;
+      const lastmod = lastMods.get(loc);
+      const isProject = routePath.startsWith("/project/");
+      const lines = [
+        "  <url>",
+        `    <loc>${escapeAttr(loc)}</loc>`,
+        lastmod ? `    <lastmod>${escapeAttr(lastmod)}</lastmod>` : null,
+        `    <changefreq>${isProject ? "yearly" : "monthly"}</changefreq>`,
+        `    <priority>${routePath === "/" ? "1.0" : routePath === "/projects" ? "0.8" : "0.6"}</priority>`,
+        "  </url>",
+      ];
+      return lines.filter(Boolean).join("\n");
+    })
+    .join("\n\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>
+`;
+}
+
+/**
+ * Reads <lastmod> values from the sitemap copied out of public/ so regenerating
+ * the file adds new routes without resetting the dates of existing pages.
+ */
+async function readLastModified(distDir: string): Promise<Map<string, string>> {
+  const map = new Map<string, string>();
+  try {
+    const xml = await fs.readFile(path.join(distDir, "sitemap.xml"), "utf-8");
+    for (const match of xml.matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)) {
+      map.set(match[1], match[2]);
+    }
+  } catch {
+    // No previous sitemap — the next build will pick the dates up.
+  }
+  return map;
+}
+
+/**
+ * Post-build optimization + static SEO shells (production builds only):
  *
  * 1. Inlines the emitted entry stylesheet into index.html so first paint no
  *    longer waits on a render-blocking CSS request (Lighthouse
@@ -15,13 +123,19 @@ import type { ContactRequest, ContactResponse } from "./api/contact";
  *    the brand font downloads alongside the HTML instead of only after the CSS
  *    is parsed. This keeps the hero text from repainting late on first visit
  *    (stabilizes LCP).
+ * 3. Writes a static HTML shell per route (`dist/projects/index.html`,
+ *    `dist/project/<id>/index.html`, `dist/404.html`) with route-specific
+ *    title/description/canonical/OG/Twitter/JSON-LD, plus a fresh
+ *    `dist/sitemap.xml`. Crawlers and link-preview bots that do not execute
+ *    JavaScript get correct metadata, unknown URLs return a real 404, and the
+ *    canonical no longer points every page at the homepage.
  *
  * Runs in `closeBundle`, after Vite has written dist/, so the hashed asset
  * names are known. Dev server output is untouched (`apply: "build"`).
  */
-function inlineCssAndPreloadFonts(): Plugin {
+function seoShellsAndCssInlining(): Plugin {
   return {
-    name: "portfolio:inline-css-and-preload-fonts",
+    name: "portfolio:seo-shells-and-css",
     apply: "build",
     async closeBundle() {
       const distDir = path.resolve(__dirname, "dist");
@@ -63,6 +177,25 @@ function inlineCssAndPreloadFonts(): Plugin {
 
       // The inlined stylesheets are no longer referenced — keep the deploy clean.
       await Promise.all(inlinedCssFiles.map((file) => fs.rm(file, { force: true })));
+
+      // 3. Static SEO shells, 404 page and sitemap. The homepage shell is
+      //    dist/index.html itself, rewritten so its JSON-LD/OG tags come from
+      //    the same source as every other route.
+      const routes = getSeoRoutes();
+
+      for (const route of routes) {
+        const target =
+          route.path === "/"
+            ? htmlPath
+            : path.join(distDir, route.path.replace(/^\//, ""), "index.html");
+        await fs.mkdir(path.dirname(target), { recursive: true });
+        await fs.writeFile(target, applyRouteMeta(html, route.meta));
+      }
+
+      await fs.writeFile(path.join(distDir, "404.html"), applyRouteMeta(html, notFoundRoute.meta));
+
+      const lastMods = await readLastModified(distDir);
+      await fs.writeFile(path.join(distDir, "sitemap.xml"), buildSitemap(routes, lastMods));
     },
   };
 }
@@ -163,7 +296,7 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  plugins: [react(), devApiBridge(mode), inlineCssAndPreloadFonts()],
+  plugins: [react(), devApiBridge(mode), seoShellsAndCssInlining()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

@@ -44,6 +44,12 @@ const PageMeta = () => {
   return null;
 };
 
+// Reserves the viewport while a lazy route chunk loads, so navigating to a
+// project page does not flash an empty document (and the footer does not jump).
+const RouteFallback = () => (
+  <div className="flex min-h-screen items-center justify-center" aria-busy="true" />
+);
+
 const App = () => (
   <BrowserRouter>
     {/* PageMeta runs before AnalyticsTracker so document.title is already
@@ -52,7 +58,7 @@ const App = () => (
     <AnalyticsTracker />
     <ScrollToTop />
     <Toaster />
-    <Suspense fallback={null}>
+    <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/projects" element={<AllProjectsPage />} />

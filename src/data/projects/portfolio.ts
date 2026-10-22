@@ -24,7 +24,8 @@ const portfolio: Project = {
     solutionImageUrl: "/portfolio/solution.webp", // ← replace with your own screenshot
     techStack: ["React", "TypeScript", "Tailwind CSS", "Vercel", "AI"],
     githubUrl: "https://github.com/Camperkunz/My-Portfolio",
-    liveUrl: "/",
+    // No liveUrl: this site *is* the live project, and a "/" link duplicated the
+    // page inside a new tab.
 };
 
 export default portfolio;

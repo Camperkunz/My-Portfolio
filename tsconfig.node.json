@@ -5,6 +5,13 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
+    /* `vite.config.ts` imports src/lib/seo.ts (and transitively the project
+       data) so the same metadata drives the runtime and the build-time HTML
+       shells — mirror the app alias here. */
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

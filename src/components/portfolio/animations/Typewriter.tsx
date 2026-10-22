@@ -81,7 +81,14 @@ export default function Typewriter({
   }, [tick, isDeleting, deletingSpeed, typingSpeed, hasStarted, inView]);
 
   return (
-    <span ref={rootRef} className="text-md tracking-widest uppercase text-accent font-medium">
+    // Decorative typing animation: the rotating role is announced once by the
+    // hero <h1> ("Anna Nikiforova — React Frontend Developer in Ottawa"), so the
+    // constantly-changing text is hidden from screen readers.
+    <span
+      ref={rootRef}
+      aria-hidden="true"
+      className="text-md tracking-widest uppercase text-accent font-medium"
+    >
       {text}
       <span className="animate-pulse text-accent">|</span>
     </span>

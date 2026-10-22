@@ -20,7 +20,10 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen text-foreground">
-      <Navbar />
+      {/* Banner landmark: the skip link + primary nav live inside it. */}
+      <header>
+        <Navbar />
+      </header>
       <main id="main-content">{children}</main>
       <Footer />
       <ScrollToTopButton />
