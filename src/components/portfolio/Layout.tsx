@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from "react";
-import ScrollToTopButton from "@/components/portfolio/animations/ScrollToTopButton";
+import ContactFab from "@/components/portfolio/ContactFab";
 import { useLocation } from "react-router-dom";
 // Components
 import Navbar from "@/components/portfolio/Navbar";
@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </header>
       <main id="main-content">{children}</main>
       <Footer />
-      <ScrollToTopButton />
+      <ContactFab />
     </div>
   );
 }

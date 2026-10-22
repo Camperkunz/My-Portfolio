@@ -2,6 +2,7 @@ import { projects } from "@/data/projects";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { scrollToSection } from "@/components/navigation";
 import ProjectCard from "../ProjectCard";
 import SectionHeader from "../SectionHeader";
 
@@ -30,6 +31,20 @@ export default function ProjectsSection() {
           </Link>
         </Button>
       </div>
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        Have a project in mind?{" "}
+        <a
+          href="/#contact"
+          onClick={(event) => {
+            event.preventDefault();
+            scrollToSection("#contact");
+          }}
+          data-track="projects_contact_cta"
+          className="font-medium text-accent underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        >
+          Let's talk
+        </a>
+      </p>
     </section>
   );
 }

@@ -1,13 +1,15 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { projects } from "@/data/projects";
 import { imageDimensions } from "@/data/imageDimensions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { navigateToSection } from "@/components/navigation";
 import {
   ArrowLeft,
   ExternalLink,
   Github,
+  MessageCircle,
   Sparkles,
   X,
   ChevronLeft,
@@ -68,6 +70,8 @@ const fadeUp = {
 export default function ProjectPage() {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // Phones skip the per-card reveal: the staggered `whileInView` animation
   // pops highlights in one by one on small screens and looks janky there.
@@ -406,6 +410,32 @@ export default function ProjectPage() {
             </motion.section>
           );
         })}
+
+        {/* End-of-case-study CTA — before the project grid, so a reader who
+            just finished the case study is invited to reach out first. */}
+        <section className="mb-24 rounded-2xl border border-accent/25 bg-card/40 px-6 py-12 text-center backdrop-blur-md">
+          <h2 className="font-mono text-2xl font-bold text-foreground sm:text-3xl">
+            Like what you see?
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            I'm open to frontend roles, freelance projects and collaborations.
+            Tell me what you're building and I'll get back to you.
+          </p>
+          <Button variant="accent" size="lg" className="mt-6 gap-2" asChild>
+            <a
+              href="/#contact"
+              onClick={(event) => {
+                event.preventDefault();
+                navigateToSection("#contact", location.pathname, navigate);
+              }}
+              data-track="project_contact_cta"
+              data-track-label={project.title}
+            >
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+              Let's talk
+            </a>
+          </Button>
+        </section>
 
         {/* Explore More Projects */}
         <section className="pt-16 border-t border-border/30">
