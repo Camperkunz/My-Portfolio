@@ -1,7 +1,8 @@
-import { Github, Linkedin } from "lucide-react";
+import { Github, Linkedin, ArrowUp } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { personalInfo } from "@/data/personalInfo";
 import { navLinks, navigateToSection } from "@/components/navigation";
+import { Button } from "../ui/button";
 
 export default function Footer() {
     const location = useLocation();
@@ -10,6 +11,13 @@ export default function Footer() {
     const handleClick = (e: React.MouseEvent, href: string) => {
         e.preventDefault();
         navigateToSection(href, location.pathname, navigate);
+    };
+
+    // The global `html { scroll-behavior: smooth }` ignores reduced-motion
+    // preferences, so the explicit scroll honours them here.
+    const scrollToTop = () => {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
     };
 
     return (
@@ -77,6 +85,18 @@ export default function Footer() {
                         <Linkedin className="h-6 w-6 md:h-4 md:w-4" />
                     </a>
                 </div>
+
+                {/* Back to top — sits at the end of the page, where it is needed.
+                    It replaced the floating arrow so the bottom-right corner is
+                    reserved for the "Let's talk" CTA. */}
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={scrollToTop}
+                    data-track="back_to_top"
+                >
+                    Back to top <ArrowUp className="h-4 w-4" aria-hidden="true" />
+                </Button>
 
                 {/* Copyright */}
                 <p className="text-xs text-muted-foreground/60">
