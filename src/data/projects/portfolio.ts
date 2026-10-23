@@ -26,6 +26,7 @@ const portfolio: Project = {
     githubUrl: "https://github.com/Camperkunz/My-Portfolio",
     // No liveUrl: this site *is* the live project, and a "/" link duplicated the
     // page inside a new tab.
+    featured: true,
 };
 
 export default portfolio;

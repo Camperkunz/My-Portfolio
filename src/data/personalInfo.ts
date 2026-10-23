@@ -10,6 +10,6 @@ export const personalInfo = {
   logo: '/favicon.webp',
   image: "/anna-photo.webp",
   experienceYears: 2,
-  realProjects: 10,
+  realProjects: 11,
   certifications: 8,
 };

@@ -81,7 +81,7 @@ export default function AboutSection() {
         {/* Text */}
         <div className="text-center md:text-left">
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Hi, I'm Anna — a Front-End Developer who builds polished web experiences and isn't afraid to push them further with AI. With {personalInfo.experienceYears}+ years of experience in React, TypeScript, and various CMS platforms, I bridge the gap between creative design and maintainable code.
+            Hi, I'm Anna — a Front-End Developer from {personalInfo.address} who builds polished web experiences and isn't afraid to push them further with AI. With {personalInfo.experienceYears}+ years of experience in React, TypeScript, and various CMS platforms, I bridge the gap between creative design and maintainable code.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
             I believe a great product is seen in the details — from the first wireframe to the final deploy. My goal is simple: to build interfaces that aren't just beautiful, but are accessible, performant, and solve real-world challenges.

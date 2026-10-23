@@ -10,7 +10,7 @@ const contactBook: Project = {
     imageUrl: "/contact-book/contact-book.webp",// ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "", // ← inside the component, first
     year: "2025",
-    category: "Personal Project",
+    category: "Study Project",
     highlights: [
         "Built a single-page application using Vue 3 and Vue Router",
         "Implemented contact search and alphabetical sorting",

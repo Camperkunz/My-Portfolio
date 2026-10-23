@@ -34,6 +34,8 @@ import {
   SiVite,
   SiFirebase,
   SiVuedotjs,
+  SiSanity,
+  SiCloudflare,
 } from "react-icons/si";
 import { Brain } from "lucide-react";
 import { motion } from "framer-motion";
@@ -55,6 +57,8 @@ const techIcons: Record<string, React.ReactNode> = {
   Vite: <SiVite className="h-5 w-5" />,
   Firebase: <SiFirebase className="h-5 w-5" />,
   Vue: <SiVuedotjs className="h-5 w-5" />,
+  Sanity: <SiSanity className="h-5 w-5" />,
+  Cloudflare: <SiCloudflare className="h-5 w-5" />,
   AI: <Brain className="h-5 w-5" />,
 };
 

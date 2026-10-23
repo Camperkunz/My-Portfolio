@@ -10,7 +10,7 @@ const cicanCampusLivingLabs: Project = {
     imageUrl: "/cican/overview.webp", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/cican/overview.webp", // ← inside the component, first
     year: "2026",
-    category: "Web Development & UX Design",
+    category: "Work • Design & Development",
     highlights: [
         "Custom UI/UX design created entirely from scratch",
         "Interactive showcase of 8 detailed college environmental projects",

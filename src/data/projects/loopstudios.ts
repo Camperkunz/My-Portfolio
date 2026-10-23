@@ -10,7 +10,7 @@ const loopstudios: Project = {
     imageUrl: "/loop-studios/loopstudios.webp", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/loop-studios/loopstudios.webp", // ← inside the component, first
     year: "2025",
-    category: "Frontend Development",
+    category: "Study Project",
     highlights: [
         "Pixel-accurate recreation of the original design",
         "Fully responsive layout for mobile and desktop",

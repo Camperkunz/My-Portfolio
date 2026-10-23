@@ -10,7 +10,7 @@ const uniqueEcommerce: Project = {
     imageUrl: "/unique/unique-website.webp", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/unique/unique-website.webp", // ← inside the component, first
     year: "2025",
-    category: "Frontend Development",
+    category: "Work • Design & Development",
     highlights: [
         "Designed the complete UI and structure of the e-commerce store",
         "Built and customized a Shopify theme using Liquid",

@@ -6,10 +6,15 @@ import { scrollToSection } from "@/components/navigation";
 import ProjectCard from "../ProjectCard";
 import SectionHeader from "../SectionHeader";
 
+// Two rows of three on desktop — the home page shows the whole featured set.
+const FEATURED_COUNT = 6;
+
 export default function ProjectsSection() {
   const featuredProjects = projects.filter((p) => p.featured);
   const featured =
-    featuredProjects.length > 0 ? featuredProjects.slice(0, 3) : projects.slice(0, 3);
+    featuredProjects.length > 0
+      ? featuredProjects.slice(0, FEATURED_COUNT)
+      : projects.slice(0, FEATURED_COUNT);
 
   return (
     <section id="projects" className="mx-auto max-w-7xl px-6 py-24">

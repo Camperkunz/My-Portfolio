@@ -10,7 +10,7 @@ const notificationsApp: Project = {
     imageUrl: "/notification/notifications.webp", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "/notification/overview.webp", // ← inside the component, first
     year: "2025",
-    category: "Personal Project",
+    category: "Study Project",
     highlights: [
         "Built a notification management interface using React",
         "Implemented dynamic notification count with React state",

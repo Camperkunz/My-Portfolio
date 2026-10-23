@@ -19,8 +19,8 @@ export default function AllProjectsPage() {
         <SectionHeader as="h1" preTitle="What I've built" title="Frontend Projects and more" />
 
         <p className="mx-auto -mt-10 mb-4 max-w-2xl text-center text-muted-foreground">
-          React, TypeScript, Shopify and AI-assisted
-          workflows, with the problem, the solution and the result of each build.
+          React, Next.js, TypeScript, Sanity and Shopify builds — each one with
+          the problem, the solution and the result.
         </p>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

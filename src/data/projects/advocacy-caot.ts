@@ -10,7 +10,7 @@ const advocacyCaot: Project = {
     imageUrl: "/advocacy/advocacy.webp", // ← this is the main image for the project, hero image on the project page
     overviewImageUrl: "", // ← inside the component, first
     year: "2025",
-    category: "Web Design & Development",
+    category: "Work • Design & Development",
     highlights: [
         "Designed the overall UI and layout for an advocacy-focused website",
         "Developed interactive prototypes to test structure and user flow",
@@ -25,6 +25,7 @@ const advocacyCaot: Project = {
     resultsImageUrl: "/advocacy/results.webp", // ← replace
     techStack: ["Squarespace", "Figma", "JavaScript"],
     liveUrl: "https://www.figma.com/proto/lnRSLrif5eREP6cWtG3tlB/Advocacy?page-id=0%3A1&node-id=0-188&viewport=474%2C376%2C0.11&t=ZRQUcjHabGhCNG7c-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=0%3A188",
+    featured: true,
 };
 
 export default advocacyCaot;
