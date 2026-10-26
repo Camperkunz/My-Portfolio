@@ -9,7 +9,7 @@ const stackItems = ["React", "TypeScript", "Shopify", "AWS"];
 
 export default function HeroSection() {
   return (
-    <section className="relative flex min-h-[95vh] flex-col items-center justify-center px-6 pt-20 text-center overflow-hidden">
+    <section className="relative flex min-h-[85vh] lg:min-h-[95vh] flex-col items-center justify-center px-6 pt-20 text-center overflow-hidden">
       {/* CSS entrance animation (was framer-motion) — keeps the animation
           library out of the critical entry bundle. `animate-fade-up` uses
           fill-mode `both`, so the from-state applies before the first frame

@@ -1,24 +1,31 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Github, Linkedin, Menu } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 import { personalInfo } from "@/data/personalInfo";
-import { navLinks, navigateToSection, handleLogoClick } from "@/components/navigation";
+import { primaryNavLinks, navigateToSection, handleLogoClick } from "@/components/navigation";
+import { cn } from "@/lib/utils";
+import MobileMenu from "./MobileMenu";
 
 export default function Navbar() {
-    const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
+    // Accent-tinted rather than solid accent: the solid red belongs to the
+    // persistent "Let's talk" action (ContactFab), so the nav CTA stays the
+    // second-strongest element instead of competing with it.
     const ctaClassName =
         "inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-5 py-2 text-base font-medium transition-all hover:shadow-lg hover:shadow-accent/10";
     const linkClassName =
-        "shrink-0 whitespace-nowrap text-base text-muted-foreground transition-colors hover:text-accent";
+        "shrink-0 whitespace-nowrap text-base transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 150);
 
+        // Landing on /#contact from another page mounts the navbar already
+        // scrolled, so read the position once instead of waiting for a scroll.
+        onScroll();
         window.addEventListener("scroll", onScroll, { passive: true });
 
         return () => window.removeEventListener("scroll", onScroll);
@@ -26,9 +33,10 @@ export default function Navbar() {
 
     const handleClick = (e: React.MouseEvent, href: string) => {
         e.preventDefault();
-        setOpen(false);
         navigateToSection(href, location.pathname, navigate);
     };
+
+    const isActive = (href: string) => location.hash === href;
 
     return (
         <>
@@ -40,16 +48,20 @@ export default function Navbar() {
             </a>
             <nav
                 aria-label="Primary"
-                className={`fixed top-0 z-40 w-full transition-all duration-300 ${scrolled
-                    ? "border-b bg-background/80 backdrop-blur-lg shadow-sm"
-                    : "bg-transparent"
-                    }`}
+                className={cn(
+                    "fixed top-0 z-40 w-full transition-all duration-300",
+                    // An open popup needs an opaque bar behind it, otherwise the
+                    // card floats over hero copy with nothing separating them.
+                    scrolled || menuOpen
+                        ? "border-b bg-background/80 backdrop-blur-lg shadow-sm"
+                        : "bg-transparent"
+                )}
             >
-                <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+                <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-6">
                     <Link
                         to="/"
                         onClick={(e) => handleLogoClick(e, location, navigate)}
-                        className="font-sans text-sm font-bold tracking-tight text-foreground"
+                        className="shrink-0 font-sans text-sm font-bold tracking-tight text-foreground"
                     >
                         <img
                             src={personalInfo.logo}
@@ -58,24 +70,26 @@ export default function Navbar() {
                             height={100}
                             loading="eager"
                             decoding="async"
-                            className="h-10 w-10 md:h-9 md:w-9 logo"
+                            className="h-10 w-10 md:h-9 md:w-9"
                         />
                     </Link>
 
                     <div className="flex items-center gap-4">
                         {/* Desktop navigation — native anchors keep hrefs crawlable; clicks stay SPA. */}
                         <ul className="hidden items-center gap-6 lg:flex">
-                            {navLinks.map((link) => (
+                            {primaryNavLinks.map((link) => (
                                 <li key={link.href}>
                                     <a
                                         href={`/${link.href}`}
                                         onClick={(e) => handleClick(e, link.href)}
-                                        aria-current={
-                                            location.hash === link.href ? "true" : undefined
-                                        }
-                                        className={
-                                            link.variant === "cta" ? ctaClassName : linkClassName
-                                        }
+                                        aria-current={isActive(link.href) ? "location" : undefined}
+                                        data-track={link.variant === "cta" ? "nav_cta" : undefined}
+                                        data-track-label={link.variant === "cta" ? link.label : undefined}
+                                        className={cn(
+                                            link.variant === "cta" ? ctaClassName : linkClassName,
+                                            link.variant !== "cta" &&
+                                            (isActive(link.href) ? "text-foreground" : "text-muted-foreground")
+                                        )}
                                     >
                                         {link.label}
                                     </a>
@@ -83,8 +97,9 @@ export default function Navbar() {
                             ))}
                         </ul>
 
-                        {/* Social links */}
-                        <div className="flex items-center gap-3 md:pl-3 pr-3 md:pr-0">
+                        {/* Social links — desktop only: on mobile they live in the
+                            popup, so the bar keeps just the logo and the burger. */}
+                        <div className="hidden items-center gap-3 lg:flex">
                             <a
                                 href={personalInfo.github}
                                 target="_blank"
@@ -105,38 +120,8 @@ export default function Navbar() {
                             </a>
                         </div>
 
-                        {/* Mobile navigation */}
-                        <Sheet open={open} onOpenChange={setOpen}>
-                            <SheetTrigger
-                                className="lg:hidden"
-                                aria-label="Open menu"
-                            >
-                                <Menu className="size-8" />
-                            </SheetTrigger>
-
-                            <SheetContent side="right" className="w-64">
-                                <SheetTitle className="sr-only">
-                                    Navigation
-                                </SheetTitle>
-
-                                <ul className="mt-8 flex flex-col gap-4">
-                                    {navLinks.map((link) => (
-                                        <li key={link.href}>
-                                            <a
-                                                href={`/${link.href}`}
-                                                onClick={(e) => handleClick(e, link.href)}
-                                                aria-current={
-                                                    location.hash === link.href ? "true" : undefined
-                                                }
-                                                className="whitespace-nowrap text-base text-muted-foreground transition-colors hover:text-accent"
-                                            >
-                                                {link.label}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </SheetContent>
-                        </Sheet>
+                        {/* Mobile navigation — a compact card anchored to the burger. */}
+                        <MobileMenu open={menuOpen} onOpenChange={setMenuOpen} />
                     </div>
                 </div>
             </nav>

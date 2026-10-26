@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { Droplets, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import {
   SiCloudflare,
   SiCss3,

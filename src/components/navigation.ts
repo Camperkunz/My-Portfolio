@@ -10,12 +10,33 @@ export type NavLink = {
     variant?: "cta";
 };
 
-// Single source of truth shared by Navbar and Footer.
+// Full section list — shared by the footer, which keeps every anchor (including
+// Education) so each section stays one crawlable link away from any page.
 export const navLinks: NavLink[] = [
     { label: "About", href: "#about" },
     { label: "Skills", href: "#skills" },
     { label: "Experience", href: "#experience" },
     { label: "Education", href: "#education" },
+    { label: "Contact", href: "#contact" },
+    { label: "Projects", href: "#projects", variant: "cta" }
+];
+
+/**
+ * Primary navigation: the desktop row in the navbar and the mobile popup.
+ *
+ * Five items only — Education stays on the page and in the footer, but it was
+ * the weakest entry for the recruiters this site is built for, and every extra
+ * link makes the header harder to scan.
+ *
+ * The `cta` item renders last and carries the only accent treatment in the nav
+ * ("see the work"). It is intentionally *not* a solid accent button: the solid
+ * accent belongs to the persistent Let's talk action (ContactFab), so the two
+ * never compete for the same click.
+ */
+export const primaryNavLinks: NavLink[] = [
+    { label: "About", href: "#about" },
+    { label: "Skills", href: "#skills" },
+    { label: "Experience", href: "#experience" },
     { label: "Contact", href: "#contact" },
     { label: "Projects", href: "#projects", variant: "cta" }
 ];

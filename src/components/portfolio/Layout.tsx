@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const location = useLocation();
 
   // When arriving at /#section from another page, scroll to it
-  // with the navbar offset (NAVBAR_HEIGHT = 64px).
+  // with the navbar offset (NAVBAR_HEIGHT = 80px).
   useEffect(() => {
     if (!location.hash) return;
 
