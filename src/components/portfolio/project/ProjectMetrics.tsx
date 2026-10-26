@@ -11,7 +11,7 @@ import type { ProjectMetric } from "@/types/portfolio";
  */
 export default function ProjectMetrics({ metrics }: { metrics: ProjectMetric[] }) {
   return (
-    <dl className="mt-8 grid grid-cols-3 gap-2 sm:gap-4">
+    <dl className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
       {metrics.map((metric) => (
         <div
           key={metric.label}
@@ -20,7 +20,7 @@ export default function ProjectMetrics({ metrics }: { metrics: ProjectMetric[] }
           <dt className="mt-2 text-[11px] leading-snug text-muted-foreground sm:text-sm">
             {metric.label}
           </dt>
-          <dd className="break-words text-2xl font-bold leading-none tracking-tight tabular-nums text-foreground sm:text-2xl lg:text-3xl">
+          <dd className="text-lg font-bold leading-none tracking-tight tabular-nums text-foreground sm:text-2xl lg:text-3xl">
             {metric.value}
           </dd>
         </div>
