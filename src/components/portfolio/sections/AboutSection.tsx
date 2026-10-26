@@ -30,7 +30,7 @@ function useCountUp(target: number, duration = 1500, startCounting = false) {
 }
 
 const statCardClass =
-  "w-full rounded-xl border border-accent/30 bg-card/50 backdrop-blur-md p-4 transition-all hover:shadow-lg hover:shadow-accent/10";
+  "w-full rounded-xl border border-accent/30 bg-card/60 backdrop-blur-md p-4 transition-all hover:shadow-lg hover:shadow-accent/10";
 
 export default function AboutSection() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
