@@ -51,7 +51,11 @@ export default function HeroSection() {
           </a>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+        {/* CTA row: on mobile `min-h-10` + CodeToButton's reserved footprint keep
+            this block a fixed-size island, so the typing animation cannot reflow
+            the hero copy above it. From `sm` up the row never wraps, so the
+            button goes back to its natural width there. */}
+        <div className="mt-8 flex min-h-10 flex-wrap items-center justify-center gap-3 sm:gap-5">
           <Button
             variant="outline"
             className="gap-2 border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all px-2 sm:px-4"

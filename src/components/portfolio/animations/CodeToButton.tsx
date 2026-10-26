@@ -12,6 +12,10 @@ const PAUSE_BEFORE_TRANSFORM = 700;
 // framer-motion AnimatePresence produced).
 const EXIT_DURATION = 400;
 
+// Shared by the animated code and the invisible sizing ghost below, so both
+// measure exactly the same.
+const CODE_STYLE = { fontSize: "clamp(10px, 2vw, 13px)" } as const;
+
 type Phase = "typing" | "transforming" | "exiting" | "button";
 
 export default function CodeToButton({ onNavigate }: Props) {
@@ -70,13 +74,35 @@ export default function CodeToButton({ onNavigate }: Props) {
   const displayedCode = CODE_TEXT.slice(0, charIndex);
 
   return (
-    <div ref={rootRef} className="relative inline-flex items-center justify-center h-10">
+    // `inline-grid` with every state stacked in one shared cell, so the box is
+    // always as wide as its widest mounted child — no layout jump when the code
+    // is swapped for the button. Below `sm` the invisible ghost below also
+    // reserves the full code width, because there the CTA row wraps to two lines
+    // and a width change would re-wrap it (shifting the hero copy). From `sm` up
+    // the row stays on one line, so the ghost is dropped and the button keeps its
+    // natural width instead of sitting inside a code-sized box.
+    <div ref={rootRef} className="relative inline-grid h-10 max-w-full place-items-center">
+      {/* Reserves the widest state (the full code line plus its cursor) for the
+          component's whole lifetime on small screens. Invisible to sight and to
+          assistive tech. */}
+      <span
+        aria-hidden="true"
+        className="invisible col-start-1 row-start-1 select-none whitespace-nowrap font-mono sm:hidden"
+        style={CODE_STYLE}
+      >
+        {CODE_TEXT}
+        <span>|</span>
+      </span>
+
       {phase !== "button" && (
+        // Decorative: the real CTA replaces it, so it stays out of the a11y tree
+        // (same convention as the Typewriter role animation).
         <span
-          className={`font-mono text-accent/90 whitespace-nowrap select-none${
+          aria-hidden="true"
+          className={`col-start-1 row-start-1 whitespace-nowrap font-mono text-accent/90 select-none${
             phase === "exiting" ? " animate-fade-out-blur motion-reduce:animate-none" : ""
           }`}
-          style={{ fontSize: 'clamp(10px, 2vw, 13px)' }}
+          style={CODE_STYLE}
         >
           {displayedCode}
           <span className="animate-pulse text-accent">|</span>
@@ -85,7 +111,7 @@ export default function CodeToButton({ onNavigate }: Props) {
       {phase === "button" && (
         <button
           onClick={onNavigate}
-          className="animate-fade-in-blur motion-reduce:animate-none inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 border border-accent/40 text-foreground bg-accent hover:bg-background hover:text-accent-foreground hover:border-accent/40 transition-all"
+          className="col-start-1 row-start-1 animate-fade-in-blur motion-reduce:animate-none inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium h-10 px-4 py-2 border border-accent/40 text-foreground bg-accent hover:bg-background hover:text-accent-foreground hover:border-accent/40 transition-all"
         >
           View Projects
         </button>
