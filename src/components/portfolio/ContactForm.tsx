@@ -9,7 +9,6 @@ const REASONS = [
   { value: "job", label: "Job opportunity" },
   { value: "freelance", label: "Freelance project" },
   { value: "collaboration", label: "Collaboration" },
-  { value: "question", label: "General question" },
   { value: "other", label: "Other" },
 ] as const;
 

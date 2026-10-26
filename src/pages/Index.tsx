@@ -2,6 +2,7 @@ import Layout from "@/components/portfolio/Layout";
 // 
 import HeroSection from "@/components/portfolio/sections/HeroSection";
 import AboutSection from "@/components/portfolio/sections/AboutSection";
+import ClientsSection from "@/components/portfolio/sections/ClientsSection";
 import ExperienceSection from "@/components/portfolio/sections/ExperienceSection";
 import EducationSection from "@/components/portfolio/sections/EducationSection";
 import SkillsSection from "@/components/portfolio/sections/SkillsSection";
@@ -15,6 +16,9 @@ const Index = () => {
       <HeroSection />
       <FadeInSection>
         <AboutSection />
+      </FadeInSection>
+      <FadeInSection>
+        <ClientsSection />
       </FadeInSection>
       <FadeInSection>
         <ProjectsSection />

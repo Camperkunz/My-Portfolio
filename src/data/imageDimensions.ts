@@ -31,6 +31,12 @@ export const imageDimensions: Record<string, { w: number; h: number }> = {
   "/loop-studios/problem.webp": { w: 1358, h: 768 },
   "/loop-studios/results.webp": { w: 1355, h: 768 },
   "/loop-studios/solution.webp": { w: 1352, h: 768 },
+  // Client logos: intrinsic size from the file headers, used only to keep the
+  // aspect ratio in the home page logo strip (CSS sets the rendered height).
+  "/logos/caot-logo.svg": { w: 488, h: 167 },
+  "/logos/cican-logo.webp": { w: 794, h: 280 },
+  "/logos/diana-voloshina-logo.png": { w: 400, h: 400 },
+  "/logos/unique-logo.png": { w: 181, h: 60 },
   "/notification/notifications.webp": { w: 1618, h: 977 },
   "/notification/overview.webp": { w: 1253, h: 797 },
   "/notification/problem.webp": { w: 1248, h: 824 },

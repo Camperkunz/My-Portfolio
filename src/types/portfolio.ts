@@ -23,6 +23,16 @@ export interface ContentBlock {
   imageUrl?: string;
 }
 
+/** A client logo shown in the "trusted by" strip on the home page. */
+export interface Client {
+  /** Display name, also used as the accessible name of the logo link. */
+  name: string;
+  /** Public path of the logo file (transparent PNG / WebP / SVG). */
+  logo: string;
+  /** Live website built for the client. */
+  url: string;
+}
+
 /** A single headline number shown under the project goal. */
 export interface ProjectMetric {
   value: string;

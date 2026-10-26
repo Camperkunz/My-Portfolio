@@ -6,6 +6,7 @@
 
 - [Projects](https://annanikiforova.vercel.app/projects): Selected frontend projects with case studies, tech stacks, screenshots and live demos.
 - [About](https://annanikiforova.vercel.app/#about): Professional summary, years of experience, certifications and core skills.
+- [Clients](https://annanikiforova.vercel.app/#clients): Companies and organisations whose websites were designed and built.
 - [Experience](https://annanikiforova.vercel.app/#experience): Work history as a Frontend Developer.
 - [Education](https://annanikiforova.vercel.app/#education): Education background and certifications.
 - [Contact](https://annanikiforova.vercel.app/#contact): Get in touch by email, GitHub or LinkedIn.
