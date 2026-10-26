@@ -17,11 +17,11 @@ export const clients: Client[] = [
   {
     name: "CICan",
     logo: "/logos/cican-logo.webp",
-    url: "https://humansofimpact.ca/",
+    url: "https://www.collegesinstitutes.ca/",
   },
   {
     name: "CAOT",
     logo: "/logos/caot-logo.svg",
-    url: "https://www.otactionergo.ca/",
+    url: "https://caot.ca/",
   },
 ];
