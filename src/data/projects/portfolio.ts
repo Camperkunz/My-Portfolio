@@ -2,30 +2,48 @@ import { Project } from "@/types/portfolio";
 
 const portfolio: Project = {
     id: "portfolio",
-    title: "Portfolio Website",
-    shortDescription: "A personal portfolio website built with React and Tailwind CSS to showcase my projects, skills, and approach to frontend development.",
-    fullDescription:
-        "This portfolio website is my first full project after graduation and represents a combination of manual development and AI-assisted workflows. The goal was to create a clean, modern space where I could present my work and demonstrate my frontend development skills. The project allowed me to experiment with React, components, layouts, and animation while translating my own ideas into a working product.",
-    thumbnailImageUrl: "/portfolio/portfolio.webp", // ← this is the small thumbnail image for the project, used in the projects section
-    imageUrl: "/portfolio/portfolio.webp", // ← this is the main image for the project, hero image on the project page
-    overviewImageUrl: "/portfolio/overview.webp", // ← inside the component, first
+    title: "Personal Portfolio",
+    shortDescription:
+        "A custom-built portfolio that pairs case studies with a performance- and accessibility-first React stack.",
+    thumbnailImageUrl: "/portfolio/portfolio.webp",
+    imageUrl: "/portfolio/portfolio.webp",
     year: "2026",
-    category: "Personal Project",
-    highlights: [
-        "Designed and developed a custom portfolio from scratch",
-        "Fully responsive layout optimized for desktop, tablet, and mobile",
-        "Reusable component-based architecture",
-        "Smooth UI interactions and modern visual design",
-        "AI-assisted workflow combined with manual development",
+    category: "Personal",
+    sector: "Design & engineering",
+    client: "Personal project",
+    location: "Ottawa, Canada",
+    platform: "React + Vite",
+    role: "Design, build & content",
+    goal: "Build a portfolio that proves the work instead of describing it — fast pages, real case studies and a direct path to contact.",
+    brief:
+        "A self-directed build: one consistent case-study system, written and coded end to end, with no template to hide behind.",
+    challenge:
+        "I didn't have a portfolio yet, so I had to build one from scratch while also building the portfolio itself. Templates looked generic and buried the work; the site had to show both design judgement and front-end engineering. ",
+    approach: [
+        "Case-study structure built around goals and outcomes",
+        "Component system on React, TypeScript and Tailwind",
+        "Route-level code splitting and per-page SEO",
     ],
-    problem: "As a junior frontend developer, I needed a professional way to present my projects, skills, and development approach to potential employers. Existing portfolio templates felt generic and did not reflect my personal style or the combination of creativity and coding that defines my work",
-    problemImageUrl: "/portfolio/problem.webp", // ← replace with your own screenshot
-    solution: "I designed and developed a custom portfolio website from scratch using React and Tailwind CSS. The focus was on simplicity, readability, and a clean visual structure that highlights projects while keeping navigation intuitive.",
-    solutionImageUrl: "/portfolio/solution.webp", // ← replace with your own screenshot
-    techStack: ["React", "TypeScript", "Tailwind CSS", "Vercel", "AI"],
+    outcome:
+        "A single codebase now hosts every case study with per-route metadata, accessible interactions and a clear path to contact.",
+    // Scope metrics: known facts about the build. Swap for measured analytics when available.
+    metrics: [
+        { value: "Real person", label: "hi :)" },
+        { value: "Accessible", label: "WCAG 2.1 AA compliant even with dark colors lol" },
+        { value: "SEO", label: "best practices and optimization" },
+    ],
+    gallery: [
+        {
+            src: "/portfolio/overview.webp",
+            alt: "Case-study listing and site navigation",
+        },
+        {
+            src: "/portfolio/solution.webp",
+            alt: "Project page layout and content structure",
+        },
+    ],
+    techStack: ["React", "TypeScript", "Tailwind CSS", "Vite", "Vercel"],
     githubUrl: "https://github.com/Camperkunz/My-Portfolio",
-    // No liveUrl: this site *is* the live project, and a "/" link duplicated the
-    // page inside a new tab.
     featured: true,
 };
 

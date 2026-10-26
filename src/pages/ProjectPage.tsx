@@ -1,75 +1,21 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
-import { projects } from "@/data/projects";
-import { imageDimensions } from "@/data/imageDimensions";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { navigateToSection } from "@/components/navigation";
-import {
-  ArrowLeft,
-  ExternalLink,
-  Github,
-  MessageCircle,
-  Sparkles,
-  X,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, ArrowUpRight, ExternalLink, Github, MessageCircle } from "lucide-react";
+
 import Layout from "@/components/portfolio/Layout";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import {
-  SiReact,
-  SiTypescript,
-  SiTailwindcss,
-  SiNodedotjs,
-  SiNextdotjs,
-  SiStripe,
-  SiVercel,
-  SiFigma,
-  SiSquarespace,
-  SiShopify,
-  SiCss3,
-  SiHtml5,
-  SiJavascript,
-  SiVite,
-  SiFirebase,
-  SiVuedotjs,
-  SiSanity,
-  SiCloudflare,
-} from "react-icons/si";
-import { Brain } from "lucide-react";
-import { motion } from "framer-motion";
+import MoreProjectsCard from "@/components/portfolio/project/MoreProjectsCard";
+import ProjectLightbox from "@/components/portfolio/project/ProjectLightbox";
+import ProjectMeta from "@/components/portfolio/project/ProjectMeta";
+import ProjectMetrics from "@/components/portfolio/project/ProjectMetrics";
+import ProjectTechStack from "@/components/portfolio/project/ProjectTechStack";
+import { navigateToSection } from "@/components/navigation";
+import { Button } from "@/components/ui/button";
+import { imageDimensions } from "@/data/imageDimensions";
+import { personalInfo } from "@/data/personalInfo";
+import { projects } from "@/data/projects";
 
-const techIcons: Record<string, React.ReactNode> = {
-  React: <SiReact className="h-5 w-5" />,
-  TypeScript: <SiTypescript className="h-5 w-5" />,
-  "Tailwind CSS": <SiTailwindcss className="h-5 w-5" />,
-  "Node.js": <SiNodedotjs className="h-5 w-5" />,
-  "Next.js": <SiNextdotjs className="h-5 w-5" />,
-  Stripe: <SiStripe className="h-5 w-5" />,
-  Vercel: <SiVercel className="h-5 w-5" />,
-  Figma: <SiFigma className="h-5 w-5" />,
-  Squarespace: <SiSquarespace className="h-5 w-5" />,
-  Shopify: <SiShopify className="h-5 w-5" />,
-  CSS: <SiCss3 className="h-5 w-5" />,
-  HTML: <SiHtml5 className="h-5 w-5" />,
-  JavaScript: <SiJavascript className="h-5 w-5" />,
-  Vite: <SiVite className="h-5 w-5" />,
-  Firebase: <SiFirebase className="h-5 w-5" />,
-  Vue: <SiVuedotjs className="h-5 w-5" />,
-  Sanity: <SiSanity className="h-5 w-5" />,
-  Cloudflare: <SiCloudflare className="h-5 w-5" />,
-  AI: <Brain className="h-5 w-5" />,
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.5 },
-  }),
-};
+// Same eyebrow type as SectionHeader, so project pages read like the rest of the site.
+const labelClass = "font-mono text-xs uppercase tracking-[0.3em] text-accent/80";
 
 export default function ProjectPage() {
   const { id } = useParams();
@@ -77,18 +23,10 @@ export default function ProjectPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Phones skip the per-card reveal: the staggered `whileInView` animation
-  // pops highlights in one by one on small screens and looks janky there.
-  // 767px matches Tailwind's `md` breakpoint.
-  const isMobile = useMediaQuery("(max-width: 767px)");
-
-  // State for the gallery lightbox
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
-  const [touchStartY, setTouchStartY] = useState<number | null>(null);
 
-  // Stable pick of "other projects" per id — Math.random() on every render
-  // shuffled the cards on each state change and caused layout shifts.
+  // Stable pick of "other projects" per id — a random sort on every render
+  // reshuffled the cards whenever state changed (e.g. opening the lightbox).
   const otherProjects = useMemo(
     () =>
       [...projects]
@@ -98,26 +36,9 @@ export default function ProjectPage() {
     [id]
   );
 
-  const contentBlocks = useMemo(() => {
-    if (!project) return [];
+  const gallery = useMemo(() => project?.gallery ?? [], [project]);
+  const galleryCount = gallery.length;
 
-    return [
-      { title: "Overview", content: project.fullDescription, imageUrl: project.overviewImageUrl || project.imageUrl || project.thumbnailImageUrl },
-      { title: "The Problem", content: project.problem, imageUrl: project.problemImageUrl || project.imageUrl },
-      { title: "The Solution", content: project.solution, imageUrl: project.solutionImageUrl || project.imageUrl },
-      { title: "Implementation", content: project.implementation, imageUrl: project.implementationImageUrl || project.imageUrl },
-      { title: "Results", content: project.results, imageUrl: project.resultsImageUrl || project.imageUrl },
-    ].filter((b) => b.content);
-  }, [project]);
-
-  // Images that can be opened in the gallery (hero excluded for now)
-  const galleryImages = useMemo(
-    () => contentBlocks.map((b) => b.imageUrl).filter(Boolean) as string[],
-    [contentBlocks]
-  );
-  const galleryCount = galleryImages.length;
-
-  // Buttons to navigate through the gallery images
   const showPrev = useCallback(() => {
     setOpenIndex((prev) => {
       if (prev === null || galleryCount === 0) return prev;
@@ -132,300 +53,290 @@ export default function ProjectPage() {
     });
   }, [galleryCount]);
 
-  // Keyboard navigation for the gallery lightbox
+  // Lock page scroll while the dialog is open, restoring the previous value.
   useEffect(() => {
     if (openIndex === null) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpenIndex(null);
-      if (e.key === "ArrowLeft") showPrev();
-      if (e.key === "ArrowRight") showNext();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [openIndex, showPrev, showNext]);
-
-  // Lock page scroll while the lightbox is open
-  useEffect(() => {
-    if (openIndex !== null) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousOverflow;
     };
   }, [openIndex]);
 
-  // NOTE: early return stays AFTER all hooks (rules of hooks) so that
-  // navigating to an unknown project id cannot crash the component.
   if (!project) {
     return (
       <Layout>
-        <div className="mx-auto max-w-4xl px-6 py-24 text-center">
-          <h1 className="text-2xl font-mono font-bold text-foreground">Project not found</h1>
-          <Link to="/" className="mt-4 inline-block text-sm text-accent hover:underline">← Back home</Link>
+        <div className="mx-auto max-w-7xl px-6 py-24 mt-10 text-center">
+          <h1 className="text-2xl font-bold text-foreground">Project not found</h1>
+          <p className="mt-3 text-muted-foreground">This project may have been renamed or removed.</p>
+          <Button variant="ghost" className="mt-6 gap-2" asChild>
+            <Link to="/projects">
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              All projects
+            </Link>
+          </Button>
         </div>
       </Layout>
     );
   }
 
-  const SWIPE_THRESHOLD = 50;
-
   const heroSrc = project.imageUrl || project.thumbnailImageUrl;
-  const heroDims = heroSrc ? imageDimensions[heroSrc] : undefined;
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.touches[0].clientX);
-    setTouchStartY(e.touches[0].clientY);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null || touchStartY === null) return;
-
-    const deltaX = e.changedTouches[0].clientX - touchStartX;
-    const deltaY = e.changedTouches[0].clientY - touchStartY;
-
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > SWIPE_THRESHOLD) {
-      if (deltaX > 0) {
-        showPrev();
-      } else {
-        showNext();
-      }
-    }
-
-    setTouchStartX(null);
-    setTouchStartY(null);
-  };
+  const heroDimensions = heroSrc ? imageDimensions[heroSrc] : undefined;
+  const liveLabel = project.liveUrl?.includes("figma.com")
+    ? "View the prototype"
+    : "Visit the live site";
+  // Projects without a public repo still get a code link, pointing at the profile.
+  const codeUrl = project.githubUrl ?? personalInfo.github;
+  const codeLabel = project.githubUrl ? "View code" : "More code on GitHub";
 
   return (
     <Layout>
-      <div className="mx-auto max-w-6xl px-6 py-16 mt-8">
-        <Link to="/projects">
-          <Button variant="ghost" size="sm" className="gap-3 text-muted-foreground mb-8 transition-colors hover:text-foreground">
-            <ArrowLeft className="h-5 w-5" /> Back to projects
-          </Button>
-        </Link>
-
-        {/* Hero Header */}
-        <motion.section
-          initial="hidden"
-          animate="visible"
-          className="mb-32"
+      <article className="mx-auto max-w-7xl px-6 py-24 mt-10">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mb-8 gap-2 text-muted-foreground"
+          asChild
         >
-          <div
-            className="group relative rounded-2xl border border-border/50 overflow-hidden
-               bg-card/30 backdrop-blur-md 
-               shadow-xl shadow-black/10 
-               transition-all duration-500 
-               hover:shadow-2xl hover:shadow-black/30"
-          >
-            {/* IMAGE */}
-            <div className="relative">
-              <img
-                src={heroSrc}
-                alt={`${project.title} — ${project.category} project hero screenshot`}
-                width={heroDims?.w}
-                height={heroDims?.h}
-                fetchPriority="high"
-                decoding="async"
-                className="w-full h-[70vh] md:h-[65vh] object-cover object-top
-                   transition-transform duration-700 ease-out
-                   group-hover:scale-[1.01]"
-              />
+          <Link to="/projects">
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            All projects
+          </Link>
+        </Button>
 
-              {/* gradient overlay */}
-              <div
-                className="absolute -inset-[1px] bg-gradient-to-t from-black/80 via-black/30 to-black/10 
-                pointer-events-none
-                transition-opacity duration-500 group-hover:opacity-90"
-              />
-              {/* subtle dark layer */}
-              <div className="absolute inset-0 bg-black/40 md:bg-black/35 pointer-events-none" />
-            </div>
+        {/* Hero: title first, image second — the fastest possible orientation. */}
+        <header>
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-2 font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground">
+            <span>{project.category}</span>
+            <span aria-hidden="true">·</span>
+            <span>{project.year}</span>
+          </p>
 
-            {/* CONTENT */}
-            <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10">
-              <motion.div variants={fadeUp} custom={0}>
-                {/* meta */}
-                <div className="flex items-center gap-3 mb-3">
-                  <Badge
-                    variant="outline"
-                    className="border-white/20 bg-black/40 backdrop-blur text-white text-sm px-3 py-1
-                       transition-all duration-300 group-hover:bg-black/60
-                       md:text-xs"
-                  >
-                    {project.category}
-                  </Badge>
-                  <span
-                    className="text-sm font-mono text-white/80 bg-black/40 px-2 py-1 rounded-md backdrop-blur
-                    transition-all duration-300 group-hover:bg-black/60
-                    md:text-xs"
-                  >
-                    {project.year}
-                  </span>
-                </div>
+          <h1 className="mt-5 max-w-5xl text-pretty text-3xl font-bold leading-[1.15] tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            {project.title}
+          </h1>
 
-                {/* title */}
-                <h1
-                  className="font-mono text-3xl md:text-5xl font-bold text-white 
-                     leading-tight max-w-2xl "
+          <p className="mt-5 max-w-3xl text-pretty text-lg leading-relaxed text-muted-foreground">
+            {project.shortDescription}
+          </p>
+
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            {project.liveUrl && (
+              <Button variant="accent" className="gap-2" asChild>
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-track="project_live_click"
+                  data-track-label={project.id}
                 >
-                  {project.title}
-                </h1>
+                  {liveLabel}
+                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                  <span className="sr-only">(opens in a new tab)</span>
+                </a>
+              </Button>
+            )}
 
-                {/* description */}
-                <p className="mt-4 text-white/85 text-lg leading-relaxed max-w-xl">
-                  {project.shortDescription}
-                </p>
-              </motion.div>
-
-              {/* bottom row */}
-              <motion.div
-                variants={fadeUp}
-                custom={1}
-                className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+            <Button variant="outline" className="gap-2" asChild>
+              <a
+                href={codeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track="project_source_click"
+                data-track-label={project.id}
               >
-                {/* buttons */}
-                <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
-                  {project.liveUrl && (
-                    <Button
-                      variant="accent"
-                      className="gap-2 bg-accent text-accent-foreground 
-                         transition-all duration-300 
-                         hover:shadow-lg hover:shadow-accent/30"
-                      asChild
-                    >
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4" /> Live Preview
-                      </a>
-                    </Button>
-                  )}
-
-                  {project.githubUrl && (
-                    <Button
-                      variant="outline"
-                      className="gap-2 border-white/30 text-white
-                         hover:bg-white hover:text-black 
-                         transition-all duration-300 "
-                      asChild
-                    >
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <Github className="h-4 w-4" /> Source
-                      </a>
-                    </Button>
-                  )}
-                </div>
-
-                {/* tech stack */}
-                <div className="flex flex-wrap gap-2 mt-6 md:mt-0">
-                  {project.techStack.slice(0, 6).map((t) => (
-                    <div
-                      key={t}
-                      className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg 
-                         bg-black/50 backdrop-blur-md border border-white/10 text-white"
-                    >
-                      {techIcons[t] && (
-                        <span className="text-accent">{techIcons[t]}</span>
-                      )}
-                      {t}
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
-
-            {/* subtle accent glow */}
-            <div
-              className="pointer-events-none absolute inset-0 rounded-2xl 
-                 opacity-0 group-hover:opacity-100 
-                 transition-opacity duration-500
-                 bg-gradient-to-tr from-accent/10 via-transparent to-transparent"
-            />
+                <Github className="h-4 w-4" aria-hidden="true" />
+                {codeLabel}
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </Button>
           </div>
-        </motion.section>
 
-        {/* Highlights */}
-        {project.highlights.length > 0 && (
-          <section className="mb-24">
-            <div className="flex items-center gap-3 mb-10">
-              <Sparkles className="h-4 w-4 text-accent" />
-              <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono">
-                Highlights
+          <ProjectTechStack techStack={project.techStack} className="mt-6" />
+        </header>
+
+        {/* Natural aspect ratio: screenshots are never cropped, whatever their shape. */}
+        <figure className="relative mt-10 overflow-hidden rounded-lg border border-border/60 bg-card/30">
+          {/* Lowercase attribute: React 18 does not map camelCase fetchPriority. */}
+          <img
+            src={heroSrc}
+            alt={`${project.title} — homepage`}
+            width={heroDimensions?.w}
+            height={heroDimensions?.h}
+            {...{ fetchpriority: "high" }}
+            decoding="async"
+            className="h-auto w-full"
+          />
+          {/* Most screenshots are light; a hint of shade keeps them from glaring. */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-black/10 to-transparent"
+          />
+        </figure>
+
+        {/* At a glance: facts on the left, the one-sentence goal + numbers on the right. */}
+        <section aria-labelledby="project-goal" className="mt-16 border-t border-border/60 pt-12">
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-4">
+              <ProjectMeta project={project} />
+            </div>
+
+            <div className="lg:col-span-8 lg:border-l lg:border-border/60 lg:pl-12">
+              <h2 id="project-goal" className={labelClass}>
+                Goal of the collaboration
               </h2>
+              {/* Standfirst: the context that makes the one-liner below land. */}
+              <p className="mt-5 text-pretty text-2xl font-medium leading-[1.3] tracking-tight text-foreground sm:text-3xl">
+                {project.goal}
+              </p>
+              <p className="mt-3 max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
+                {project.brief}
+              </p>
+
+              <ProjectMetrics metrics={project.metrics} />
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                {project.liveUrl && (
+                  <Button variant="accent" className="gap-2" asChild>
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-track="project_live_click"
+                      data-track-label={project.id}
+                    >
+                      {liveLabel}
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
+                  </Button>
+                )}
+
+                <Button variant="outline" className="gap-2" asChild>
+                  <a
+                    href={codeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-track="project_source_click"
+                    data-track-label={project.id}
+                  >
+                    <Github className="h-4 w-4" aria-hidden="true" />
+                    {codeLabel}
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </a>
+                </Button>
+              </div>
             </div>
 
-            <div className="space-y-4">
-              {project.highlights.map((h, i) => (
-                <motion.div
-                  key={i}
-                  variants={fadeUp}
-                  initial={isMobile ? "visible" : "hidden"}
-                  whileInView={isMobile ? undefined : "visible"}
-                  viewport={{ once: true }}
-                  custom={i}
-                  className="group flex items-start gap-4 rounded-xl 
-                     border border-border/50 
-                     bg-card/30 backdrop-blur-md 
-                     p-4 transition-all duration-300
-                     hover:border-accent/30 hover:bg-card/50"
-                >
-                  {/* number */}
-                  <span className="text-accent font-mono text-md mt-1 opacity-70 group-hover:opacity-100">
-                    0{i + 1}
-                  </span>
+          </div>
+        </section>
 
-                  {/* content */}
-                  <p className="text-foreground leading-relaxed">
-                    {h}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
+        <section
+          aria-labelledby="project-challenge"
+          className="mt-20 grid gap-4 border-t border-border/60 pt-12 md:grid-cols-12 md:gap-12"
+        >
+          <h2 id="project-challenge" className={`${labelClass} md:col-span-4`}>
+            The challenge
+          </h2>
+          <p className="max-w-2xl text-pretty text-lg leading-relaxed text-foreground/90 md:col-span-8">
+            {project.challenge}
+          </p>
+        </section>
+
+        <section
+          aria-labelledby="project-approach"
+          className="mt-12 grid gap-6 border-t border-border/60 pt-12 md:grid-cols-12 md:gap-12"
+        >
+          <h2 id="project-approach" className={`${labelClass} md:col-span-4`}>
+            What I did
+          </h2>
+          <ol className="md:col-span-8">
+            {project.approach.map((item, index) => (
+              <li
+                key={item}
+                className="flex items-baseline gap-4 border-b border-border/40 py-4 first:pt-0 last:border-0 last:pb-0"
+              >
+                <span className="text-xs font-semibold tabular-nums text-accent">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="text-base leading-relaxed text-foreground/90">{item}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {galleryCount > 0 && (
+          <section aria-labelledby="project-gallery" className="mt-20 border-t border-border/60 pt-12">
+            <h2 id="project-gallery" className={labelClass}>
+              Selected screens
+            </h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Open any image for a larger view — arrow keys move between shots.
+            </p>
+
+            <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+              {gallery.map((item, index) => {
+                const dimensions = imageDimensions[item.src];
+
+                return (
+                  <li key={item.src}>
+                    {/* A button (not a clickable img) keeps the gallery reachable by keyboard. */}
+                    <button
+                      type="button"
+                      onClick={() => setOpenIndex(index)}
+                      className="block w-full overflow-hidden rounded-lg border border-border/60 bg-card/30 text-left transition-colors hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      aria-label={`Open image ${index + 1} of ${galleryCount}: ${item.alt}`}
+                    >
+                      {/* object-contain keeps every screenshot whole instead of cropping it. */}
+                      <img
+                        src={item.src}
+                        alt={item.alt}
+                        width={dimensions?.w}
+                        height={dimensions?.h}
+                        loading="lazy"
+                        decoding="async"
+                        className="aspect-[16/10] w-full bg-card/60 object-contain"
+                      />
+                      <span className="flex items-center justify-between gap-3 border-t border-border/60 px-4 py-3 text-xs text-muted-foreground">
+                        <span className="line-clamp-1">{item.alt}</span>
+                        <span className="shrink-0 tabular-nums">
+                          {index + 1} / {galleryCount}
+                        </span>
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           </section>
         )}
 
-        {/* Alternating Content Blocks — each with its own image */}
-        {contentBlocks.map((block, i) => {
-          const isReversed = i % 2 !== 0;
-          const imageIndex = block.imageUrl ? galleryImages.indexOf(block.imageUrl) : -1;
-
-          return (
-            <motion.section key={block.title} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={0}
-              className="grid md:grid-cols-2 gap-10 items-center mb-40">
-              <div className={isReversed ? "md:order-2" : ""}>
-                <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono mb-4">{block.title}</h2>
-                <p className="text-foreground leading-relaxed">{block.content}</p>
-              </div>
-              <div className={isReversed ? "md:order-1" : ""}>
-                <img
-                  src={block.imageUrl}
-                  alt={`${project.title} — ${block.title}`}
-                  width={block.imageUrl ? imageDimensions[block.imageUrl]?.w : undefined}
-                  height={block.imageUrl ? imageDimensions[block.imageUrl]?.h : undefined}
-                  onClick={() => imageIndex !== -1 && setOpenIndex(imageIndex)}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full aspect-[16/9] rounded-xl object-cover cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
-                />
-              </div>
-            </motion.section>
-          );
-        })}
-
-        {/* End-of-case-study CTA — before the project grid, so a reader who
-            just finished the case study is invited to reach out first. */}
-        <section className="mb-24 rounded-2xl border border-accent/25 bg-card/40 px-6 py-12 text-center backdrop-blur-md">
-          <h2 className="font-mono text-2xl font-bold text-foreground sm:text-3xl">
-            Like what you see?
+        <section
+          aria-labelledby="project-outcome"
+          className="mt-20 rounded-xl border border-accent/30 bg-accent/[0.06] p-6 sm:p-10"
+        >
+          <h2 id="project-outcome" className={labelClass}>
+            The outcome
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            I'm open to frontend roles, freelance projects and collaborations.
-            Tell me what you're building and I'll get back to you.
+          <p className="mt-4 max-w-3xl text-pretty text-xl leading-relaxed text-foreground sm:text-2xl">
+            {project.outcome}
           </p>
-          <Button variant="accent" size="lg" className="mt-6 gap-2" asChild>
+        </section>
+
+        <section
+          aria-labelledby="project-cta"
+          className="mt-12 flex flex-col gap-5 rounded-xl border border-border/60 bg-card/40 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8"
+        >
+          <div>
+            <h2 id="project-cta" className="text-xl font-semibold text-foreground">
+              Building something similar?
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              I'm open to front-end roles and freelance work. Tell me what you're shipping.
+            </p>
+          </div>
+          <Button variant="accent" size="lg" className="shrink-0 gap-2" asChild>
             <a
               href="/#contact"
               onClick={(event) => {
@@ -433,98 +344,47 @@ export default function ProjectPage() {
                 navigateToSection("#contact", location.pathname, navigate);
               }}
               data-track="project_contact_cta"
-              data-track-label={project.title}
+              data-track-label={project.id}
             >
               <MessageCircle className="h-4 w-4" aria-hidden="true" />
-              Let's talk
+              Let&rsquo;s talk
             </a>
           </Button>
         </section>
 
-        {/* Explore More Projects */}
-        <section className="pt-16 border-t border-border/30">
-          <h2 className="text-sm font-semibold text-accent uppercase tracking-wider font-mono mb-8 text-center">Explore More Projects</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {otherProjects.map((p) => {
-              const src = p.thumbnailImageUrl || p.imageUrl;
-              const dims = src ? imageDimensions[src] : undefined;
-              return (
-                <Link key={p.id} to={`/project/${p.id}`}
-                  className="group rounded-xl border border-border/50 bg-card/30 backdrop-blur-md overflow-hidden hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all">
-                  <img
-                    src={src}
-                    alt={`${p.title} — ${p.category} project preview`}
-                    width={dims?.w}
-                    height={dims?.h}
-                    className="w-full h-40 object-cover object-top"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div className="p-5">
-                    <h3 className="font-bold text-foreground group-hover:text-accent transition-colors">{p.title}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{p.shortDescription}</p>
-                  </div>
-                </Link>
-              );
-            })}
+        <section aria-labelledby="more-projects" className="mt-24 border-t border-border/60 pt-12">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <h2 id="more-projects" className={labelClass}>
+              More projects
+            </h2>
+            <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground" asChild>
+              <Link to="/projects">
+                All projects
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
           </div>
+
+          {/* Intentionally lighter than the shared listing card: no tech chips or
+              action buttons, so this closing strip stays secondary to the case study. */}
+          <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {otherProjects.map((other) => (
+              <li key={other.id}>
+                <MoreProjectsCard project={other} />
+              </li>
+            ))}
+          </ul>
         </section>
-      </div>
-
-      {/* Gallery Lightbox */}
+      </article>
       {openIndex !== null && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 touch-none"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setOpenIndex(null);
-            }
-          }}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <button
-            onClick={() => setOpenIndex(null)}
-            className="absolute top-4 right-4 md:top-6 md:right-6 text-white/80 hover:text-white p-2 z-10"
-            aria-label="Close"
-          >
-            <X className="h-8 w-8" />
-          </button>
-
-          {galleryImages.length > 1 && (
-            <>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  showPrev();
-                }}
-                className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2 z-10"
-                aria-label="Previous image"
-              >
-                <ChevronLeft className="h-10 w-10" />
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  showNext();
-                }}
-                className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2 z-10"
-                aria-label="Next image"
-              >
-                <ChevronRight className="h-10 w-10" />
-              </button>
-            </>
-          )}
-
-          <img
-            src={galleryImages[openIndex]}
-            alt={`Full-size preview — ${project.title}`}
-            width={imageDimensions[galleryImages[openIndex]]?.w}
-            height={imageDimensions[galleryImages[openIndex]]?.h}
-            decoding="async"
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg select-none pointer-events-none"
-          />
-        </div>
+        <ProjectLightbox
+          items={gallery}
+          index={openIndex}
+          title={project.title}
+          onClose={() => setOpenIndex(null)}
+          onPrev={showPrev}
+          onNext={showNext}
+        />
       )}
     </Layout>
   );

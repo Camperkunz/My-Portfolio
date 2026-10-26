@@ -2,30 +2,56 @@ import { Project } from "@/types/portfolio";
 
 const dianaWedding: Project = {
     id: "diana-wedding",
-    title: "Wedding Planner Website",
-    shortDescription: "A Full-Stack Next.js platform for an Ottawa wedding planner, with Sanity CMS for services, real weddings, and FAQs — built for seamless client onboarding without code.",
-    fullDescription:
-        "Diana is an Ottawa-based wedding planner and coordinator covering full planning, micro-weddings, and day-of management for celebrations. She needed a web presence that reflects the calm, deliberate tone of her work, lets couples transparently compare her service packages, and showcases past weddings. I designed and built a full-stack web application using Next.js, TypeScript, and Sanity CMS. All services, client stories, testimonials, and FAQs live in structured Sanity models, allowing real-time content management without developer intervention. The site combines server-side rendering, automated image optimization via Sanity CDN, and transactional inquiry routing via Resend.",
+    title: "Diana Voloshina — Wedding Planner",
+    shortDescription:
+        "A calm, editorial site that lets couples compare packages and send fully qualified enquiries.",
     thumbnailImageUrl: "/diana-wedding/main.webp",
     imageUrl: "/diana-wedding/main.webp",
-    overviewImageUrl: "/diana-wedding/main.webp",
     year: "2026",
-    category: "Freelance • Full-Stack & Design",
-    highlights: [
-        "Headless Sanity CMS architecture for code-free management of services, portfolios, and FAQs",
-        "High-intent inquiry form integrated with Resend API for instant transactional notifications",
-        "Image pipeline utilizing Sanity CDN and Next.js image optimization for fast mobile loading",
-        "Server-rendered pages with custom metadata and Open Graph tags for local search discovery",
-        "Edge deployment on Cloudflare with automated HTTPS, caching, and custom domain setup",
+    category: "Freelance",
+    sector: "Wedding services",
+    client: "Diana Voloshina",
+    location: "Ottawa, Canada",
+    platform: "Next.js + Sanity",
+    role: "Design & full-stack development",
+    goal: "Give couples one calm place to understand the service, see real weddings and send an enquiry that arrives already qualified.",
+    brief:
+        "A Next.js and Sanity site for Diana Voloshina, where the content model had to let a non-developer edit every page.",
+    challenge:
+        "The brand needed a premium, editorial web presence that explains a personal service clearly and makes enquiry details effortless to collect. Old website was slow, confusing and hard to update, so the new site had to be fast, clear and easy to maintain.",
+    approach: [
+        "Designed a warm, editorial visual system around real wedding photography",
+        "Built a content model in Sanity that lets Diana edit every page without code",
+        "Connected an enquiry form with Resend that sends submissions straight to email",
+        "Optimized the site for speed, accessibility and SEO with Next.js and Tailwind CSS",
+        "Deployed the site on Cloudflare Pages for fast, global delivery",
     ],
-    problem: "Wedding planning is built on trust, yet critical details couples need before reaching out are often scattered across social media feeds. High-value service inclusions are hard to compare, while incoming inquiries regularly lack event dates, guest counts, and venue locations — the exact data points required to qualify leads and provide meaningful initial estimates.",
-    problemImageUrl: "/diana-wedding/services.webp",
-    solution: "I created an end-to-end digital experience designed around the client decision journey. The homepage establishes clarity upfront through a side-by-side service breakdown, a structured five-step planning workflow, verified client reviews, and an interactive real-wedding portfolio. Each featured wedding includes a curated image gallery and case story. By backing every section with structured Sanity schemas, the site scales effortlessly with Diana's portfolio without requiring code deployments.",
-    solutionImageUrl: "/diana-wedding/portfolio.webp",
-    implementation: "The site is engineered as a Next.js application written in type-safe TypeScript, utilizing Sanity as a headless content infrastructure. To deliver peak performance for image-heavy wedding galleries, visual assets are served through Sanity CDN with adaptive compression and responsive sizing. The guided contact form captures high-intent project parameters — event date, guest count, venue, and desired package — before dispatching structured emails via the Resend API. The entire application is deployed on Cloudflare’s global edge network, delivering instant initial page loads on mobile devices where most target clients discover her work.",
-    implementationImageUrl: "/diana-wedding/contact.webp",
-    results: "Diana gained a centralized, highly polished platform that sets clear expectations and streamlines client onboarding. Inquiries now arrive pre-qualified with complete event context, allowing for personalized initial responses. Content management is completely detached from source code, enabling instant portfolio updates, while the performant edge deployment delivers a fast, low-friction experience across all desktop and mobile viewports.",
-    resultsImageUrl: "/diana-wedding/cta.webp",
+    outcome:
+        "Couples can now explore the full service, compare packages, browse real weddings and send a complete enquiry — while Diana edits all content in Sanity, without code.",
+    // Scope metrics: known facts about the build. Swap for measured analytics when available.
+    metrics: [
+        { value: "Dynamic", label: "content management system" },
+        { value: "+70 points", label: "in Google Page Speed analytics" },
+        { value: "-8 seconds", label: "of load time on mobile" },
+    ],
+    gallery: [
+        {
+            src: "/diana-wedding/services.webp",
+            alt: "Service packages and the five-step planning process",
+        },
+        {
+            src: "/diana-wedding/portfolio.webp",
+            alt: "Gallery of real weddings from the portfolio",
+        },
+        {
+            src: "/diana-wedding/contact.webp",
+            alt: "Inquiry form collecting event details",
+        },
+        {
+            src: "/diana-wedding/cta.webp",
+            alt: "Call-to-action section on the new wedding planner website",
+        }
+    ],
     techStack: ["Next.js", "TypeScript", "Sanity", "Tailwind CSS", "Cloudflare"],
     liveUrl: "https://dianavoloshina.com",
     githubUrl: "https://github.com/Camperkunz/Diana-Wedding-Planner",

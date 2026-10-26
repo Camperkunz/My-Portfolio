@@ -5,6 +5,9 @@ import { MemoryRouter } from "react-router-dom";
 
 import { usePageMeta } from "../src/hooks/usePageMeta";
 import { SITE_URL } from "../src/lib/seo";
+import { projects } from "../src/data/projects";
+
+const portfolioProject = projects.find((project) => project.id === "portfolio")!;
 
 const PageMeta = () => {
   usePageMeta();
@@ -30,12 +33,12 @@ describe("usePageMeta", () => {
   it("writes route-specific tags for a project page", () => {
     renderAt("/project/portfolio");
 
-    expect(document.title).toBe("Portfolio Website — Frontend Case Study | Anna Nikiforova");
+    expect(document.title).toBe(`${portfolioProject.title} — Frontend Case Study | Anna Nikiforova`);
     expect(document.head.querySelector("link[rel='canonical']")?.getAttribute("href")).toBe(
       `${SITE_URL}/project/portfolio`,
     );
     expect(metaContent("meta[property='og:url']")).toBe(`${SITE_URL}/project/portfolio`);
-    expect(metaContent("meta[property='og:title']")).toContain("Portfolio Website");
+    expect(metaContent("meta[property='og:title']")).toContain(portfolioProject.title);
     expect(metaContent("meta[name='robots']")).toBe("index, follow");
     expect(metaContent("meta[property='og:image']")).toMatch(/^https:\/\//);
     expect(metaContent("meta[property='og:image:width']")).toMatch(/^\d+$/);

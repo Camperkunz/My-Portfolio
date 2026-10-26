@@ -2,32 +2,53 @@ import { Project } from "@/types/portfolio";
 
 const findYourSpot: Project = {
     id: "find-your-spot",
-    title: "Find Your Spot",
-    shortDescription: "A location-aware discovery app that turns \"what should we do?\" into a few quick choices and a curated deck of nearby spots to explore in Ottawa.",
-    fullDescription:
-        "Find Your Spot is a location-aware discovery app that helps users quickly find interesting places to go based on their current mood. Instead of scrolling through long lists, users pick how much time they have, what kind of vibe they're after, and who's coming along, then browse a curated deck of nearby spots and save the ones they like. The app is currently live for Ottawa, ON, with more Canadian cities planned for the future.",
-    thumbnailImageUrl: "/find-your-spot/thumbnail.webp", // ← this is the small thumbnail image for the project, used in the projects section
-    imageUrl: "", // ← this is the main image for the project, hero image on the project page
-    overviewImageUrl: "/find-your-spot/overview.webp", // ← inside the component, first
+    title: "Find Your Spot — Travel App",
+    shortDescription:
+        "A mood-first discovery app that turns “what should we do?” into three quick choices and a curated deck of Ottawa spots.",
+    thumbnailImageUrl: "/find-your-spot/thumbnail.webp",
+    imageUrl: "/find-your-spot/overview.webp",
     year: "2026",
-    category: "Personal Project",
-    highlights: [
-        "Quick mood-based filtering by duration, vibe, and companions",
-        "Save and manage a shortlist of favorite spots",
-        "One-tap directions integration for navigation",
-        "Mobile-first responsive design that scales up to desktop",
-        "Global app state managed through React Context API",
+    category: "Personal",
+    sector: "Local discovery",
+    client: "Personal project",
+    location: "Ottawa, Canada",
+    platform: "React + Vite",
+    role: "Design & front-end",
+    goal: "Replace endless list-scrolling with three quick choices — time, vibe and company — and a shortlist you can act on right away.",
+    brief:
+        "A React discovery app for Ottawa that turns “where should we go?” into a shortlist based on time, vibe and company.",
+    challenge:
+        "Deciding where to go meant scrolling through long, unfiltered lists that ignored how much time, energy or company you had.",
+    approach: [
+        "Onboarding narrowed to duration, vibe and companions",
+        "Swipeable deck of curated Ottawa spots",
+        "Saves, one-tap directions and a shortlist view",
     ],
-    problem: "Deciding what to do or where to go nearby often means scrolling through long, unfiltered lists that don't account for how much time someone has, the mood they're in, or who they're with. There was no quick, mood-based way to discover nearby spots in Ottawa.",
-    problemImageUrl: "/find-your-spot/problem.webp", // ← replace
-    solution: "I built a React and Vite web app that narrows down destinations through a short onboarding flow — duration, vibe, and companions — and generates a swipeable deck of matching local spots. Users can save spots to a shortlist, get directions with one tap, and manage their saved list, all backed by a JSON dataset of curated Ottawa destinations and global state handled through React Context.",
-    solutionImageUrl: "/find-your-spot/solution.webp", // ← replace
-    results: "The result is a fast, focused discovery experience that replaces open-ended searching with a few quick taps and a curated deck of relevant spots. The app is live for Ottawa, with the architecture designed to expand to additional Canadian cities in the future.",
-    resultsImageUrl: "/find-your-spot/results.webp", // ← replace
+    outcome:
+        "A focused discovery flow that gets from “I don't know” to directions in a few taps, built to expand to more Canadian cities. Just select your time, vibe and companions, swipe through a curated deck of spots, save your favourites and get one-tap directions.",
+    // Scope metrics: known facts about the build. Swap for measured analytics when available.
+    metrics: [
+        { value: "35+", label: "places to discover in Ottawa" },
+        { value: "Personal", label: "idea based on real-life experiences" },
+        { value: "Location-based", label: "share location to find nearby spots" },
+    ],
+    gallery: [
+        {
+            src: "/find-your-spot/solution.webp",
+            alt: "Discovery flow with a swipeable deck of curated spots",
+        },
+        {
+            src: "/find-your-spot/results.webp",
+            alt: "Saved shortlist with one-tap directions",
+        },
+        {
+            src: "/find-your-spot/problem.webp",
+            alt: "Selecting time, vibe and companions to narrow down the search",
+        },
+    ],
     techStack: ["React", "JavaScript", "Tailwind CSS", "Vite"],
-    githubUrl: "https://github.com/Camperkunz/Find-Your-Spot",
     liveUrl: "https://find-your-spot-ca.vercel.app/",
-    // 
+    githubUrl: "https://github.com/Camperkunz/Find-Your-Spot",
     featured: true,
 };
 

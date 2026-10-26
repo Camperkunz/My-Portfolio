@@ -30,7 +30,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           alt={`${project.title} — ${project.category} project preview`}
           width={dimensions?.w}
           height={dimensions?.h}
-          className="h-60 w-full rounded-t-lg object-cover"
+          className="aspect-[16/10] w-full rounded-t-lg object-cover object-top"
           loading="lazy"
           decoding="async"
         />
