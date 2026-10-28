@@ -102,28 +102,8 @@
 </head>
 
 <body>
-  <div id="root">
-    <!-- Rendered only when JavaScript is unavailable: a readable fallback with
-         the essential identity, navigation and contact path. -->
-    <noscript>
-      <div
-        style="max-width: 40rem; margin: 4rem auto; padding: 0 1.5rem; font-family: system-ui, sans-serif; line-height: 1.6;">
-        <h1 style="font-size: 1.75rem; margin-bottom: 1rem;">Anna Nikiforova — React Frontend Developer in Ottawa</h1>
-        <p>This portfolio is built with React and needs JavaScript for the full experience.</p>
-        <p>
-          You can still browse
-          <a href="/projects">all projects and case studies</a>
-          or reach me at
-          <a href="mailto:annanikiforova_dev@proton.me">annanikiforova_dev@proton.me</a>.
-        </p>
-        <p>
-          <a href="https://github.com/Camperkunz">GitHub</a> ·
-          <a href="https://www.linkedin.com/in/anna-nikiforova-ac/">LinkedIn</a> ·
-          <a href="/anna-nikiforova-resume.pdf">Resume (PDF)</a>
-        </p>
-      </div>
-    </noscript>
-  </div>
+  <!-- Filled at build time with the prerendered route (vite.config.ts). -->
+  <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

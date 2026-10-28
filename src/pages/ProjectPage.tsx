@@ -17,6 +17,14 @@ import { projects } from "@/data/projects";
 // Same eyebrow type as SectionHeader, so project pages read like the rest of the site.
 const labelClass = "font-mono text-xs uppercase tracking-[0.3em] text-accent/80";
 
+/** The three projects after `id` in display order, wrapping around. */
+const pickNextProjects = (id: string | undefined) => {
+  const start = projects.findIndex((p) => p.id === id) + 1;
+  return [...projects.slice(start), ...projects.slice(0, start)]
+    .filter((p) => p.id !== id)
+    .slice(0, 3);
+};
+
 export default function ProjectPage() {
   const { id } = useParams();
   const project = projects.find((p) => p.id === id);
@@ -25,16 +33,20 @@ export default function ProjectPage() {
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  // Stable pick of "other projects" per id — a random sort on every render
-  // reshuffled the cards whenever state changed (e.g. opening the lightbox).
-  const otherProjects = useMemo(
-    () =>
+  // "Other projects": the prerendered HTML (and hydration) needs a
+  // deterministic pick — the next three projects in display order — and the
+  // random selection is applied once per id after mount. Keeping it in state
+  // also stops the cards reshuffling when other state changes (e.g. lightbox).
+  const [otherProjects, setOtherProjects] = useState(() => pickNextProjects(id));
+
+  useEffect(() => {
+    setOtherProjects(
       [...projects]
         .filter((p) => p.id !== id)
         .sort(() => Math.random() - 0.5)
-        .slice(0, 3),
-    [id]
-  );
+        .slice(0, 3)
+    );
+  }, [id]);
 
   const gallery = useMemo(() => project?.gallery ?? [], [project]);
   const galleryCount = gallery.length;

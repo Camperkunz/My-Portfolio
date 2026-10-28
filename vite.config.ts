@@ -1,6 +1,7 @@
-import { defineConfig, loadEnv, type Plugin, type ViteDevServer } from "vite";
+import { build, defineConfig, loadEnv, type Plugin, type ViteDevServer } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { pathToFileURL } from "url";
 import { promises as fs } from "fs";
 import type { IncomingMessage, ServerResponse } from "http";
 import type { ContactRequest, ContactResponse } from "./api/contact";
@@ -114,6 +115,33 @@ async function readLastModified(distDir: string): Promise<Map<string, string>> {
 }
 
 /**
+ * Builds `src/entry-server.tsx` as a Node bundle into `dist-ssr/` and loads it
+ * so the build can render each route to HTML. Its own minimal config avoids
+ * re-running this file's plugins; `close()` deletes the temporary bundle.
+ */
+async function loadPrerenderer(mode: string) {
+  const outDir = path.resolve(__dirname, "dist-ssr");
+  await build({
+    configFile: false,
+    root: __dirname,
+    mode,
+    logLevel: "error",
+    publicDir: false,
+    plugins: [react()],
+    resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+    build: { ssr: "src/entry-server.tsx", outDir, emptyOutDir: true },
+  });
+  const module = (await import(pathToFileURL(path.join(outDir, "entry-server.js")).href)) as {
+    render: (url: string) => Promise<string>;
+  };
+  return { render: module.render, close: () => fs.rm(outDir, { recursive: true, force: true }) };
+}
+
+/** Puts the prerendered app markup into the empty `<div id="root">`. */
+const injectAppHtml = (html: string, appHtml: string) =>
+  html.replace('<div id="root"></div>', () => `<div id="root">${appHtml}</div>`);
+
+/**
  * Post-build optimization + static SEO shells (production builds only):
  *
  * 1. Inlines the emitted entry stylesheet into index.html so first paint no
@@ -123,20 +151,25 @@ async function readLastModified(distDir: string): Promise<Map<string, string>> {
  *    the brand font downloads alongside the HTML instead of only after the CSS
  *    is parsed. This keeps the hero text from repainting late on first visit
  *    (stabilizes LCP).
- * 3. Writes a static HTML shell per route (`dist/projects/index.html`,
+ * 3. Writes a static HTML page per route (`dist/projects/index.html`,
  *    `dist/project/<id>/index.html`, `dist/404.html`) with route-specific
- *    title/description/canonical/OG/Twitter/JSON-LD, plus a fresh
+ *    title/description/canonical/OG/Twitter/JSON-LD and the route's content
+ *    prerendered into `#root` (hydrated by `main.tsx`), plus a fresh
  *    `dist/sitemap.xml`. Crawlers and link-preview bots that do not execute
- *    JavaScript get correct metadata, unknown URLs return a real 404, and the
- *    canonical no longer points every page at the homepage.
+ *    JavaScript get the real text, links and metadata, unknown URLs return a
+ *    real 404, and the canonical no longer points every page at the homepage.
  *
  * Runs in `closeBundle`, after Vite has written dist/, so the hashed asset
  * names are known. Dev server output is untouched (`apply: "build"`).
  */
 function seoShellsAndCssInlining(): Plugin {
+  let mode = "production";
   return {
     name: "portfolio:seo-shells-and-css",
     apply: "build",
+    configResolved(config) {
+      mode = config.mode;
+    },
     async closeBundle() {
       const distDir = path.resolve(__dirname, "dist");
       const htmlPath = path.join(distDir, "index.html");
@@ -178,21 +211,27 @@ function seoShellsAndCssInlining(): Plugin {
       // The inlined stylesheets are no longer referenced — keep the deploy clean.
       await Promise.all(inlinedCssFiles.map((file) => fs.rm(file, { force: true })));
 
-      // 3. Static SEO shells, 404 page and sitemap. The homepage shell is
+      // 3. Prerendered pages, 404 page and sitemap. The homepage is
       //    dist/index.html itself, rewritten so its JSON-LD/OG tags come from
       //    the same source as every other route.
       const routes = getSeoRoutes();
+      const prerenderer = await loadPrerenderer(mode);
 
-      for (const route of routes) {
-        const target =
-          route.path === "/"
-            ? htmlPath
-            : path.join(distDir, route.path.replace(/^\//, ""), "index.html");
-        await fs.mkdir(path.dirname(target), { recursive: true });
-        await fs.writeFile(target, applyRouteMeta(html, route.meta));
+      try {
+        for (const route of [...routes, notFoundRoute]) {
+          const target =
+            route === notFoundRoute
+              ? path.join(distDir, "404.html")
+              : route.path === "/"
+                ? htmlPath
+                : path.join(distDir, route.path.replace(/^\//, ""), "index.html");
+          const page = injectAppHtml(applyRouteMeta(html, route.meta), await prerenderer.render(route.path));
+          await fs.mkdir(path.dirname(target), { recursive: true });
+          await fs.writeFile(target, page);
+        }
+      } finally {
+        await prerenderer.close();
       }
-
-      await fs.writeFile(path.join(distDir, "404.html"), applyRouteMeta(html, notFoundRoute.meta));
 
       const lastMods = await readLastModified(distDir);
       await fs.writeFile(path.join(distDir, "sitemap.xml"), buildSitemap(routes, lastMods));

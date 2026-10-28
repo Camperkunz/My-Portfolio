@@ -102,7 +102,9 @@ export default function Footer() {
                 </Button>
 
                 {/* Copyright */}
-                <p className="text-xs text-muted-foreground/60">
+                {/* The year is baked into the prerendered HTML at build time;
+                    a build from last year must not fail hydration. */}
+                <p className="text-xs text-muted-foreground/60" suppressHydrationWarning>
                     © {new Date().getFullYear()}. Made with love ❤️ by{" "}
                     {personalInfo.name}
                 </p>

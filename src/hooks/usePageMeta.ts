@@ -43,9 +43,9 @@ const upsertJsonLd = (jsonLd: RouteMeta["jsonLd"]) => {
  * Keeps `<title>`, description, canonical, Open Graph / Twitter tags and
  * structured data in sync with the current route.
  *
- * The same values are baked into static HTML shells at build time
- * (`vite.config.ts` -> `seoHtmlShells`), so crawlers that do not run JS and
- * social-preview bots see route-specific metadata without waiting for React.
+ * The same values are baked into the prerendered HTML at build time
+ * (`vite.config.ts` -> `seoShellsAndCssInlining`), so crawlers that do not run
+ * JS and social-preview bots see route-specific metadata without waiting for React.
  */
 export function usePageMeta() {
   const { pathname } = useLocation();

@@ -50,8 +50,13 @@ const RouteFallback = () => (
   <div className="flex min-h-screen items-center justify-center" aria-busy="true" />
 );
 
-const App = () => (
-  <BrowserRouter>
+/**
+ * Everything inside the router. Shared by the browser entry (`main.tsx`, wrapped
+ * in BrowserRouter) and the build-time prerender (`entry-server.tsx`, wrapped in
+ * StaticRouter), so the static HTML and the hydrated app are the same tree.
+ */
+export const AppRoutes = () => (
+  <>
     {/* PageMeta runs before AnalyticsTracker so document.title is already
         updated when the pageview is sent. */}
     <PageMeta />
@@ -66,6 +71,12 @@ const App = () => (
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
+  </>
+);
+
+const App = () => (
+  <BrowserRouter>
+    <AppRoutes />
   </BrowserRouter>
 );
 

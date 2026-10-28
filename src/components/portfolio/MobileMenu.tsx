@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ChevronRight, Download, Github, Linkedin, Mail, Menu, X } from "lucide-react";
+import { ChevronRight, Download, Github, Linkedin, Menu, X } from "lucide-react";
 
 import { navigateToSection, primaryNavLinks } from "@/components/navigation";
 import { personalInfo } from "@/data/personalInfo";
