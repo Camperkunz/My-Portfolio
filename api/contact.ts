@@ -10,8 +10,11 @@
  *   abused as an open email relay.
  * - All user input is validated, length-limited and HTML-escaped before it is
  *   interpolated into the notification email.
- * - A honeypot field and a best-effort per-instance rate limit keep casual
- *   spam out without adding a database dependency.
+ * - Every submission must carry a Cloudflare Turnstile token that is verified
+ *   server-side, so scripted POSTs that bypass the form are rejected.
+ * - A honeypot field, a minimum fill time, a link limit and a best-effort
+ *   per-instance rate limit keep casual spam out without adding a database
+ *   dependency.
  * - The client IP is used only for the in-memory rate limit. It is never
  *   written into the notification email, so no persistent PII is created
  *   beyond what the visitor chose to submit.
@@ -54,9 +57,22 @@ const LIMITS = {
   message: { min: 10, max: 2000 },
 } as const;
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const EMAIL_PATTERN = /^[^\s@"<>()[\],;:]+@[^\s@"<>()[\],;:]+\.[^\s@"<>()[\],;:]{2,}$/;
 const MAX_PAYLOAD_BYTES = 16_384;
 const MAX_IP_ENTRIES = 5000;
+
+// Honeypot field name chosen so browsers never autofill it (unlike "company",
+// which maps to the organization autofill profile and can trap real visitors).
+const HONEYPOT_FIELD = "website_url_hp";
+
+// Humans need a few seconds to fill the form; bots usually post instantly.
+const MIN_FILL_TIME_MS = 3000;
+
+const LINK_PATTERN = /https?:\/\/|www\./gi;
+const MAX_MESSAGE_LINKS = 3;
+
+const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const TURNSTILE_TIMEOUT_MS = 8000;
 
 // Best-effort abuse protection. Serverless instances are short-lived and can
 // scale horizontally, so this throttles casual spam per instance rather than
@@ -151,6 +167,44 @@ function readString(payload: Record<string, unknown>, key: string): string {
   return typeof value === "string" ? value : "";
 }
 
+function readNumber(payload: Record<string, unknown>, key: string): number {
+  const value = payload[key];
+  return typeof value === "number" && Number.isFinite(value) ? value : 0;
+}
+
+function countLinks(value: string): number {
+  return value.match(LINK_PATTERN)?.length ?? 0;
+}
+
+function isJsonRequest(req: ContactRequest): boolean {
+  const contentType = getHeader(req, "content-type")?.toLowerCase() ?? "";
+  return contentType.split(";")[0].trim() === "application/json";
+}
+
+async function verifyTurnstile(token: string, secret: string, ip: string): Promise<boolean> {
+  if (!token || token.length > 2048) return false;
+
+  const body = new URLSearchParams({ secret, response: token });
+  if (ip !== "unknown") body.set("remoteip", ip);
+
+  try {
+    const response = await fetch(TURNSTILE_VERIFY_URL, {
+      method: "POST",
+      body,
+      signal: AbortSignal.timeout(TURNSTILE_TIMEOUT_MS),
+    });
+    if (!response.ok) return false;
+    const result = (await response.json()) as { success?: boolean; "error-codes"?: string[] };
+    if (!result.success) {
+      console.warn("[contact] Turnstile verification failed:", result["error-codes"]);
+    }
+    return result.success === true;
+  } catch (verifyFailure) {
+    console.error("[contact] Turnstile verification request failed:", verifyFailure);
+    return false;
+  }
+}
+
 interface ContactData {
   name: string;
   email: string;
@@ -184,6 +238,12 @@ function validate(payload: Record<string, unknown>): { data?: ContactData; error
   }
   if (message.length > LIMITS.message.max) {
     return { error: `Please keep your message under ${LIMITS.message.max} characters.` };
+  }
+  if (countLinks(name) > 0) {
+    return { error: "Please don't include links in your name." };
+  }
+  if (countLinks(message) > MAX_MESSAGE_LINKS) {
+    return { error: `Please include no more than ${MAX_MESSAGE_LINKS} links in your message.` };
   }
 
   return { data: { name, email, reason: reason as ReasonKey, message } };
@@ -271,6 +331,13 @@ export default async function handler(req: ContactRequest, res: ContactResponse)
     return;
   }
 
+  // Requiring JSON forces a CORS preflight for cross-site browser requests
+  // (text/plain or form posts would otherwise be "simple" requests).
+  if (!isJsonRequest(req)) {
+    res.status(415).json({ error: "Unsupported content type." });
+    return;
+  }
+
   const ip = getClientIp(req);
   if (isRateLimited(ip)) {
     res.setHeader("Retry-After", String(Math.ceil(RATE_LIMIT_WINDOW_MS / 1000)));
@@ -286,7 +353,12 @@ export default async function handler(req: ContactRequest, res: ContactResponse)
 
   // Honeypot: real visitors never see or fill this field. Reply with a fake
   // success so bots cannot tell that their submission was discarded.
-  if (readString(payload, "company").trim() !== "") {
+  // The same fake success applies to submissions sent faster than a human could
+  // type them.
+  if (
+    readString(payload, HONEYPOT_FIELD).trim() !== "" ||
+    readNumber(payload, "elapsedMs") < MIN_FILL_TIME_MS
+  ) {
     res.status(200).json({ ok: true });
     return;
   }
@@ -294,6 +366,18 @@ export default async function handler(req: ContactRequest, res: ContactResponse)
   const { data, error } = validate(payload);
   if (!data) {
     res.status(400).json({ error: error ?? "Invalid request." });
+    return;
+  }
+
+  const turnstileSecret = process.env.TURNSTILE_SECRET_KEY?.trim();
+  if (!turnstileSecret) {
+    console.error("[contact] Missing TURNSTILE_SECRET_KEY environment variable.");
+    res.status(500).json({ error: "The contact form is temporarily unavailable. Please email me directly." });
+    return;
+  }
+
+  if (!(await verifyTurnstile(readString(payload, "turnstileToken").trim(), turnstileSecret, ip))) {
+    res.status(403).json({ error: "Spam check failed. Please refresh the page and try again." });
     return;
   }
 

@@ -15,4 +15,4 @@ A sleek, responsive, and high-performance portfolio website designed to showcase
 - **Dynamic Projects Gallery:** Interactive display of my latest work.
 - **Smooth Transitions:** Polished animations using Framer Motion.
 - **Clean Architecture:** Component-based structure for easy maintenance.
-- **Working contact form:** Serverless function + Resend, with validation, spam protection and email notifications.
+- **Working contact form:** Serverless function + Resend, with validation, Cloudflare Turnstile bot protection, honeypot and fill-time spam traps, and email notifications.

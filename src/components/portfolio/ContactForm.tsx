@@ -1,4 +1,10 @@
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FormEvent,
+} from "react";
 import { CheckCircle2, ChevronDown, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
@@ -19,7 +25,7 @@ interface FormState {
   email: string;
   reason: "" | Reason;
   message: string;
-  company: string;
+  website_url_hp: string;
 }
 
 type FieldName = keyof Pick<
@@ -33,11 +39,63 @@ const EMPTY_FORM: FormState = {
   email: "",
   reason: "",
   message: "",
-  company: "",
+  website_url_hp: "",
 };
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const EMAIL_PATTERN = /^[^\s@"<>()[\],;:]+@[^\s@"<>()[\],;:]+\.[^\s@"<>()[\],;:]{2,}$/;
 const MESSAGE_MAX = 2000;
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as
+  | string
+  | undefined;
+const TURNSTILE_SCRIPT_SRC =
+  "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+
+interface TurnstileApi {
+  render(
+    container: HTMLElement,
+    options: {
+      sitekey: string;
+      theme?: "light" | "dark" | "auto";
+      appearance?: "always" | "execute" | "interaction-only";
+      callback?: (token: string) => void;
+      "expired-callback"?: () => void;
+      "error-callback"?: () => void;
+    },
+  ): string;
+  reset(widgetId: string): void;
+  remove(widgetId: string): void;
+}
+
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+  }
+}
+
+let turnstileScript: Promise<TurnstileApi> | null = null;
+
+function loadTurnstile(): Promise<TurnstileApi> {
+  if (window.turnstile) return Promise.resolve(window.turnstile);
+
+  turnstileScript ??= new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = TURNSTILE_SCRIPT_SRC;
+    script.async = true;
+    script.defer = true;
+    script.onload = () =>
+      window.turnstile
+        ? resolve(window.turnstile)
+        : reject(new Error("Turnstile failed to initialise."));
+    script.onerror = () => {
+      turnstileScript = null;
+      reject(new Error("Turnstile script failed to load."));
+    };
+    document.head.appendChild(script);
+  });
+
+  return turnstileScript;
+}
 
 const labelClass =
   "text-xs font-semibold uppercase tracking-widest text-muted-foreground";
@@ -116,6 +174,48 @@ export default function ContactForm() {
 
   const formRef = useRef<HTMLFormElement>(null);
   const started = useRef(false);
+  const mountedAt = useRef(Date.now());
+  const turnstileRef = useRef<HTMLDivElement>(null);
+  const widgetId = useRef<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
+
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY) {
+      console.warn("[contact] VITE_TURNSTILE_SITE_KEY is not configured.");
+      return;
+    }
+
+    let cancelled = false;
+
+    loadTurnstile()
+      .then((turnstile) => {
+        if (cancelled || !turnstileRef.current) return;
+        widgetId.current = turnstile.render(turnstileRef.current, {
+          sitekey: TURNSTILE_SITE_KEY,
+          theme: "dark",
+          appearance: "interaction-only",
+          callback: setTurnstileToken,
+          "expired-callback": () => setTurnstileToken(""),
+          "error-callback": () => setTurnstileToken(""),
+        });
+      })
+      .catch((error: unknown) => {
+        console.error("[contact]", error);
+      });
+
+    return () => {
+      cancelled = true;
+      if (widgetId.current) {
+        window.turnstile?.remove(widgetId.current);
+        widgetId.current = null;
+      }
+    };
+  }, []);
+
+  const resetTurnstile = () => {
+    setTurnstileToken("");
+    if (widgetId.current) window.turnstile?.reset(widgetId.current);
+  };
 
   const update =
     (field: keyof FormState) =>
@@ -126,14 +226,14 @@ export default function ContactForm() {
       ) => {
         const { value } = event.target;
 
-        if (field !== "company" && !started.current) {
+        if (field !== "website_url_hp" && !started.current) {
           started.current = true;
           track("form_start", { field });
         }
 
         setForm((current) => ({ ...current, [field]: value }));
 
-        if (field !== "company" && errors[field]) {
+        if (field !== "website_url_hp" && errors[field]) {
           setErrors((current) => ({ ...current, [field]: undefined }));
         }
 
@@ -146,11 +246,6 @@ export default function ContactForm() {
     event.preventDefault();
 
     if (isSending) return;
-
-    if (form.company.trim() !== "") {
-      setForm(EMPTY_FORM);
-      return;
-    }
 
     const nextErrors = validate(form);
     setErrors(nextErrors);
@@ -171,6 +266,14 @@ export default function ContactForm() {
           ?.focus();
       });
 
+      return;
+    }
+
+    if (!turnstileToken) {
+      setFeedback({
+        type: "error",
+        text: "Just a moment — we're checking that you're not a bot. Please try again in a few seconds.",
+      });
       return;
     }
 
@@ -195,7 +298,9 @@ export default function ContactForm() {
           email: form.email.trim(),
           reason: form.reason,
           message: form.message.trim(),
-          company: form.company,
+          website_url_hp: form.website_url_hp,
+          elapsedMs: Date.now() - mountedAt.current,
+          turnstileToken,
         }),
       });
 
@@ -238,6 +343,8 @@ export default function ContactForm() {
       toast.error("Message not sent", { description: message });
     } finally {
       window.clearTimeout(timeoutId);
+      // Turnstile tokens are single-use, so fetch a fresh one for any retry.
+      resetTurnstile();
       setIsSending(false);
     }
   };
@@ -415,17 +522,19 @@ export default function ContactForm() {
           className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden"
           aria-hidden="true"
         >
-          <label htmlFor="contact-company">Company</label>
+          <label htmlFor="contact-website-url-hp">Leave this field empty</label>
           <input
-            id="contact-company"
-            name="company"
+            id="contact-website-url-hp"
+            name="website_url_hp"
             type="text"
             tabIndex={-1}
             autoComplete="off"
-            value={form.company}
-            onChange={update("company")}
+            value={form.website_url_hp}
+            onChange={update("website_url_hp")}
           />
         </div>
+
+        <div ref={turnstileRef} className="empty:hidden" />
 
         <div className="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center sm:justify-between">
           <Button

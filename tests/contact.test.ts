@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const { sendMock } = vi.hoisted(() => ({ sendMock: vi.fn() }));
+const { sendMock, fetchMock } = vi.hoisted(() => ({ sendMock: vi.fn(), fetchMock: vi.fn() }));
 
 vi.mock("resend", () => ({
   Resend: class {
@@ -47,7 +47,9 @@ const VALID_PAYLOAD = {
   email: "jane@example.com",
   reason: "job",
   message: "I would love to talk about a frontend role on your team.",
-  company: "",
+  website_url_hp: "",
+  elapsedMs: 5000,
+  turnstileToken: "valid-token",
 };
 
 function createRequest(overrides: Partial<ContactRequest> = {}): ContactRequest {
@@ -56,6 +58,7 @@ function createRequest(overrides: Partial<ContactRequest> = {}): ContactRequest 
     headers: {
       host: "portfolio.test",
       origin: "https://portfolio.test",
+      "content-type": "application/json",
       "x-forwarded-for": nextIp(),
       "user-agent": "vitest",
     },
@@ -82,13 +85,21 @@ describe("POST /api/contact", () => {
     process.env.CONTACT_FROM_EMAIL = "";
     process.env.CONTACT_SUBJECT_PREFIX = "";
     process.env.CONTACT_ALLOWED_ORIGINS = "";
+    process.env.TURNSTILE_SECRET_KEY = "turnstile_test_secret";
     sendMock.mockReset();
     sendMock.mockResolvedValue({ data: { id: "email_1" }, error: null });
     vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    fetchMock.mockReset();
+    fetchMock.mockImplementation(async (_url: string, init: { body: URLSearchParams }) =>
+      Response.json({ success: init.body.get("response") === "valid-token" }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
   });
 
   it("rejects non-POST requests", async () => {
@@ -117,7 +128,7 @@ describe("POST /api/contact", () => {
   });
 
   it("discards honeypot submissions while reporting success", async () => {
-    const state = await submit(createRequest({ body: { ...VALID_PAYLOAD, company: "Spam Ltd." } }));
+    const state = await submit(createRequest({ body: { ...VALID_PAYLOAD, website_url_hp: "https://spam.example" } }));
 
     expect(state.statusCode).toBe(200);
     expect(jsonBody(state).ok).toBe(true);
@@ -161,7 +172,12 @@ describe("POST /api/contact", () => {
   it("rejects browser requests from a foreign origin", async () => {
     const state = await submit(
       createRequest({
-        headers: { host: "portfolio.test", origin: "https://evil.example", "x-forwarded-for": nextIp() },
+        headers: {
+          host: "portfolio.test",
+          origin: "https://evil.example",
+          "content-type": "application/json",
+          "x-forwarded-for": nextIp(),
+        },
       }),
     );
 
@@ -183,6 +199,7 @@ describe("POST /api/contact", () => {
     const headers = {
       host: "portfolio.test",
       origin: "https://portfolio.test",
+      "content-type": "application/json",
       "x-forwarded-for": "198.51.100.77",
     };
 
@@ -196,6 +213,73 @@ describe("POST /api/contact", () => {
     expect(limited.headers["retry-after"]).toBe("600");
     expect(sendMock).toHaveBeenCalledTimes(5);
   });
+
+  it("discards submissions sent faster than a human could fill the form", async () => {
+    const state = await submit(createRequest({ body: { ...VALID_PAYLOAD, elapsedMs: 800 } }));
+
+    expect(state.statusCode).toBe(200);
+    expect(jsonBody(state).ok).toBe(true);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects requests without a Turnstile token", async () => {
+    const state = await submit(createRequest({ body: { ...VALID_PAYLOAD, turnstileToken: undefined } }));
+
+    expect(state.statusCode).toBe(403);
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects requests whose Turnstile token fails verification", async () => {
+    const state = await submit(createRequest({ body: { ...VALID_PAYLOAD, turnstileToken: "forged" } }));
+
+    expect(state.statusCode).toBe(403);
+    expect(jsonBody(state).error).toContain("Spam check failed");
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects requests when Turnstile cannot be reached", async () => {
+    fetchMock.mockRejectedValueOnce(new TypeError("network down"));
+
+    const state = await submit(createRequest());
+
+    expect(state.statusCode).toBe(403);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("fails safely when the Turnstile secret is not configured", async () => {
+    delete process.env.TURNSTILE_SECRET_KEY;
+
+    const state = await submit(createRequest());
+
+    expect(state.statusCode).toBe(500);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects non-JSON request bodies", async () => {
+    const request = createRequest();
+    request.headers["content-type"] = "text/plain";
+
+    const state = await submit(request);
+
+    expect(state.statusCode).toBe(415);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects messages stuffed with links", async () => {
+    const message = "Buy now https://a.example https://b.example https://c.example www.d.example";
+    const state = await submit(createRequest({ body: { ...VALID_PAYLOAD, message } }));
+
+    expect(state.statusCode).toBe(400);
+    expect(jsonBody(state).error).toContain("no more than 3 links");
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects links in the name field", async () => {
+    const state = await submit(createRequest({ body: { ...VALID_PAYLOAD, name: "Visit www.spam.example" } }));
+
+    expect(state.statusCode).toBe(400);
+    expect(sendMock).not.toHaveBeenCalled();
+  });
 });
-
-
