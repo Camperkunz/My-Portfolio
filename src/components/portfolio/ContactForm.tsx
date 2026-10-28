@@ -186,25 +186,54 @@ export default function ContactForm() {
     }
 
     let cancelled = false;
+    let requested = false;
+    const form = formRef.current;
 
-    loadTurnstile()
-      .then((turnstile) => {
-        if (cancelled || !turnstileRef.current) return;
-        widgetId.current = turnstile.render(turnstileRef.current, {
-          sitekey: TURNSTILE_SITE_KEY,
-          theme: "dark",
-          appearance: "interaction-only",
-          callback: setTurnstileToken,
-          "expired-callback": () => setTurnstileToken(""),
-          "error-callback": () => setTurnstileToken(""),
+    // The widget pulls ~1 MB from Cloudflare and runs its own scripts, so it
+    // loads only once the form is near the viewport or gets focus, keeping it
+    // out of the initial page load (mobile TBT).
+    const start = () => {
+      if (requested) return;
+      requested = true;
+      observer?.disconnect();
+      form?.removeEventListener("focusin", start);
+
+      loadTurnstile()
+        .then((turnstile) => {
+          if (cancelled || !turnstileRef.current) return;
+          widgetId.current = turnstile.render(turnstileRef.current, {
+            sitekey: TURNSTILE_SITE_KEY,
+            theme: "dark",
+            appearance: "interaction-only",
+            callback: setTurnstileToken,
+            "expired-callback": () => setTurnstileToken(""),
+            "error-callback": () => setTurnstileToken(""),
+          });
+        })
+        .catch((error: unknown) => {
+          console.error("[contact]", error);
         });
-      })
-      .catch((error: unknown) => {
-        console.error("[contact]", error);
-      });
+    };
+
+    const observer = form
+      ? new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) start();
+          },
+          { rootMargin: "600px 0px" }
+        )
+      : null;
+    if (form) {
+      observer?.observe(form);
+      form.addEventListener("focusin", start);
+    } else {
+      start();
+    }
 
     return () => {
       cancelled = true;
+      observer?.disconnect();
+      form?.removeEventListener("focusin", start);
       if (widgetId.current) {
         window.turnstile?.remove(widgetId.current);
         widgetId.current = null;

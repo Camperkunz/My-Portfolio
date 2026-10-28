@@ -80,6 +80,13 @@ export default {
           from: { opacity: "0", transform: "translateY(30px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        // Transform-only variant for above-the-fold content: text first painted
+        // at opacity 0 is skipped as an LCP candidate, so the hero has to be
+        // visible from the very first frame.
+        rise: {
+          from: { transform: "translateY(30px)" },
+          to: { transform: "translateY(0)" },
+        },
         "fade-in-blur": {
           from: { opacity: "0", filter: "blur(4px)", transform: "scale(0.95)" },
           to: { opacity: "1", filter: "blur(0px)", transform: "scale(1)" },
@@ -101,6 +108,7 @@ export default {
         "marquee-left": "marquee-left linear infinite",
         "marquee-right": "marquee-right linear infinite",
         "fade-up": "fade-up 0.7s ease-out both",
+        rise: "rise 0.7s ease-out both",
         "fade-in-blur": "fade-in-blur 0.4s ease-out both",
         "fade-out-blur": "fade-out-blur 0.4s ease-in both",
         "pop-in": "pop-in 0.2s ease-out both",
