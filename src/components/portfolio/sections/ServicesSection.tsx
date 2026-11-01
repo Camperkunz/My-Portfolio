@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { scrollToSection } from "@/components/navigation";
 import { cn } from "@/lib/utils";
@@ -11,7 +12,8 @@ type Capability = {
 /**
  * Deliberately no pricing, packages or availability blocks: the site leads with
  * full-time work, so this section only shows the shape of the help — the same
- * skills apply inside a team or on a single project.
+ * skills apply inside a team or on a single project. Freelance packages and
+ * prices live on /services, behind one quiet secondary link.
  */
 const capabilities: Capability[] = [
   {
@@ -54,19 +56,28 @@ export default function ServicesSection() {
             the details. The same skills apply whether I'm embedded in a team or
             brought in for a single project.
           </p>
-          <Button variant="accent" className="mt-8 gap-2" asChild>
-            <a
-              href="/#contact"
-              onClick={(event) => {
-                event.preventDefault();
-                scrollToSection("#contact");
-              }}
-              data-track="services_contact_cta"
+          <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+            <Button variant="accent" className="gap-2" asChild>
+              <a
+                href="/#contact"
+                onClick={(event) => {
+                  event.preventDefault();
+                  scrollToSection("#contact");
+                }}
+                data-track="services_contact_cta"
+              >
+                Discuss a role or project
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+            </Button>
+            <Link
+              to="/services"
+              className="text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-accent hover:underline"
+              data-track="services_page_link"
             >
-              Discuss a role or project
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </Button>
+              Need A Website? See Packages →
+            </Link>
+          </div>
         </div>
 
         {/* Four capabilities in one bordered block, split like a spec sheet. */}

@@ -98,6 +98,10 @@ export const handleLogoClick = (
 /**
  * Navigate to a section of the homepage from anywhere on the site.
  * - On the homepage: smooth-scroll directly (SPA).
+ * - On another page that opts in with its own section of that id, marked
+ *   `data-page-section` (the brief on /services is `#contact`): scroll to it
+ *   there instead of leaving the page. The marker keeps an accidental id
+ *   match elsewhere from hijacking the homepage links.
  * - On any other page: client-side navigate home, then Layout scrolls
  *   to the hash once the homepage is mounted.
  */
@@ -106,7 +110,9 @@ export const navigateToSection = (
     currentPathname: string,
     navigate: NavigateFunction
 ) => {
-    if (currentPathname !== "/") {
+    const id = href.replace(/^#/, "");
+    const localSection = id ? document.getElementById(id)?.hasAttribute("data-page-section") : false;
+    if (currentPathname !== "/" && !localSection) {
         navigate(`/${href}`);
         return;
     }

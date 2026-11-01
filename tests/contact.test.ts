@@ -9,6 +9,7 @@ vi.mock("resend", () => ({
 }));
 
 import handler, { type ContactRequest, type ContactResponse } from "../api/contact";
+import { estimateBrief, formatEstimate } from "../src/data/services";
 
 interface ResponseState {
   statusCode: number;
@@ -281,5 +282,91 @@ describe("POST /api/contact", () => {
 
     expect(state.statusCode).toBe(400);
     expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  describe("project brief", () => {
+    const BRIEF_PAYLOAD = {
+      ...VALID_PAYLOAD,
+      reason: "freelance",
+      message: "A site for my bakery with online orders.",
+      brief: {
+        packageId: "small-business",
+        addonIds: ["blog", "language", "booking"],
+        timeline: "rush",
+        currentSite: "<b>instagram.com/sweetbakery</b>",
+      },
+    };
+
+    it("adds the brief and a server-computed estimate to the email", async () => {
+      const state = await submit(
+        createRequest({ body: { ...BRIEF_PAYLOAD, estimate: { min: 1, max: 2 }, price: 1 } }),
+      );
+
+      expect(state.statusCode).toBe(200);
+      const payload = sendMock.mock.calls[0][0] as { subject: string; html: string; text: string };
+      const expected = formatEstimate(estimateBrief(BRIEF_PAYLOAD.brief)!);
+
+      expect(payload.subject).toContain("Freelance project (Small Business)");
+      expect(payload.html).toContain("Blog or news, Second language, Online booking");
+      expect(payload.html).toContain("Rush");
+      expect(payload.html).toContain(expected);
+      expect(payload.html).toContain("&lt;b&gt;instagram.com/sweetbakery&lt;/b&gt;");
+      expect(payload.html).not.toContain("<b>instagram");
+      expect(payload.text).toContain(`Estimate: ${expected}`);
+      expect(payload.text).not.toContain("$1 ");
+    });
+
+    it.each([
+      ["an unknown package", { ...BRIEF_PAYLOAD.brief, packageId: "<script>" }],
+      ["an unknown add-on", { ...BRIEF_PAYLOAD.brief, addonIds: ["free-forever"] }],
+      ["duplicate add-ons", { ...BRIEF_PAYLOAD.brief, addonIds: ["blog", "blog"] }],
+      ["an add-on from another package", { ...BRIEF_PAYLOAD.brief, packageId: "audit" }],
+      ["several links as the current site", { ...BRIEF_PAYLOAD.brief, currentSite: "https://a.example https://b.example" }],
+      ["too many add-ons", { ...BRIEF_PAYLOAD.brief, addonIds: Array.from({ length: 20 }, (_, i) => `a${i}`) }],
+      ["non-string add-ons", { ...BRIEF_PAYLOAD.brief, addonIds: [{ id: "blog" }] }],
+      ["an unknown timeline", { ...BRIEF_PAYLOAD.brief, timeline: "yesterday" }],
+      ["an unknown impression", { ...BRIEF_PAYLOAD.brief, impression: "<script>" }],
+      ["a link as the audience", { ...BRIEF_PAYLOAD.brief, audience: "https://a.example" }],
+      ["several links as the reference", { ...BRIEF_PAYLOAD.brief, reference: "https://a.example https://b.example" }],
+      ["a non-object brief", "small-business"],
+    ])("rejects a brief with %s", async (_label, brief) => {
+      const state = await submit(createRequest({ body: { ...BRIEF_PAYLOAD, brief } }));
+
+      expect(state.statusCode).toBe(400);
+      expect(sendMock).not.toHaveBeenCalled();
+    });
+
+    it("adds the design answers to the email, escaped", async () => {
+      const brief = {
+        ...BRIEF_PAYLOAD.brief,
+        impression: "premium",
+        audience: "<b>Families</b>",
+        reference: "https://a.example",
+      };
+      const state = await submit(createRequest({ body: { ...BRIEF_PAYLOAD, brief } }));
+
+      expect(state.statusCode).toBe(200);
+      const email = sendMock.mock.calls[0][0] as { html: string; text: string };
+      expect(email.html).toContain("Premium &amp; high-end");
+      expect(email.html).toContain("&lt;b&gt;Families&lt;/b&gt;");
+      expect(email.text).toContain("Reference: https://a.example");
+    });
+
+    it("accepts a brief with only the required ids", async () => {
+      const brief = { packageId: "audit", addonIds: [], timeline: "standard" };
+      const state = await submit(createRequest({ body: { ...BRIEF_PAYLOAD, brief } }));
+
+      expect(state.statusCode).toBe(200);
+      const payload = sendMock.mock.calls[0][0] as { text: string };
+      expect(payload.text).toContain("Estimate: from $150 CAD");
+      expect(payload.text).not.toContain("Current site:");
+    });
+
+    it("rejects a brief attached to a non-freelance reason", async () => {
+      const state = await submit(createRequest({ body: { ...BRIEF_PAYLOAD, reason: "job" } }));
+
+      expect(state.statusCode).toBe(400);
+      expect(sendMock).not.toHaveBeenCalled();
+    });
   });
 });

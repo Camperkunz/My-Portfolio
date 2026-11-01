@@ -43,12 +43,12 @@ const LocationDisplay = () => {
   return <span data-testid="location">{`${pathname}${hash}`}</span>;
 };
 
-const renderFab = (path: string) =>
+const renderFab = (path: string, { pageSection = false } = {}) =>
   render(
     <MemoryRouter initialEntries={[path]}>
       <ContactFab />
       <LocationDisplay />
-      <div id="contact" />
+      <div id="contact" data-page-section={pageSection || undefined} />
       <footer />
     </MemoryRouter>,
   );
@@ -125,5 +125,16 @@ describe("ContactFab", () => {
     fireEvent.click(getFab());
 
     expect(screen.getByTestId("location").textContent).toBe("/#contact");
+  });
+
+  it("scrolls to a page's own contact section instead of leaving it", () => {
+    const scrollTo = vi.fn();
+    window.scrollTo = scrollTo;
+    renderFab("/services", { pageSection: true });
+
+    fireEvent.click(getFab());
+
+    expect(screen.getByTestId("location").textContent).toBe("/services");
+    expect(scrollTo).toHaveBeenCalledTimes(1);
   });
 });

@@ -63,6 +63,14 @@ export default function Footer() {
                                 All Projects
                             </Link>
                         </li>
+                        <li>
+                            <Link
+                                to="/services"
+                                className="text-sm text-muted-foreground transition-colors hover:text-accent"
+                            >
+                                Services
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
 

@@ -11,6 +11,7 @@ import { ensureGA, initAutoTracking, observeSections } from "@/lib/analytics";
 // heavy deps like react-icons/si) load only when those routes are visited.
 const ProjectPage = lazy(() => import("./pages/ProjectPage"));
 const AllProjectsPage = lazy(() => import("./pages/AllProjectsPage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 
@@ -68,6 +69,7 @@ export const AppRoutes = () => (
         <Route path="/" element={<Index />} />
         <Route path="/projects" element={<AllProjectsPage />} />
         <Route path="/project/:id" element={<ProjectPage />} />
+        <Route path="/services" element={<ServicesPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

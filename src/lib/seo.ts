@@ -1,6 +1,7 @@
 import { projects } from "../data/projects";
 import { personalInfo } from "../data/personalInfo";
 import { imageDimensions } from "../data/imageDimensions";
+import { CURRENCY, servicePackages } from "../data/services";
 
 /**
  * Single source of truth for per-route SEO metadata.
@@ -8,7 +9,7 @@ import { imageDimensions } from "../data/imageDimensions";
  * Used twice:
  *  - at runtime by `hooks/usePageMeta.ts` (client-side navigations), and
  *  - at build time by the Vite plugin in `vite.config.ts`, which writes static
- *    HTML shells for every route (`dist/projects/index.html`,
+ *    HTML shells for every route (`dist/projects/index.html`, `dist/services/index.html`,
  *    `dist/project/<id>/index.html`, `dist/404.html`) so crawlers that do not
  *    execute JavaScript still get the right title, description, canonical,
  *    Open Graph tags and structured data.
@@ -185,6 +186,55 @@ const projectsMeta = (): RouteMeta => {
   };
 };
 
+const servicesMeta = (): RouteMeta => {
+  const url = `${SITE_URL}/services`;
+  const description =
+    "Websites and online stores for businesses in Ottawa and across Canada: landing pages, multi-page sites, Shopify stores and audits. Fixed prices, clear scope.";
+  return {
+    title: "Web Designer & Developer in Ottawa — Anna Nikiforova",
+    description,
+    canonical: url,
+    image: OG_IMAGE.url,
+    imageAlt: OG_IMAGE.alt,
+    imageWidth: OG_IMAGE.width,
+    imageHeight: OG_IMAGE.height,
+    robots: "index, follow",
+    ogType: "website",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@graph": [
+        personNode,
+        websiteNode,
+        {
+          "@type": "Service",
+          "@id": `${url}#service`,
+          url,
+          name: "Website design and development",
+          description,
+          serviceType: "Web design and development",
+          provider: { "@id": PERSON_ID },
+          areaServed: { "@type": "Country", name: "Canada" },
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "Packages",
+            itemListElement: servicePackages.map((pkg) => ({
+              "@type": "Offer",
+              name: pkg.name,
+              description: pkg.bestFor,
+              priceSpecification: {
+                "@type": "PriceSpecification",
+                minPrice: pkg.price.from,
+                ...(pkg.price.to === null ? {} : { maxPrice: pkg.price.to }),
+                priceCurrency: CURRENCY,
+              },
+            })),
+          },
+        },
+      ],
+    },
+  };
+};
+
 const projectMeta = (project: (typeof projects)[number]): RouteMeta => {
   const url = `${SITE_URL}/project/${project.id}`;
   const imagePath = project.thumbnailImageUrl || project.imageUrl;
@@ -232,6 +282,7 @@ export function getRouteMeta(pathname: string): RouteMeta {
 
   if (path === "/") return homeMeta();
   if (path === "/projects") return projectsMeta();
+  if (path === "/services") return servicesMeta();
 
   const match = /^\/project\/([^/]+)$/.exec(path);
   if (match) {
@@ -252,6 +303,7 @@ export function getSeoRoutes(): SeoRoute[] {
   return [
     { path: "/", meta: homeMeta() },
     { path: "/projects", meta: projectsMeta() },
+    { path: "/services", meta: servicesMeta() },
     ...projects.map((project) => ({
       path: `/project/${project.id}`,
       meta: projectMeta(project),

@@ -40,6 +40,14 @@ describe("getRouteMeta", () => {
     expect(graphTypes(meta.jsonLd)).not.toContain("BreadcrumbList");
   });
 
+  it("gives /services its own canonical and Service structured data", () => {
+    const meta = getRouteMeta("/services");
+
+    expect(meta.canonical).toBe(`${SITE_URL}/services`);
+    expect(meta.robots).toBe("index, follow");
+    expect(graphTypes(meta.jsonLd)).toContain("Service");
+  });
+
   it("gives every project page a unique canonical, title and absolute OG image", () => {
     const canonicals = new Set<string>();
     const titles = new Set<string>();
@@ -79,12 +87,13 @@ describe("getRouteMeta", () => {
 });
 
 describe("getSeoRoutes", () => {
-  it("covers the homepage, the project index and every project detail page", () => {
+  it("covers the homepage, the project index, services and every project detail page", () => {
     const paths = getSeoRoutes().map((route) => route.path);
 
     expect(paths).toEqual([
       "/",
       "/projects",
+      "/services",
       ...projects.map((project) => `/project/${project.id}`),
     ]);
     expect(new Set(paths).size).toBe(paths.length);

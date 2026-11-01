@@ -21,6 +21,17 @@
  */
 
 import { Resend } from "resend";
+// Explicit .js extension: the package is ESM ("type": "module"), so Vercel's
+// Node runtime needs it; TypeScript and Vite resolve it to services.ts.
+import {
+  estimateBrief,
+  findAddon,
+  findImpression,
+  findPackage,
+  findTimeline,
+  formatEstimate,
+  type Estimate,
+} from "../src/data/services.js";
 
 /**
  * Minimal structural types for the Vercel Node.js request/response helpers.
@@ -55,6 +66,9 @@ const LIMITS = {
   name: { min: 2, max: 80 },
   email: { max: 254 },
   message: { min: 10, max: 2000 },
+  currentSite: { max: 200 },
+  audience: { max: 120 },
+  reference: { max: 200 },
 } as const;
 
 const EMAIL_PATTERN = /^[^\s@"<>()[\],;:]+@[^\s@"<>()[\],;:]+\.[^\s@"<>()[\],;:]{2,}$/;
@@ -205,11 +219,80 @@ async function verifyTurnstile(token: string, secret: string, ip: string): Promi
   }
 }
 
+interface BriefData {
+  packageName: string;
+  addonLabels: string[];
+  timelineLabel: string;
+  estimate: Estimate;
+  currentSite: string;
+  impressionLabel: string;
+  audience: string;
+  reference: string;
+}
+
 interface ContactData {
   name: string;
   email: string;
   reason: ReasonKey;
   message: string;
+  brief?: BriefData;
+}
+
+/**
+ * Optional project brief from the /services page. Only ids are accepted, each
+ * checked against the shared price list; the estimate is recomputed here, so a
+ * tampered client cannot put its own price into the email.
+ */
+function validateBrief(value: unknown, reason: ReasonKey): { brief?: BriefData; error?: string } {
+  if (value === undefined || value === null) return {};
+
+  const invalid = { error: "Please check the project brief and try again." };
+  if (reason !== "freelance" || !isRecord(value)) return invalid;
+
+  const packageId = typeof value.packageId === "string" ? value.packageId : "";
+  const timeline = typeof value.timeline === "string" ? value.timeline : "";
+  const addonIds = value.addonIds ?? [];
+  if (!Array.isArray(addonIds) || !addonIds.every((id) => typeof id === "string")) return invalid;
+
+  const estimate = estimateBrief({ packageId, addonIds, timeline });
+  if (!estimate) return invalid;
+
+  // Single-line free text: whitespace (and CR/LF) collapsed.
+  const singleLine = (field: unknown) =>
+    (typeof field === "string" ? field : "").trim().replace(/\s+/g, " ");
+
+  const currentSite = singleLine(value.currentSite);
+  if (currentSite.length > LIMITS.currentSite.max || countLinks(currentSite) > 1) {
+    return { error: "Please enter one website or Instagram link." };
+  }
+
+  // Optional design answers. The impression is an id from the shared list.
+  const impression = typeof value.impression === "string" ? value.impression : "";
+  const impressionLabel = impression ? findImpression(impression)?.label : "";
+  if (impressionLabel === undefined) return invalid;
+
+  const audience = singleLine(value.audience);
+  if (audience.length > LIMITS.audience.max || countLinks(audience) > 0) {
+    return { error: "Please describe your audience in a few words, without links." };
+  }
+
+  const reference = singleLine(value.reference);
+  if (reference.length > LIMITS.reference.max || countLinks(reference) > 1) {
+    return { error: "Please enter one link to a site you like." };
+  }
+
+  return {
+    brief: {
+      packageName: findPackage(packageId)!.name,
+      addonLabels: addonIds.map((id) => findAddon(id)!.label),
+      timelineLabel: findTimeline(timeline)!.label,
+      estimate,
+      currentSite,
+      impressionLabel,
+      audience,
+      reference,
+    },
+  };
 }
 
 function validate(payload: Record<string, unknown>): { data?: ContactData; error?: string } {
@@ -246,7 +329,10 @@ function validate(payload: Record<string, unknown>): { data?: ContactData; error
     return { error: `Please include no more than ${MAX_MESSAGE_LINKS} links in your message.` };
   }
 
-  return { data: { name, email, reason: reason as ReasonKey, message } };
+  const { brief, error } = validateBrief(payload.brief, reason as ReasonKey);
+  if (error) return { error };
+
+  return { data: { name, email, reason: reason as ReasonKey, message, brief } };
 }
 
 function escapeHtml(value: string): string {
@@ -266,6 +352,35 @@ function buildEmail(data: ContactData, meta: { userAgent: string }) {
   const safeReason = escapeHtml(reason);
   const sentAt = new Date().toISOString();
   const userAgent = meta.userAgent.slice(0, 200);
+  const brief = data.brief;
+  const briefRows = brief
+    ? [
+        ["Package", brief.packageName],
+        ["Add-ons", brief.addonLabels.join(", ") || "None"],
+        ["Timeline", brief.timelineLabel],
+        ["Estimate", formatEstimate(brief.estimate)],
+        ["Current site", brief.currentSite],
+        ["Impression", brief.impressionLabel],
+        ["Audience", brief.audience],
+        ["Reference", brief.reference],
+      ].filter(([, value]) => value)
+    : [];
+  const briefHtml = brief
+    ? `
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid #2a2a2a;">
+          <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#9a9a9a;">Project brief</p>
+          <table style="width:100%;border-collapse:collapse;font-size:14px;">${briefRows
+            .map(
+              ([label, value]) => `
+            <tr>
+              <td style="padding:8px 0;color:#9a9a9a;width:110px;vertical-align:top;">${escapeHtml(label)}</td>
+              <td style="padding:8px 0;color:#f5f5f5;">${escapeHtml(value)}</td>
+            </tr>`,
+            )
+            .join("")}
+          </table>
+        </div>`
+    : "";
 
   const html = `<!doctype html>
 <html lang="en">
@@ -284,7 +399,7 @@ function buildEmail(data: ContactData, meta: { userAgent: string }) {
             <td style="padding:8px 0;color:#9a9a9a;">Email</td>
             <td style="padding:8px 0;"><a href="mailto:${safeEmail}" style="color:#ef4444;text-decoration:none;">${safeEmail}</a></td>
           </tr>
-        </table>
+        </table>${briefHtml}
         <div style="margin-top:20px;padding-top:20px;border-top:1px solid #2a2a2a;">
           <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#9a9a9a;">Message</p>
           <p style="margin:0;white-space:pre-wrap;line-height:1.6;color:#f5f5f5;">${safeMessage}</p>
@@ -303,6 +418,9 @@ function buildEmail(data: ContactData, meta: { userAgent: string }) {
     `Name: ${data.name}`,
     `Email: ${data.email}`,
     `Reason: ${reason}`,
+    ...(brief
+      ? ["", "Project brief:", ...briefRows.map(([label, value]) => `${label}: ${value}`)]
+      : []),
     "",
     "Message:",
     data.message,
@@ -314,7 +432,10 @@ function buildEmail(data: ContactData, meta: { userAgent: string }) {
     .filter(Boolean)
     .join("\n");
 
-  return { html, text, reason };
+  // The package name comes from the price list, never from user input.
+  const topic = brief ? `${reason} (${brief.packageName})` : reason;
+
+  return { html, text, topic };
 }
 
 export default async function handler(req: ContactRequest, res: ContactResponse): Promise<void> {
@@ -399,7 +520,7 @@ export default async function handler(req: ContactRequest, res: ContactResponse)
     (process.env.CONTACT_SUBJECT_PREFIX?.trim() || "Portfolio contact").replace(/[\r\n]+/g, " ") ||
     "Portfolio contact";
 
-  const { html, text, reason } = buildEmail(data, {
+  const { html, text, topic } = buildEmail(data, {
     userAgent: getHeader(req, "user-agent") ?? "",
   });
 
@@ -409,7 +530,7 @@ export default async function handler(req: ContactRequest, res: ContactResponse)
       from,
       to: recipients,
       replyTo: data.email,
-      subject: `${subjectPrefix} — ${reason} — ${data.name}`.slice(0, 150),
+      subject: `${subjectPrefix} — ${topic} — ${data.name}`.slice(0, 150),
       html,
       text,
     });

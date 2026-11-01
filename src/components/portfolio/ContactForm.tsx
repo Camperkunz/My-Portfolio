@@ -1,5 +1,4 @@
 import {
-  useEffect,
   useRef,
   useState,
   type ChangeEvent,
@@ -10,6 +9,16 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
+import { useTurnstile } from "@/hooks/useTurnstile";
+import {
+  MESSAGE_MAX,
+  getErrorMessage,
+  getErrorType,
+  postContact,
+  validateEmail,
+  validateMessage,
+  validateName,
+} from "@/lib/contactForm";
 
 const REASONS = [
   { value: "job", label: "Job opportunity" },
@@ -42,61 +51,6 @@ const EMPTY_FORM: FormState = {
   website_url_hp: "",
 };
 
-const EMAIL_PATTERN = /^[^\s@"<>()[\],;:]+@[^\s@"<>()[\],;:]+\.[^\s@"<>()[\],;:]{2,}$/;
-const MESSAGE_MAX = 2000;
-
-const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as
-  | string
-  | undefined;
-const TURNSTILE_SCRIPT_SRC =
-  "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-
-interface TurnstileApi {
-  render(
-    container: HTMLElement,
-    options: {
-      sitekey: string;
-      theme?: "light" | "dark" | "auto";
-      appearance?: "always" | "execute" | "interaction-only";
-      callback?: (token: string) => void;
-      "expired-callback"?: () => void;
-      "error-callback"?: () => void;
-    },
-  ): string;
-  reset(widgetId: string): void;
-  remove(widgetId: string): void;
-}
-
-declare global {
-  interface Window {
-    turnstile?: TurnstileApi;
-  }
-}
-
-let turnstileScript: Promise<TurnstileApi> | null = null;
-
-function loadTurnstile(): Promise<TurnstileApi> {
-  if (window.turnstile) return Promise.resolve(window.turnstile);
-
-  turnstileScript ??= new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = TURNSTILE_SCRIPT_SRC;
-    script.async = true;
-    script.defer = true;
-    script.onload = () =>
-      window.turnstile
-        ? resolve(window.turnstile)
-        : reject(new Error("Turnstile failed to initialise."));
-    script.onerror = () => {
-      turnstileScript = null;
-      reject(new Error("Turnstile script failed to load."));
-    };
-    document.head.appendChild(script);
-  });
-
-  return turnstileScript;
-}
-
 const labelClass =
   "text-xs font-semibold uppercase tracking-widest text-muted-foreground";
 
@@ -107,60 +61,16 @@ const fieldErrorClass =
   "border-red-500/60 focus:border-red-500/60 focus-visible:ring-red-500/30";
 
 function validate(form: FormState): FieldErrors {
-  const errors: FieldErrors = {};
-  const name = form.name.trim();
-  const email = form.email.trim();
-  const message = form.message.trim();
+  const errors: FieldErrors = {
+    name: validateName(form.name),
+    email: validateEmail(form.email),
+    reason: form.reason ? undefined : "Please choose a reason for reaching out.",
+    message: validateMessage(form.message),
+  };
 
-  if (name.length < 2 || name.length > 80) {
-    errors.name = "Please enter your name (2–80 characters).";
-  }
-
-  if (email.length > 254 || !EMAIL_PATTERN.test(email)) {
-    errors.email = "Please enter a valid email address.";
-  }
-
-  if (!form.reason) {
-    errors.reason = "Please choose a reason for reaching out.";
-  }
-
-  if (message.length < 10) {
-    errors.message = "Please add a message of at least 10 characters.";
-  } else if (message.length > MESSAGE_MAX) {
-    errors.message = `Please keep your message under ${MESSAGE_MAX} characters.`;
-  }
-
-  return errors;
-}
-
-function getErrorMessage(error: unknown): string {
-  if (error instanceof DOMException && error.name === "AbortError") {
-    return "The request took too long. Please check your connection and try again.";
-  }
-
-  if (error instanceof TypeError) {
-    return "Network error — please check your connection and try again.";
-  }
-
-  if (error instanceof Error && error.message) {
-    return error.message;
-  }
-
-  return "Something went wrong. Please try again in a moment.";
-}
-
-function getErrorType(
-  error: unknown,
-): "timeout" | "network" | "server_or_unknown" {
-  if (error instanceof DOMException && error.name === "AbortError") {
-    return "timeout";
-  }
-
-  if (error instanceof TypeError) {
-    return "network";
-  }
-
-  return "server_or_unknown";
+  return Object.fromEntries(
+    Object.entries(errors).filter(([, error]) => error),
+  ) as FieldErrors;
 }
 
 export default function ContactForm() {
@@ -176,75 +86,10 @@ export default function ContactForm() {
   const started = useRef(false);
   const mountedAt = useRef(Date.now());
   const turnstileRef = useRef<HTMLDivElement>(null);
-  const widgetId = useRef<string | null>(null);
-  const [turnstileToken, setTurnstileToken] = useState("");
-
-  useEffect(() => {
-    if (!TURNSTILE_SITE_KEY) {
-      console.warn("[contact] VITE_TURNSTILE_SITE_KEY is not configured.");
-      return;
-    }
-
-    let cancelled = false;
-    let requested = false;
-    const form = formRef.current;
-
-    // The widget pulls ~1 MB from Cloudflare and runs its own scripts, so it
-    // loads only once the form is near the viewport or gets focus, keeping it
-    // out of the initial page load (mobile TBT).
-    const start = () => {
-      if (requested) return;
-      requested = true;
-      observer?.disconnect();
-      form?.removeEventListener("focusin", start);
-
-      loadTurnstile()
-        .then((turnstile) => {
-          if (cancelled || !turnstileRef.current) return;
-          widgetId.current = turnstile.render(turnstileRef.current, {
-            sitekey: TURNSTILE_SITE_KEY,
-            theme: "dark",
-            appearance: "interaction-only",
-            callback: setTurnstileToken,
-            "expired-callback": () => setTurnstileToken(""),
-            "error-callback": () => setTurnstileToken(""),
-          });
-        })
-        .catch((error: unknown) => {
-          console.error("[contact]", error);
-        });
-    };
-
-    const observer = form
-      ? new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) start();
-          },
-          { rootMargin: "600px 0px" }
-        )
-      : null;
-    if (form) {
-      observer?.observe(form);
-      form.addEventListener("focusin", start);
-    } else {
-      start();
-    }
-
-    return () => {
-      cancelled = true;
-      observer?.disconnect();
-      form?.removeEventListener("focusin", start);
-      if (widgetId.current) {
-        window.turnstile?.remove(widgetId.current);
-        widgetId.current = null;
-      }
-    };
-  }, []);
-
-  const resetTurnstile = () => {
-    setTurnstileToken("");
-    if (widgetId.current) window.turnstile?.reset(widgetId.current);
-  };
+  const { token: turnstileToken, reset: resetTurnstile } = useTurnstile(
+    formRef,
+    turnstileRef,
+  );
 
   const update =
     (field: keyof FormState) =>
@@ -309,41 +154,18 @@ export default function ContactForm() {
     setIsSending(true);
     setFeedback(null);
 
-    const controller = new AbortController();
-    const timeoutId = window.setTimeout(
-      () => controller.abort(),
-      20_000,
-    );
-
     try {
       track("form_submit_attempt", { reason: form.reason });
 
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        signal: controller.signal,
-        body: JSON.stringify({
-          name: form.name.trim(),
-          email: form.email.trim(),
-          reason: form.reason,
-          message: form.message.trim(),
-          website_url_hp: form.website_url_hp,
-          elapsedMs: Date.now() - mountedAt.current,
-          turnstileToken,
-        }),
+      await postContact({
+        name: form.name.trim(),
+        email: form.email.trim(),
+        reason: form.reason,
+        message: form.message.trim(),
+        website_url_hp: form.website_url_hp,
+        elapsedMs: Date.now() - mountedAt.current,
+        turnstileToken,
       });
-
-      const data = (await response.json().catch(() => null)) as {
-        ok?: boolean;
-        error?: string;
-      } | null;
-
-      if (!response.ok || !data?.ok) {
-        throw new Error(
-          data?.error ||
-          "Something went wrong. Please try again in a moment.",
-        );
-      }
 
       track("generate_lead", {
         reason: form.reason,
@@ -371,7 +193,6 @@ export default function ContactForm() {
       setFeedback({ type: "error", text: message });
       toast.error("Message not sent", { description: message });
     } finally {
-      window.clearTimeout(timeoutId);
       // Turnstile tokens are single-use, so fetch a fresh one for any retry.
       resetTurnstile();
       setIsSending(false);

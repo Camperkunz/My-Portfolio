@@ -8,6 +8,10 @@
         {
             "source": "/project/:id",
             "destination": "/project/:id/index.html"
+        },
+        {
+            "source": "/services",
+            "destination": "/services/index.html"
         }
     ],
     "headers": [

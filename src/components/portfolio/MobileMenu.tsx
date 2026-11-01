@@ -134,7 +134,7 @@ export default function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
             <div
                 id="mobile-menu"
                 className={cn(
-                    "absolute right-0 top-[calc(100%_+_0.5rem)] z-50 w-[min(19rem,calc(100vw_-_3rem))] origin-top-right rounded-2xl border border-border/80 bg-card/95 p-2 shadow-2xl shadow-black/60 backdrop-blur-xl transition-[opacity,transform,visibility] duration-150 ease-out motion-reduce:transition-none",
+                    "absolute right-0 top-[calc(100%_+_0.5rem)] z-50 w-[min(19rem,calc(100vw_-_3rem))] origin-top-right rounded-2xl border border-border/80 bg-card p-2 shadow-2xl shadow-black/60 transition-[opacity,transform,visibility] duration-150 ease-out motion-reduce:transition-none",
                     open
                         ? "visible translate-y-0 scale-100 opacity-100"
                         : "invisible -translate-y-1 scale-95 opacity-0",
