@@ -1,11 +1,10 @@
 import { Suspense, lazy, useEffect } from "react";
-import ReactGA from "react-ga4";
 import { Toaster } from "@/components/ui/sonner";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import ScrollToTop from "./components/portfolio/animations/ScrollToTop";
 import { usePageMeta } from "./hooks/usePageMeta";
-import { ensureGA, initAutoTracking, observeSections } from "@/lib/analytics";
+import { initAutoTracking, observeSections, trackPageview } from "@/lib/analytics";
 
 // Route-level code splitting: ProjectPage and AllProjectsPage (and their
 // heavy deps like react-icons/si) load only when those routes are visited.
@@ -25,13 +24,7 @@ const AnalyticsTracker = () => {
   }, []);
 
   useEffect(() => {
-    ensureGA().then(() => {
-      ReactGA.send({
-        hitType: "pageview",
-        page: location.pathname + location.search + location.hash,
-        title: document.title,
-      });
-    });
+    trackPageview(location.pathname + location.search + location.hash, () => document.title);
     const t = window.setTimeout(observeSections, 500);
     return () => window.clearTimeout(t);
   }, [location.pathname]);

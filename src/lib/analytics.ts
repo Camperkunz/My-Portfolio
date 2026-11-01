@@ -1,10 +1,38 @@
 import ReactGA from "react-ga4";
 import { onCLS, onINP, onLCP, onFCP, onTTFB } from "web-vitals";
+import { SITE_URL } from "./seo";
 
 const GA_ID = "G-5VDQD7BG9X";
+const OPT_OUT_KEY = "analytics_opt_out";
+
+/** Reads `?notrack` / `?track` and returns whether this browser has opted out. */
+const readOptOut = (): boolean => {
+    const params = new URLSearchParams(location.search);
+    try {
+        if (params.has("notrack")) localStorage.setItem(OPT_OUT_KEY, "1");
+        else if (params.has("track")) localStorage.removeItem(OPT_OUT_KEY);
+        return localStorage.getItem(OPT_OUT_KEY) === "1";
+    } catch {
+        // Storage is blocked: the choice can only apply to this page load.
+        return params.has("notrack");
+    }
+};
+
+let trackingEnabled: boolean | undefined;
+/**
+ * Only the production host counts, which excludes localhost, `npm run preview`
+ * and Vercel preview deployments. Browser-only: call it from effects or handlers.
+ */
+const isTrackingEnabled = (): boolean => {
+    if (trackingEnabled === undefined) {
+        const optedOut = readOptOut();
+        trackingEnabled = location.hostname === new URL(SITE_URL).hostname && !optedOut;
+    }
+    return trackingEnabled;
+};
 
 let gaReady: Promise<void> | undefined;
-export const ensureGA = (): Promise<void> => {
+const ensureGA = (): Promise<void> => {
     if (!gaReady) {
         gaReady = new Promise((resolve) => {
             const start = () => {
@@ -19,7 +47,13 @@ export const ensureGA = (): Promise<void> => {
 };
 
 export const track = (name: string, params: Record<string, unknown> = {}) => {
+    if (!isTrackingEnabled()) return;
     ensureGA().then(() => ReactGA.event(name, params));
+};
+
+export const trackPageview = (page: string, getTitle: () => string) => {
+    if (!isTrackingEnabled()) return;
+    ensureGA().then(() => ReactGA.send({ hitType: "pageview", page, title: getTitle() }));
 };
 
 const sent = new Set<string>();
@@ -113,7 +147,8 @@ function initErrorTracking() {
     window.addEventListener("error", (e) =>
         once(`err:${e.message}`, "js_error", {
             message: String(e.message).slice(0, 100),
-            source: String(e.filename).slice(-100),
+            // Not "source": GA4 reads that name as the session's traffic source.
+            error_source: String(e.filename).slice(-100),
             line: e.lineno,
             page_path: location.pathname,
         }),
@@ -157,7 +192,7 @@ function trackContext() {
 
 let started = false;
 export function initAutoTracking() {
-    if (started) return;
+    if (started || !isTrackingEnabled()) return;
     started = true;
     initClickTracking();
     initScrollDepth();

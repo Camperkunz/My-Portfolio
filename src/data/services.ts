@@ -142,7 +142,7 @@ export const servicePackages: ServicePackage[] = [
     name: "Business Pro",
     tagline: "full-featured website",
     group: "website",
-    bestFor: "A unqiue, high-converting website built to fit your entire line of services, stand out from competitors, and handle business tasks automatically.",
+    bestFor: "A unique, high-converting website built to fit your entire line of services, stand out from competitors, and handle business tasks automatically.",
     shortFor: "A bigger site with its own design",
     includes: [
       "Up to 12 pages",

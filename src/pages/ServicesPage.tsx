@@ -265,7 +265,7 @@ export default function ServicesPage() {
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
             </Button>
-            <Button variant="ghost" asChild>
+            <Button variant="outline" asChild>
               <Link to="/projects" data-track="services_hero_projects">
                 See my work
               </Link>
