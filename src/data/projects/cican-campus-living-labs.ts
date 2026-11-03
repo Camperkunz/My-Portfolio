@@ -53,6 +53,7 @@ const cicanCampusLivingLabs: Project = {
     ],
     techStack: ["React", "TypeScript", "Tailwind CSS", "AI"],
     liveUrl: "https://humansofimpact.ca/",
+    githubUrl: "https://github.com/Camperkunz/CICan-Showcase-Website",
     featured: true,
 };
 
