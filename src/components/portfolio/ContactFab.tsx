@@ -30,7 +30,7 @@ export default function ContactFab() {
 
     if (typeof IntersectionObserver === "undefined") return;
 
-    let observer: IntersectionObserver | undefined;
+    const observers: IntersectionObserver[] = [];
     let retryTimer: number | undefined;
     let attempts = 0;
 
@@ -42,13 +42,19 @@ export default function ContactFab() {
     // commit as this effect, so the targets are usually there right away. The
     // short retry only covers pages that render them later, and avoids the
     // 150 ms flash of the CTA on top of the footer when landing on /#contact.
-    const attach = () => {
-      const targets = [
-        document.getElementById("contact"),
-        document.querySelector("footer"),
-      ].filter((target): target is HTMLElement => target !== null);
+    const onEntries = (entries: IntersectionObserverEntry[]) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) intersecting.add(entry.target);
+        else intersecting.delete(entry.target);
+      }
+      setHidden(intersecting.size > 0);
+    };
 
-      if (targets.length === 0) {
+    const attach = () => {
+      const contact = document.getElementById("contact");
+      const footer = document.querySelector("footer");
+
+      if (!contact && !footer) {
         if (attempts < 5) {
           attempts += 1;
           retryTimer = window.setTimeout(attach, 150);
@@ -56,25 +62,31 @@ export default function ContactFab() {
         return;
       }
 
-      observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) intersecting.add(entry.target);
-            else intersecting.delete(entry.target);
-          }
-          setHidden(intersecting.size > 0);
-        },
-        { threshold: 0 },
-      );
+      // The form counts as "on screen" only once it crosses the middle band of
+      // the viewport. With a plain edge check the CTA vanished as soon as a
+      // sliver of the section peeked in at the bottom and came back when a
+      // sliver was left at the top, which read as random flicker.
+      if (contact) {
+        const observer = new IntersectionObserver(onEntries, {
+          rootMargin: "-35% 0px -35% 0px",
+        });
+        observer.observe(contact);
+        observers.push(observer);
+      }
 
-      targets.forEach((target) => observer?.observe(target));
+      // The footer needs the corner as soon as it arrives (Back to top).
+      if (footer) {
+        const observer = new IntersectionObserver(onEntries, { threshold: 0 });
+        observer.observe(footer);
+        observers.push(observer);
+      }
     };
 
     attach();
 
     return () => {
       window.clearTimeout(retryTimer);
-      observer?.disconnect();
+      observers.forEach((observer) => observer.disconnect());
     };
   }, [location.pathname]);
 
