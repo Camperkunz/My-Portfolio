@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, ExternalLink, Github, MessageCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, ExternalLink, Github, MessageCircle } from "lucide-react";
 
 import Layout from "@/components/portfolio/Layout";
 import MoreProjectsCard from "@/components/portfolio/project/MoreProjectsCard";
@@ -342,26 +342,39 @@ export default function ProjectPage() {
         >
           <div>
             <h2 id="project-cta" className="text-xl font-semibold text-foreground">
-              Building something similar?
+              Want a website like this?
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              I'm open to front-end roles and website projects. Tell me what you're shipping.
+            <p className="mt-1 max-w-xl text-sm text-muted-foreground">
+              I build websites for businesses and I'm open to front-end roles. Check my
+              packages and prices, or tell me what you're working on.
             </p>
           </div>
-          <Button variant="accent" size="lg" className="shrink-0 gap-2" asChild>
-            <a
-              href="/#contact"
-              onClick={(event) => {
-                event.preventDefault();
-                navigateToSection("#contact", location.pathname, navigate);
-              }}
-              data-track="project_contact_cta"
-              data-track-label={project.id}
-            >
-              <MessageCircle className="h-4 w-4" aria-hidden="true" />
-              Let&rsquo;s talk
-            </a>
-          </Button>
+          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+            <Button variant="outline" size="lg" className="gap-2" asChild>
+              <Link
+                to="/services"
+                data-track="project_services_cta"
+                data-track-label={project.id}
+              >
+                Prices &amp; packages
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+            <Button variant="accent" size="lg" className="gap-2" asChild>
+              <a
+                href="/#contact"
+                onClick={(event) => {
+                  event.preventDefault();
+                  navigateToSection("#contact", location.pathname, navigate);
+                }}
+                data-track="project_contact_cta"
+                data-track-label={project.id}
+              >
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                Let&rsquo;s talk
+              </a>
+            </Button>
+          </div>
         </section>
 
         <section aria-labelledby="more-projects" className="mt-24 border-t border-border/60 pt-12">
