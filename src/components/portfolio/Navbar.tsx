@@ -18,7 +18,7 @@ export default function Navbar() {
     const ctaClassName =
         "inline-flex shrink-0 whitespace-nowrap items-center justify-center rounded-lg border border-accent/30 bg-card/40 backdrop-blur-md px-5 py-2 text-base font-medium transition-all hover:shadow-lg hover:shadow-accent/10";
     const linkClassName =
-        "shrink-0 whitespace-nowrap text-base transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+        "shrink-0 whitespace-nowrap text-base decoration-accent/60 decoration-1 underline-offset-8 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 150);
@@ -91,7 +91,7 @@ export default function Navbar() {
                                                 // A real text-decoration rather than a drawn bar, so it
                                                 // survives Windows High Contrast (forced-colors) mode.
                                                 location.pathname === link.href
-                                                    ? "text-foreground underline decoration-accent/60 decoration-1 underline-offset-8"
+                                                    ? "text-foreground underline"
                                                     : "text-muted-foreground"
                                             )}
                                         >
