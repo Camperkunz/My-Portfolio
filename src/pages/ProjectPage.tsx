@@ -345,7 +345,7 @@ export default function ProjectPage() {
               Building something similar?
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              I'm open to front-end roles and freelance work. Tell me what you're shipping.
+              I'm open to front-end roles and website projects. Tell me what you're shipping.
             </p>
           </div>
           <Button variant="accent" size="lg" className="shrink-0 gap-2" asChild>

@@ -306,7 +306,7 @@ describe("POST /api/contact", () => {
       const payload = sendMock.mock.calls[0][0] as { subject: string; html: string; text: string };
       const expected = formatEstimate(estimateBrief(BRIEF_PAYLOAD.brief)!);
 
-      expect(payload.subject).toContain("Freelance project (Small Business)");
+      expect(payload.subject).toContain("Website development (Small Business)");
       expect(payload.html).toContain("Blog or news, Second language, Online booking");
       expect(payload.html).toContain("Rush");
       expect(payload.html).toContain(expected);

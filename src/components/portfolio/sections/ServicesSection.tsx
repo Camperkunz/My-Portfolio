@@ -10,10 +10,10 @@ type Capability = {
 };
 
 /**
- * Deliberately no pricing, packages or availability blocks: the site leads with
- * full-time work, so this section only shows the shape of the help — the same
- * skills apply inside a team or on a single project. Freelance packages and
- * prices live on /services, behind one quiet secondary link.
+ * Deliberately no pricing, packages or availability blocks here: this section
+ * only shows the shape of the help — the same skills apply inside a team or on
+ * a single project. Website packages and prices live on /services, which is
+ * the section's primary action; contact stays as the secondary one.
  */
 const capabilities: Capability[] = [
   {
@@ -56,8 +56,16 @@ export default function ServicesSection() {
             the details. The same skills apply whether I'm embedded in a team or
             brought in for a single project.
           </p>
-          <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
-            <Button variant="accent" className="gap-2" asChild>
+          <div className="mt-8 flex flex-col items-start gap-4">
+            <Button variant="accent" size="lg" className="gap-2 shadow-lg shadow-accent/20" asChild>
+              <Link to="/services" data-track="services_page_link">
+                See website packages
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+            {/* Same quiet link as "Have a project in mind?" under Projects. */}
+            <p className="text-sm text-muted-foreground">
+              Hiring, or have something else in mind?{" "}
               <a
                 href="/#contact"
                 onClick={(event) => {
@@ -65,18 +73,11 @@ export default function ServicesSection() {
                   scrollToSection("#contact");
                 }}
                 data-track="services_contact_cta"
+                className="font-medium text-accent underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                Discuss a role or project
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                Let's talk
               </a>
-            </Button>
-            <Link
-              to="/services"
-              className="text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-accent hover:underline"
-              data-track="services_page_link"
-            >
-              Need A Website? See Packages →
-            </Link>
+            </p>
           </div>
         </div>
 

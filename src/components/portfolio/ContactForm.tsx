@@ -4,6 +4,7 @@ import {
   type ChangeEvent,
   type FormEvent,
 } from "react";
+import { Link } from "react-router-dom";
 import { CheckCircle2, ChevronDown, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
@@ -22,7 +23,7 @@ import {
 
 const REASONS = [
   { value: "job", label: "Job opportunity" },
-  { value: "freelance", label: "Freelance project" },
+  { value: "freelance", label: "Website development" },
   { value: "collaboration", label: "Collaboration" },
   { value: "other", label: "Other" },
 ] as const;
@@ -324,6 +325,19 @@ export default function ContactForm() {
               className="text-xs text-red-400"
             >
               {errors.reason}
+            </p>
+          )}
+          {form.reason === "freelance" && (
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              Want a price estimate? Use the project brief on the{" "}
+              <Link
+                to="/services"
+                className="text-accent underline-offset-4 hover:underline"
+                data-track="contact_form_services_link"
+              >
+                Services page
+              </Link>
+              .
             </p>
           )}
         </div>

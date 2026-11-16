@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { personalInfo } from "@/data/personalInfo";
 import { Github, Linkedin, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -73,6 +74,19 @@ export default function HeroSection() {
             }
           />
         </div>
+
+        {/* Quiet path for business owners who land here from an ad. Kept out
+            of the fixed-height CTA row above so it cannot shift with it. */}
+        <p className="mt-6 text-xs text-muted-foreground sm:text-[13px]">
+          Need a website for your business?{" "}
+          <Link
+            to="/services"
+            className="font-medium text-accent underline-offset-4 transition-colors hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            data-track="hero_services_link"
+          >
+            See services →
+          </Link>
+        </p>
       </div>
     </section>
   );

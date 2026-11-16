@@ -54,7 +54,7 @@ export interface ContactResponse {
 
 const REASONS = {
   job: "Job opportunity",
-  freelance: "Freelance project",
+  freelance: "Website development",
   collaboration: "Collaboration",
   question: "General question",
   other: "Other",
