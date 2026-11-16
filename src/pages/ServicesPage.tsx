@@ -313,6 +313,50 @@ export default function ServicesPage() {
         </p>
       </section>
 
+      <section id="process" aria-labelledby="process-title" className={`${wrapperClass} pb-24`}>
+        <h2 id="process-title" className={`${sectionTitleClass} mb-8`}>
+          How we work together
+        </h2>
+        <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, index) => (
+            <li key={step.title} className="border-l border-accent/40 pl-4">
+              <span className="font-mono text-xs text-accent/80" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-1 font-semibold text-foreground">{step.title}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{step.description}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section id="contact" data-page-section aria-labelledby="brief-title" className={`${wrapperClass} pb-24`}>
+        <h2 id="brief-title" className={sectionTitleClass}>
+          Get an estimate
+        </h2>
+        {/* People hire a person: a face next to the form they're about to send. */}
+        <div className="mb-10 mt-4 flex items-center gap-4">
+          <span className="block h-16 w-16 shrink-0 overflow-hidden rounded-full border border-border/60">
+            <img
+              src={personalInfo.image}
+              alt={personalInfo.name}
+              width={imgSize(personalInfo.image)?.w}
+              height={imgSize(personalInfo.image)?.h}
+              loading="lazy"
+              decoding="async"
+              // Portrait source: shift the square crop down from the sky to the face.
+              className="h-full w-full origin-[49%_45%] scale-125 object-cover object-[50%_35%]"
+            />
+          </span>
+          <p className="text-muted-foreground">
+            A few quick steps. I design, build and support every site myself,
+            and I'll reply within <span className="whitespace-nowrap">1–2 business days</span>.
+            <span className="mt-1 block text-sm font-medium text-foreground">{personalInfo.name}</span>
+          </p>
+        </div>
+        <ProjectBrief packageId={packageId} onPackageChange={setPackageId} />
+      </section>
+
       {/* Proof right before the brief: the label on top, the logos in a row
           under it, both left-aligned like the other sections. */}
       <section
@@ -350,33 +394,6 @@ export default function ServicesPage() {
             );
           })}
         </ul>
-      </section>
-
-      <section id="contact" data-page-section aria-labelledby="brief-title" className={`${wrapperClass} pb-24`}>
-        <h2 id="brief-title" className={sectionTitleClass}>
-          Get an estimate
-        </h2>
-        {/* People hire a person: a face next to the form they're about to send. */}
-        <div className="mb-10 mt-4 flex items-center gap-4">
-          <span className="block h-16 w-16 shrink-0 overflow-hidden rounded-full border border-border/60">
-            <img
-              src={personalInfo.image}
-              alt={personalInfo.name}
-              width={imgSize(personalInfo.image)?.w}
-              height={imgSize(personalInfo.image)?.h}
-              loading="lazy"
-              decoding="async"
-              // Portrait source: shift the square crop down from the sky to the face.
-              className="h-full w-full origin-[49%_45%] scale-125 object-cover object-[50%_35%]"
-            />
-          </span>
-          <p className="text-muted-foreground">
-            A few quick steps. I design, build and support every site myself,
-            and I'll reply within <span className="whitespace-nowrap">1–2 business days</span>.
-            <span className="mt-1 block text-sm font-medium text-foreground">{personalInfo.name}</span>
-          </p>
-        </div>
-        <ProjectBrief packageId={packageId} onPackageChange={setPackageId} />
       </section>
 
       <section id="extras" aria-labelledby="extras-title" className={`${wrapperClass} pb-24`}>
