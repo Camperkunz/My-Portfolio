@@ -79,20 +79,40 @@ export default function Navbar() {
                         <ul className="hidden items-center gap-6 lg:flex">
                             {primaryNavLinks.map((link) => (
                                 <li key={link.href}>
-                                    <a
-                                        href={`/${link.href}`}
-                                        onClick={(e) => handleClick(e, link.href)}
-                                        aria-current={isActive(link.href) ? "location" : undefined}
-                                        data-track={link.variant === "cta" ? "nav_cta" : undefined}
-                                        data-track-label={link.variant === "cta" ? link.label : undefined}
-                                        className={cn(
-                                            link.variant === "cta" ? ctaClassName : linkClassName,
-                                            link.variant !== "cta" &&
-                                            (isActive(link.href) ? "text-foreground" : "text-muted-foreground")
-                                        )}
-                                    >
-                                        {link.label}
-                                    </a>
+                                    {link.route ? (
+                                        <Link
+                                            to={link.href}
+                                            aria-current={location.pathname === link.href ? "page" : undefined}
+                                            className={cn(
+                                                linkClassName,
+                                                // The page you're on reads as such: brighter text plus a
+                                                // hairline accent underline, matching the site's other
+                                                // accent hairlines (bg-accent/30 dividers in SectionHeader).
+                                                // A real text-decoration rather than a drawn bar, so it
+                                                // survives Windows High Contrast (forced-colors) mode.
+                                                location.pathname === link.href
+                                                    ? "text-foreground underline decoration-accent/60 decoration-1 underline-offset-8"
+                                                    : "text-muted-foreground"
+                                            )}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    ) : (
+                                        <a
+                                            href={`/${link.href}`}
+                                            onClick={(e) => handleClick(e, link.href)}
+                                            aria-current={isActive(link.href) ? "location" : undefined}
+                                            data-track={link.variant === "cta" ? "nav_cta" : undefined}
+                                            data-track-label={link.variant === "cta" ? link.label : undefined}
+                                            className={cn(
+                                                link.variant === "cta" ? ctaClassName : linkClassName,
+                                                link.variant !== "cta" &&
+                                                (isActive(link.href) ? "text-foreground" : "text-muted-foreground")
+                                            )}
+                                        >
+                                            {link.label}
+                                        </a>
+                                    )}
                                 </li>
                             ))}
                         </ul>

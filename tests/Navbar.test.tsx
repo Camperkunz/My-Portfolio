@@ -79,7 +79,7 @@ describe("Navbar", () => {
     expect(getPanel().className).toContain("opacity-0");
   });
 
-  it("opens a compact card holding the five primary links", () => {
+  it("opens a compact card holding the six primary links", () => {
     renderNavbar();
     openMenu();
 
@@ -94,13 +94,33 @@ describe("Navbar", () => {
 
     // Education lives on the page and in the footer, not in the primary nav.
     expect(panel.queryByRole("link", { name: "Education" })).toBeNull();
-    expect(labels.slice(0, 5)).toEqual([
+    expect(labels.slice(0, 6)).toEqual([
       "About",
       "Skills",
       "Experience",
+      "Services",
       "Contact",
       "Projects",
     ]);
+  });
+
+  it("links Services as a route and marks it on the services page", () => {
+    renderNavbar("/services");
+    openMenu();
+
+    const services = getMobileLink("Services");
+    expect(services.getAttribute("href")).toBe("/services");
+    expect(services.getAttribute("aria-current")).toBe("page");
+
+    fireEvent.click(services);
+    expect(isOpen()).toBe(false);
+
+    // Desktop row: the current page is marked and underlined.
+    const desktop = screen
+      .getAllByRole("link", { name: "Services" })
+      .find((link) => !getPanel().contains(link))!;
+    expect(desktop.getAttribute("aria-current")).toBe("page");
+    expect(desktop.className).toContain("underline");
   });
 
   it("closes on Escape and hands focus back to the burger", () => {

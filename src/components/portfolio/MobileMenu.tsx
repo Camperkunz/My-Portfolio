@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ChevronRight, Download, Github, Linkedin, Menu, X } from "lucide-react";
 
 import { navigateToSection, primaryNavLinks } from "@/components/navigation";
@@ -148,14 +148,29 @@ export default function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
 
                 <ul className="flex flex-col">
                     {sectionLinks.map((link) => {
-                        const active = location.hash === link.href;
+                        const active = link.route
+                            ? location.pathname === link.href
+                            : location.hash === link.href;
+
+                        // Routes go through the router as plain links; the
+                        // click still closes the menu if the route is the
+                        // current one (no pathname change to react to).
+                        const linkProps = link.route
+                            ? {
+                                to: link.href,
+                                onClick: () => onOpenChange(false),
+                                "aria-current": active ? ("page" as const) : undefined,
+                            }
+                            : {
+                                to: `/${link.href}`,
+                                onClick: (event: React.MouseEvent) => handleNavigate(event, link.href),
+                                "aria-current": active ? ("location" as const) : undefined,
+                            };
 
                         return (
                             <li key={link.href}>
-                                <a
-                                    href={`/${link.href}`}
-                                    onClick={(event) => handleNavigate(event, link.href)}
-                                    aria-current={active ? "location" : undefined}
+                                <Link
+                                    {...linkProps}
                                     className={cn(rowClassName, active && "text-foreground")}
                                 >
                                     <span className="flex items-center gap-2.5">
@@ -172,7 +187,7 @@ export default function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
                                         aria-hidden="true"
                                         className="size-4 -translate-x-1 text-muted-foreground/50 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100"
                                     />
-                                </a>
+                                </Link>
                             </li>
                         );
                     })}

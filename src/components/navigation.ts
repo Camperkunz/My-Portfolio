@@ -8,6 +8,8 @@ export type NavLink = {
     label: string;
     href: string;
     variant?: "cta";
+    /** A real route (rendered as a router <Link>) instead of a homepage #section. */
+    route?: true;
 };
 
 // Full section list — shared by the footer, which keeps every anchor (including
@@ -24,9 +26,10 @@ export const navLinks: NavLink[] = [
 /**
  * Primary navigation: the desktop row in the navbar and the mobile popup.
  *
- * Five items only — Education stays on the page and in the footer, but it was
+ * Six items only — Education stays on the page and in the footer, but it was
  * the weakest entry for the recruiters this site is built for, and every extra
- * link makes the header harder to scan.
+ * link makes the header harder to scan. Services is the one route in the list:
+ * it leads clients who want a website to the packages and the project brief.
  *
  * The `cta` item renders last and carries the only accent treatment in the nav
  * ("see the work"). It is intentionally *not* a solid accent button: the solid
@@ -37,6 +40,7 @@ export const primaryNavLinks: NavLink[] = [
     { label: "About", href: "#about" },
     { label: "Skills", href: "#skills" },
     { label: "Experience", href: "#experience" },
+    { label: "Services", href: "/services", route: true },
     { label: "Contact", href: "#contact" },
     { label: "Projects", href: "#projects", variant: "cta" }
 ];
