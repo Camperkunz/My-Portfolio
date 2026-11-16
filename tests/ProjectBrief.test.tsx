@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { useState } from "react";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import ProjectBrief from "../src/components/portfolio/services/ProjectBrief";
@@ -32,6 +32,8 @@ afterEach(() => {
 });
 
 const next = () => fireEvent.click(screen.getByRole("button", { name: /next|skip/i }));
+// The estimate shows twice (panel + a phone-only line); check the panel.
+const summary = () => within(screen.getByRole("complementary", { name: "Your selection" }));
 
 describe("ProjectBrief", () => {
   const pkg = findPackage("small-business")!;
@@ -50,14 +52,14 @@ describe("ProjectBrief", () => {
 
     fireEvent.click(screen.getByRole("radio", { name: new RegExp(pkg.name) }));
     const packageOnly = formatEstimate(estimateBrief({ packageId: pkg.id, addonIds: [], timeline: "standard" })!);
-    expect(screen.getByText(packageOnly)).toBeTruthy();
+    expect(summary().getByText(packageOnly)).toBeTruthy();
     next();
 
     fireEvent.click(screen.getByRole("checkbox", { name: new RegExp(addon.label) }));
     const withAddon = formatEstimate(
       estimateBrief({ packageId: pkg.id, addonIds: [addon.id], timeline: "standard" })!,
     );
-    expect(screen.getByText(withAddon)).toBeTruthy();
+    expect(summary().getByText(withAddon)).toBeTruthy();
     next();
 
     // Design step: optional answers that go along with the brief.
@@ -72,7 +74,7 @@ describe("ProjectBrief", () => {
     const withRush = formatEstimate(
       estimateBrief({ packageId: pkg.id, addonIds: [addon.id], timeline: "rush" })!,
     );
-    expect(screen.getByText(withRush)).toBeTruthy();
+    expect(summary().getByText(withRush)).toBeTruthy();
 
     // The last step validates the description and contact details together.
     fireEvent.click(screen.getByRole("button", { name: /send brief/i }));

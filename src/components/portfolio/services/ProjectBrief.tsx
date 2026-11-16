@@ -651,9 +651,7 @@ export default function ProjectBrief({ packageId, onPackageChange }: ProjectBrie
                       className={fieldClass}
                     />
                   </div>
-                  {/*  */}
-                  <br></br>
-                  <div className="grid gap-2">
+                  <div className="mt-2 grid gap-2">
                     <div className="flex items-baseline justify-between gap-4">
                       <label htmlFor="brief-message" className={labelClass}>
                         About the project
@@ -695,6 +693,15 @@ export default function ProjectBrief({ packageId, onPackageChange }: ProjectBrie
                   onChange={update("website_url_hp")}
                 />
               </div>
+
+              {/* On phones the summary panel sits below the whole form, so the
+                  running estimate is repeated here, next to the buttons. */}
+              {estimate && (
+                <p className="mt-8 flex items-baseline justify-between gap-4 border-t border-border/50 pt-5 lg:hidden">
+                  <span className={labelClass}>Estimated price</span>
+                  <span className="font-mono text-lg font-bold text-foreground">{formatEstimate(estimate)}</span>
+                </p>
+              )}
 
               <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
                 {stepIndex > 0 ? (
@@ -748,16 +755,35 @@ export default function ProjectBrief({ packageId, onPackageChange }: ProjectBrie
         <div ref={turnstileRef} className="px-6 pb-4 empty:hidden sm:px-8" />
       </form>
 
-      {/* Live summary: sticky on desktop, follows the form on mobile. */}
+      {/* Live summary: sticky on desktop, follows the form on mobile. Only
+          sticky on screens tall enough to hold it: on a short laptop screen a
+          sticky panel taller than the viewport has its bottom (the estimate)
+          cut off and out of reach. */}
       <aside
         aria-label="Your selection"
-        className="rounded-xl border border-border/80 bg-card/30 p-6 backdrop-blur-md lg:sticky lg:top-28"
+        className="rounded-xl border border-border/80 bg-card/30 p-6 backdrop-blur-md lg:[@media(min-height:900px)]:sticky lg:[@media(min-height:900px)]:top-28"
       >
         <p className={labelClass}>Your selection</p>
+        {selectedPackage && (
+          <p className="mt-2 font-mono text-lg font-semibold text-foreground">{selectedPackage.name}</p>
+        )}
+        {/* The price sits at the top, so it stays in view while add-ons are
+            ticked, even on short screens where the panel is not sticky. */}
+        <div className="mt-4 border-b border-border/50 pb-5">
+          <p className={labelClass}>Estimated price</p>
+          <p className="mt-2 font-mono text-2xl font-bold text-foreground" aria-live="polite">
+            {estimate ? formatEstimate(estimate) : "—"}
+          </p>
+          {estimate?.exceedsPackage && selectedPackage && (
+            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+              This is a lot for {selectedPackage.name}.{" "}
+              {nextPackage ? `${nextPackage.name} may fit better, let's talk.` : "Let's talk about the best way to do it."}
+            </p>
+          )}
+        </div>
         {selectedPackage ? (
           <>
-            <p className="mt-2 font-mono text-lg font-semibold text-foreground">{selectedPackage.name}</p>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{selectedPackage.bestFor}</p>
+            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{selectedPackage.bestFor}</p>
             <ul className="mt-4 grid gap-2 text-sm">
               {selectedPackage.includes.map((item) => (
                 <li key={item} className="flex items-start gap-2 text-foreground">
@@ -786,20 +812,8 @@ export default function ProjectBrief({ packageId, onPackageChange }: ProjectBrie
             </ul>
           </>
         ) : (
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
             Pick a package to see what's included.
-          </p>
-        )}
-        <div className="mt-5 border-t border-border/50 pt-5">
-          <p className={labelClass}>Estimated price</p>
-          <p className="mt-2 font-mono text-2xl font-bold text-foreground" aria-live="polite">
-            {estimate ? formatEstimate(estimate) : "—"}
-          </p>
-        </div>
-        {estimate?.exceedsPackage && selectedPackage && (
-          <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-            This is a lot for {selectedPackage.name}.{" "}
-            {nextPackage ? `${nextPackage.name} may fit better, let's talk.` : "Let's talk about the best way to do it."}
           </p>
         )}
         <p className="mt-5 text-xs leading-relaxed text-muted-foreground/80">
