@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Github, Linkedin, Mail, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowRight, Linkedin, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/portfolio/Layout";
 import SectionHeader from "@/components/portfolio/SectionHeader";
@@ -10,14 +10,14 @@ import PackageCard from "@/components/portfolio/services/PackageCard";
 import PackageComparison from "@/components/portfolio/services/PackageComparison";
 import ProjectBrief from "@/components/portfolio/services/ProjectBrief";
 import { scrollToSection } from "@/components/navigation";
+import { clients } from "@/data/clients";
 import { personalInfo } from "@/data/personalInfo";
+import { imgSize } from "@/data/imageDimensions";
 import {
   HOURLY_RATE,
   carePlans,
-  findPackage,
   formatAddonPrice,
   formatPrice,
-  formatRange,
   serviceAddons,
   servicePackages,
 } from "@/data/services";
@@ -27,9 +27,8 @@ import {
  * add-ons and FAQ for anyone who wants the details.
  *
  * Kept deliberately short — the full price list lives in the proposal
- * documents. The homepage stays focused on full-time roles; this page is
- * reached from a quiet link in the Services section and the footer, or shared
- * directly with clients. Section ids must not collide with homepage sections
+ * documents. Reached from the navbar, the hero, the homepage Services section
+ * and the footer, or shared directly with clients. Section ids must not collide with homepage sections
  * (about, skills, …). The brief uses `contact` with `data-page-section`, so the
  * navbar's Contact link and the "Let's talk" button scroll to it on this page.
  */
@@ -65,7 +64,7 @@ const faqGroups: { title: string; items: FaqItem[] }[] = [
         lead: "Fill in the brief, or contact me directly. Either way, we start with a short call.",
         points: [
           {
-            label: "Brief",
+            label: "Estimate",
             text: (
               <>
                 <a
@@ -76,9 +75,9 @@ const faqGroups: { title: string; items: FaqItem[] }[] = [
                     scrollToSection("#contact");
                   }}
                 >
-                  takes a few minutes
+                  the brief
                 </a>{" "}
-                and gives you a rough estimate. I reply within 1–2 business days.
+                takes a few minutes and gives you a rough estimate. I reply within 1–2 business days.
               </>
             ),
           },
@@ -147,7 +146,7 @@ const faqGroups: { title: string; items: FaqItem[] }[] = [
       },
       {
         question: "Do you write the text or take the photos?",
-        lead: "No. Copywriting, translation, photography and logo design are not included.",
+        lead: "Not included: copywriting, translation, photography and logo design.",
         points: [{ text: "I'll tell you what each page needs, and stock images can work as a start." },
         { text: "I can write basic placeholder text for you, but it will need to be replaced with your own content." },
         ],
@@ -157,7 +156,8 @@ const faqGroups: { title: string; items: FaqItem[] }[] = [
         lead: "You don't need to decide. I'll recommend what fits on our call.",
         points: [
           { label: "Wix or Squarespace", text: "costs less up front and is simple to run, but has a monthly fee and platform limits." },
-          { label: "Custom code", text: "costs more up front, with fewer limits. More control over design and functionality. Custom Admin Panel may be included." },
+          { label: "WordPress", text: "flexible, with an easy editor; hosting is a small monthly cost." },
+          { label: "Custom code", text: "costs more up front, with fewer limits and more control over design and features. A custom admin panel can be included." },
           { label: "Shopify (stores)", text: "has a monthly platform fee." },
         ],
       },
@@ -209,13 +209,26 @@ const faqGroups: { title: string; items: FaqItem[] }[] = [
           { label: "Website builders and Shopify", text: "same practices, as far as the platform allows." },
         ],
       },
-      {
-        question: "Are you available for full-time roles too?",
-        lead: "Yes, I'm open to full-time frontend roles. Freelance projects are scheduled around that, one at a time.",
-      },
     ],
   },
 ];
+
+// Add-ons that bring in bookings or sales; everything else is "More content",
+// so a new add-on in services.ts always shows up somewhere.
+const SALES_ADDON_IDS = ["booking", "online-ordering", "payments", "shop", "menu-qr"];
+
+const addonGroups = [
+  {
+    title: "Take bookings & sales",
+    addons: SALES_ADDON_IDS.flatMap((id) => serviceAddons.filter((addon) => addon.id === id)),
+  },
+  {
+    title: "More content",
+    addons: serviceAddons.filter((addon) => !SALES_ADDON_IDS.includes(addon.id)),
+  },
+];
+
+const priceGroupTitleClass = "font-mono text-xs uppercase tracking-wider text-accent/80";
 
 // Same width as the homepage sections.
 const wrapperClass = "mx-auto max-w-6xl px-6";
@@ -223,8 +236,6 @@ const wrapperClass = "mx-auto max-w-6xl px-6";
 const sectionTitleClass =
   "font-mono text-2xl font-bold tracking-tight text-foreground sm:text-3xl";
 
-const audit = findPackage("audit")!;
-const quickFix = findPackage("quick-fix")!;
 
 export default function ServicesPage() {
   const [packageId, setPackageId] = useState("");
@@ -279,8 +290,6 @@ export default function ServicesPage() {
           Packages
         </h2>
         <p className="mb-10 mt-3 text-muted-foreground">
-          All hosting, domain and platform fees are paid separately by you. I can help you choose a plan and set everything up.
-          <br></br>
           Every site works on phones, is usable by everyone, and is set up to be found on Google.
         </p>
         {/* pt-3 leaves room for the "Recommended" badge above the featured column. */}
@@ -296,65 +305,132 @@ export default function ServicesPage() {
           </Accordion>
         </div>
 
-        <br></br>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Where you land in the range depends on your add-ons and what the site
-          is built on. You don't need to choose: I'll recommend what fits on our
-          call. Launch prices for my first clients, in exchange for a
-          testimonial and a portfolio spot. All prices in CAD, no sales tax added.
+        {/* One quiet line of small print; the details are in the FAQ. */}
+        <p className="mt-6 text-xs leading-relaxed text-muted-foreground/80">
+          Launch prices in CAD, no sales tax. Hosting, domain and platform fees
+          are paid separately; I'll help you set them up. Not sure which
+          package fits? I'll recommend one on our call.
         </p>
+      </section>
+
+      {/* Proof right before the brief: the label on top, the logos in a row
+          under it, both left-aligned like the other sections. */}
+      <section
+        aria-labelledby="clients-title"
+        className={`${wrapperClass} flex flex-col items-start gap-6 pb-24`}
+      >
+        <h2 id="clients-title" className="shrink-0 font-mono text-xs uppercase tracking-[0.3em] text-accent/80">
+          Clients & partners
+        </h2>
+        <ul className="grid grid-cols-2 items-center justify-items-start gap-x-8 gap-y-6 sm:flex sm:flex-wrap sm:gap-x-12">
+          {clients.map((client) => {
+            const size = imgSize(client.logo);
+            return (
+              <li key={client.name}>
+                <a
+                  href={client.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${client.name} website (opens in a new tab)`}
+                  data-track="client_logo_click"
+                  data-track-label={client.name}
+                  className="inline-flex items-center justify-center rounded-md transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+                >
+                  <img
+                    src={client.logo}
+                    alt={`${client.name} logo`}
+                    width={size?.w}
+                    height={size?.h}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-10 w-auto max-w-full object-contain brightness-0 invert md:h-12"
+                  />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
       <section id="contact" data-page-section aria-labelledby="brief-title" className={`${wrapperClass} pb-24`}>
         <h2 id="brief-title" className={sectionTitleClass}>
           Get an estimate
         </h2>
-        <p className="mb-10 mt-3 text-muted-foreground">
-          A few quick steps. I'll reply within 1–2 business days.
-        </p>
+        {/* People hire a person: a face next to the form they're about to send. */}
+        <div className="mb-10 mt-4 flex items-center gap-4">
+          <span className="block h-16 w-16 shrink-0 overflow-hidden rounded-full border border-border/60">
+            <img
+              src={personalInfo.image}
+              alt={personalInfo.name}
+              width={imgSize(personalInfo.image)?.w}
+              height={imgSize(personalInfo.image)?.h}
+              loading="lazy"
+              decoding="async"
+              // Portrait source: shift the square crop down from the sky to the face.
+              className="h-full w-full origin-[49%_45%] scale-125 object-cover object-[50%_35%]"
+            />
+          </span>
+          <p className="text-muted-foreground">
+            A few quick steps. I design, build and support every site myself,
+            and I'll reply within <span className="whitespace-nowrap">1–2 business days</span>.
+            <span className="mt-1 block text-sm font-medium text-foreground">{personalInfo.name}</span>
+          </p>
+        </div>
         <ProjectBrief packageId={packageId} onPackageChange={setPackageId} />
       </section>
 
-      <section id="process" aria-labelledby="process-title" className={`${wrapperClass} pb-24`}>
-        <h2 id="process-title" className={`${sectionTitleClass} mb-8`}>
-          How we work together
-        </h2>
-        <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step, index) => (
-            <li key={step.title} className="border-l border-accent/40 pl-4">
-              <span className="font-mono text-xs text-accent/80" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mt-1 font-semibold text-foreground">{step.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{step.description}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
       <section id="extras" aria-labelledby="extras-title" className={`${wrapperClass} pb-24`}>
-        <h2 id="extras-title" className={`${sectionTitleClass} mb-8`}>
+        <h2 id="extras-title" className={sectionTitleClass}>
           Add-ons & care plans
         </h2>
-        <div className="grid gap-10 md:grid-cols-2">
-          <ul className="divide-y divide-border/50 text-sm">
-            {serviceAddons.map((addon) => (
-              <li key={addon.id} className="flex justify-between gap-4 py-3">
-                <span className="text-foreground">{addon.label}</span>
-                <span className="shrink-0 text-muted-foreground">{formatAddonPrice(addon)}</span>
-              </li>
-            ))}
-            <li className="flex justify-between gap-4 py-3">
-              <span className="text-foreground">Need something else? Ask me.</span>
-              <span className="shrink-0 text-muted-foreground">On request</span>
-            </li>
-            <li className="flex justify-between gap-4 py-3">
-              <span className="text-foreground">Edits and small features</span>
-              <span className="shrink-0 text-muted-foreground">{formatPrice(HOURLY_RATE)} / hour</span>
-            </li>
-          </ul>
+        <p className="mb-8 mt-3 text-muted-foreground">
+          Optional extras. Pick them in the{" "}
+          <a
+            href="#contact"
+            className={faqLinkClass}
+            onClick={(event) => {
+              event.preventDefault();
+              scrollToSection("#contact");
+            }}
+            data-track="services_extras_estimate"
+          >
+            estimate
+          </a>{" "}
+          and the price updates for you.
+        </p>
 
-          <div>
+        {/* Prices stay folded away, like the package comparison: the estimate
+            above is the place to see what a choice costs. */}
+        <div className="divide-y divide-border/50 rounded-2xl border border-border/50 bg-card/30 backdrop-blur-md">
+          <Accordion title="Add-ons: booking, ordering, a shop, a blog and more">
+            <div className="grid gap-8 md:grid-cols-2">
+              {addonGroups.map((group) => (
+                <div key={group.title}>
+                  <h4 className={priceGroupTitleClass}>{group.title}</h4>
+                  <ul className="mt-2 divide-y divide-border/50 text-sm">
+                    {group.addons.map((addon) => (
+                      <li key={addon.id} className="flex justify-between gap-4 py-3">
+                        <span className="text-foreground">{addon.label}</span>
+                        <span className="shrink-0 text-muted-foreground">{formatAddonPrice(addon)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <ul className="mt-4 divide-y divide-border/50 border-t border-border/50 text-sm">
+              <li className="flex justify-between gap-4 py-3">
+                <span className="text-foreground">Edits and small features</span>
+                <span className="shrink-0 text-muted-foreground">{formatPrice(HOURLY_RATE)} / hour</span>
+              </li>
+              <li className="flex justify-between gap-4 py-3">
+                <span className="text-foreground">Need something else? Ask me.</span>
+                <span className="shrink-0 text-muted-foreground">On request</span>
+              </li>
+            </ul>
+          </Accordion>
+
+          <Accordion title="Care plans after launch">
             <ul className="divide-y divide-border/50 text-sm">
               {carePlans.map((plan) => (
                 <li key={plan.id} className="flex justify-between gap-4 py-3">
@@ -371,7 +447,7 @@ export default function ServicesPage() {
             <p className="mt-3 text-xs text-muted-foreground/80">
               Care plans run for at least 3 months, then month to month.
             </p>
-          </div>
+          </Accordion>
         </div>
       </section>
 
@@ -430,13 +506,6 @@ export default function ServicesPage() {
                 label="LinkedIn"
                 value="linkedin.com/in/anna-nikiforova-ac"
                 href={personalInfo.linkedin}
-                external
-              />
-              <ContactRow
-                icon={Github}
-                label="GitHub"
-                value="github.com/Camperkunz"
-                href={personalInfo.github}
                 external
               />
             </div>
