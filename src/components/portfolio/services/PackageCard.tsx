@@ -9,10 +9,11 @@ interface PackageCardProps {
 }
 
 /**
- * One package: who it is for, what is included, when it is the best fit and what
- * it can be built on. Only what is included is listed; `PackageComparison`
- * handles side-by-side comparison. The `featured` package gets the accent
- * border, badge and solid button.
+ * One package, kept scannable: name, price, timeline, who it fits, what is
+ * included, one button. The longer pitch (`bestFor`) shows in the brief's
+ * summary once the package is picked, and the platform lives in the comparison
+ * table, so four cards side by side don't read as a wall of text. The
+ * `featured` package gets the accent border, badge and solid button.
  */
 export default function PackageCard({ pkg, onSelect }: PackageCardProps) {
   const featured = Boolean(pkg.featured);
@@ -20,10 +21,10 @@ export default function PackageCard({ pkg, onSelect }: PackageCardProps) {
   return (
     <article
       className={cn(
-        "relative flex flex-col rounded-2xl border p-6 backdrop-blur-md transition-colors",
+        "relative flex flex-col rounded-2xl border p-6 transition-colors",
         featured
-          ? "border-accent/20 bg-accent/[0.01] shadow-lg shadow-accent/10"
-          : "border-border/50 bg-card/30 hover:border-accent/40",
+          ? "border-accent/30 bg-accent/[0.03]"
+          : "border-border/50 bg-card/30 hover:border-accent/30",
       )}
     >
       {featured && (
@@ -32,7 +33,7 @@ export default function PackageCard({ pkg, onSelect }: PackageCardProps) {
         </span>
       )}
 
-      <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-accent/80">
+      <span className="truncate font-mono text-[11px] uppercase tracking-[0.2em] text-accent/80">
         {pkg.tagline}
       </span>
       <h3 className="mt-2 font-mono text-xl font-bold tracking-tight text-foreground">{pkg.name}</h3>
@@ -45,34 +46,22 @@ export default function PackageCard({ pkg, onSelect }: PackageCardProps) {
         {pkg.timeline}
       </span>
 
-      {/* Minimum heights keep the rows aligned across columns. */}
-      <p className="mt-4 text-sm leading-relaxed text-muted-foreground lg:min-h-[7rem]">{pkg.bestFor}</p>
-
-      <div className="mt-5 flex-1 border-t border-border/50 pt-5">
-        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">What you get</p>
-        <ul className="mt-3 grid gap-2 text-sm text-foreground">
-          {pkg.includes.map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-
+      {/* Who it fits: the line a visitor recognises themselves in. The minimum
+          height keeps the lists below aligned across the row. */}
       {pkg.bestFitIf && (
-        <p className="mt-5 text-xs leading-relaxed text-muted-foreground lg:min-h-[6rem]">
-          <span className="font-semibold text-foreground">Best fit if: </span>
+        <p className="mt-5 text-sm leading-relaxed text-muted-foreground lg:min-h-[8.75rem]">
           {pkg.bestFitIf}
         </p>
       )}
 
-      {pkg.builtOn && (
-        <p className="mt-3 text-xs leading-relaxed text-muted-foreground lg:min-h-[3rem]">
-          <span className="font-semibold text-foreground">Can be built on: </span>
-          {pkg.builtOn}
-        </p>
-      )}
+      <ul className="mt-5 grid flex-1 content-start gap-2 border-t border-border/50 pt-5 text-sm text-foreground/90">
+        {pkg.includes.map((item) => (
+          <li key={item} className="flex items-start gap-2">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+            {item}
+          </li>
+        ))}
+      </ul>
 
       <Button
         type="button"

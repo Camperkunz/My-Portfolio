@@ -98,7 +98,7 @@ export const servicePackages: ServicePackage[] = [
   {
     id: "landing",
     name: "Landing",
-    tagline: "single page, quick launch",
+    tagline: "one page, fast launch",
     group: "website",
     bestFor: "A clean, one-page website designed to do one thing really well: turn your visitors into bookings, inquiries, or leads.",
     shortFor: "One page, one goal",
@@ -231,6 +231,7 @@ export const packageFeatures: PackageFeature[] = [
   { label: "Design", values: { landing: "Simple", "small-business": "Brand-matched", "business-pro": "Custom", ecommerce: "Brand-matched" } },
   { label: "Edit content yourself", values: { landing: "On a builder", "small-business": true, "business-pro": true, ecommerce: true } },
   { label: "Booking, ordering, payments", values: { landing: "Add-on (Booking)", "small-business": "Add-on (All)", "business-pro": "1 included (Any)", ecommerce: "Payments Included" } },
+  { label: "Built on", values: { landing: "Builder or code", "small-business": "Any platform", "business-pro": "Any platform", ecommerce: "Shopify" } },
   { label: "SEO", values: { landing: "Basic", "small-business": "Advanced", "business-pro": "Advanced", ecommerce: "Advanced" } },
   { label: "Best for", values: { landing: "New service or event", "small-business": "Local service business", "business-pro": "Growing business", ecommerce: "Online stores" } },
 ];
